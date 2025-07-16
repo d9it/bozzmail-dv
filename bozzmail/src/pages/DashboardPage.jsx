@@ -3,9 +3,18 @@ import { useEffect, useState } from 'react';
 import { RxCross2 } from "react-icons/rx";
 import { TbFileExport } from "react-icons/tb";
 import { IoChevronDown } from "react-icons/io5";
-
+import { useDashboard } from '../hook/useDashboard';
 
 const DashboardPage = () => {
+  const { 
+    dashboardData, 
+    loading, 
+    error, 
+    getUserFirstName, 
+    getShipmentStatusCount,
+    getRecentShipments,
+    getUnreadNotificationsCount 
+  } = useDashboard();
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -26,34 +35,53 @@ const DashboardPage = () => {
   const dropdown8 = useDropdown();
   const dropdown9 = useDropdown();
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-cta-secondary mx-auto"></div>
+          <p className="mt-4 text-main-text">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 mb-4">Error loading dashboard: {error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="primary-btn"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
-
-      {/* 
-        Note for Developer:
-        For every dropdown — when a value is selected, the <p> tag text color should change to 'text-main-text' 
-        instead of 'text-secondary or text-place-holder' (which is used for the placeholder).
-        
-        In short:
-        - Placeholder text uses 'text-secondary or text-place-holder color'
-        - Selected value should use 'text-main-text color'
-
-        Make sure to apply this rule consistently for all dropdowns wherever they appear.
-      */}
-
       {/* dashboard cards */}
       <div className='py-20 lg:py-30 pr-15 lg:pr-30 bg-white rounded-15px lg:rounded-20px'>
-
         <div className='flex gap-15 lg:gap-25 items-center justify-start'>
           <div className='w-5 h-40 bg-cta-secondary rounded-tr-10px rounded-br-10px'></div>
           <div className='flex gap-5 lg:gap-10'>
             <img src="asset/icons/dashboard-big.svg" alt="icon" className='hidden lg:block' />
             <img src="asset/icons/heading_label.svg" alt="icon" className='block lg:hidden' />
-            <h1 className='font-semibold text-22px lg:text-25px text-main-text'>Welcome back Rui!</h1>
+            <h1 className='font-semibold text-22px lg:text-25px text-main-text'>
+              Welcome back {getUserFirstName()}!
+            </h1>
           </div>
         </div>
 
-        <p className='pr-15 lg:pl-30 text-17px font-medium text-secondary-text pt-5 hidden lg:block'>Here's what's happening with your shipments and mail</p>
+        <p className='pr-15 lg:pl-30 text-17px font-medium text-secondary-text pt-5 hidden lg:block'>
+          Here's what's happening with your shipments and mail
+        </p>
 
         {/* cards */}
         <div className='pl-15 lg:pl-30 lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 lg:gap-20 pt-10 lg:pt-20'>
@@ -62,7 +90,7 @@ const DashboardPage = () => {
             <div className='flex justify-between items-center'>
               <div>
                 <p className='card-label'>Total Labels</p>
-                <p className='card-number'>1,247</p>
+                <p className='card-number'>{dashboardData.stats.totalLabels}</p>
                 <p className="card-percentage [background:linear-gradient(90deg,_#EAF8F9_0%,_#F3FEFF_100%)]">
                   <img src="asset/icons/growth-green.svg" alt="icon" />
                   <span className='card-success-small-text'>+12% from last month</span>
@@ -77,7 +105,7 @@ const DashboardPage = () => {
             <div className='flex justify-between items-center'>
               <div>
                 <p className='card-label'>In Transit</p>
-                <p className='card-number'>23</p>
+                <p className='card-number'>{dashboardData.stats.inTransit}</p>
                 <p className="card-percentage [background:linear-gradient(90deg,_#EAF9F0_0%,_#F6FFFA_100%)]">
                   <img src="asset/icons/growth-green.svg" alt="icon" />
                   <span className='card-success-small-text'>+12% from last month</span>
@@ -92,7 +120,7 @@ const DashboardPage = () => {
             <div className='flex justify-between items-center'>
               <div>
                 <p className='card-label'>Monthly Spend</p>
-                <p className='card-number'>1,247</p>
+                <p className='card-number'>${dashboardData.stats.monthlySpend.toFixed(2)}</p>
                 <p className="card-percentage [background:linear-gradient(90deg,_#F0EAF9_0%,_#F6F1FD_63.92%,_#F9F4FF_100%)]">
                   <img src="asset/icons/growth-red.svg" alt="icon" />
                   <span className='card-danger-small-text'>+8% from last month</span>
@@ -107,7 +135,7 @@ const DashboardPage = () => {
             <div className='flex justify-between items-center'>
               <div>
                 <p className='card-label'>Saved Contacts</p>
-                <p className='card-number'>145</p>
+                <p className='card-number'>{dashboardData.stats.savedContacts}</p>
                 <p className="card-percentage [background:linear-gradient(90deg,_#F9F2EA_0%,_#FFFAF4_100%)]">
                   <img src="asset/icons/growth-green.svg" alt="icon" />
                   <span className='card-success-small-text'>+3 this week</span>
@@ -123,12 +151,10 @@ const DashboardPage = () => {
 
       {/* quick access */}
       <div className='py-20 lg:py-30 px-15 lg:px-30 bg-white rounded-15px lg:rounded-20px'>
-
         <div className='flex justify-between'>
           <h2 className='font-semibold  text-17px lg:text-xl text-main-text'>Quick Actions</h2>
           <img src="asset/icons/icon-park-outline_drag.svg" alt="icon" />
         </div>
-
 
         {/* cards */}
         <div className='lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 lg:gap-20 pt-10 lg:pt-20'>
@@ -165,10 +191,11 @@ const DashboardPage = () => {
 
       {/* Recent Shipments*/}
       <div className='py-20 lg:py-30 px-15 lg:px-30 bg-white rounded-15px lg:rounded-20px sm:space-y-20 space-y-10 w-full relative'>
-
         {/* dropdown */}
         <div className='flex justify-between'>
-          <h2 className='font-semibold  text-17px lg:text-xl text-main-text'>Recent Shipments <span>(5)</span></h2>
+          <h2 className='font-semibold  text-17px lg:text-xl text-main-text'>
+            Recent Shipments <span>({dashboardData.recentShipments.length})</span>
+          </h2>
           <img src="asset/icons/icon-park-outline_drag.svg" alt="icon" />
         </div>
 
@@ -251,12 +278,12 @@ const DashboardPage = () => {
                   )}
                 </div>
 
-                {/* All Time */}
+                {/* All Dates */}
                 <div ref={dropdown5.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <label htmlFor="time" className='label-text block sm:hidden'>Time</label>
-                    <button onClick={dropdown5.toggle} id='time' type='button' className="select-button group">
-                      <p className='text-secondary-text text-13px font-medium'>All Time</p>
+                    <label htmlFor="date" className='label-text block sm:hidden'>Date</label>
+                    <button onClick={dropdown5.toggle} id='date' type='button' className="select-button group">
+                      <p className='text-secondary-text text-13px font-medium'>All Dates</p>
                       <img src="/asset/icons/dropdown-gray.svg" alt="icon" className={`transition-transform duration-300 ${dropdown5.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
                   </div>
@@ -265,441 +292,71 @@ const DashboardPage = () => {
                   {dropdown5.isOpen && (
                     <div className="table-dropdown-menu">
                       <ul className='table-dropdown-item dropdown-scrollbar'>
-                        <li className='table-dropdown-title'>USPS</li>
-                        <li className='table-dropdown-title'>UPS</li>
-                        <li className='table-dropdown-title'>DHL</li>
+                        <li className='table-dropdown-title'>Today</li>
+                        <li className='table-dropdown-title'>Yesterday</li>
+                        <li className='table-dropdown-title'>Last 7 days</li>
+                        <li className='table-dropdown-title'>Last 30 days</li>
+                        <li className='table-dropdown-title'>Last 90 days</li>
                       </ul>
                     </div>
                   )}
                 </div>
 
-                <button className='primary-btn mt-25 sm:!hidden' onClick={() => setIsFilterOpen(false)}>Save Filters</button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Recent Shipments table */}
-        <div className="relative">
-
-          {/* 
-            Note for Developer:
-            selected tr display [I have set this design only in first tr and this table, so make sure it is applied in every table.]
-          */}
-
-          {checked && (
-            <div className='absolute bottom-full pb-10 sm:pb-18 left-0 w-full'>
-              <div className='bg-cta-secondary w-full py-5 sm:py-7 rounded-7px px-20 xl:px-20 flex justify-start items-center  gap-20 sm:gap-27 flex-wrap'>
-
-                <div className='export-cross-btn' onClick={() => setChecked(false)}>
-                  <RxCross2 />
-                </div>
-                <p className='text-13px font-medium text-white text-center'><span>1</span> Selected</p>
-
-                {/* export dropdown */}
-                <div ref={dropdown9.ref} className="relative">
-                  <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown9.toggle} id='time' type='button' className="export-btn group">
-                      <TbFileExport className='text-lg' />
-                      <p className='text-13px font-medium'>Export</p>
-                      <IoChevronDown className={`text-lg transition-transform duration-300 ${dropdown9.isOpen ? 'rotate-180' : 'rotate-0'}`} />
-                    </button>
-                  </div>
-
-                  {/* Dropdown */}
-                  {dropdown9.isOpen && (
-                    <div className="filter-dropdown-menu w-full">
-                      <ul className='table-dropdown-item dropdown-scrollbar'>
-                        <li className='table-dropdown-title'>.xslx</li>
-                        <li className='table-dropdown-title'>.csv</li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className="table-content relative">
-            <div className='overflow-x-auto main-scrollbar max-xl:mb-10 w-full'>
-              <table className='table-auto w-full custom-table'>
-                <thead className='bg-table-header'>
-                  <tr>
-                    <th>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </th>
-                    <th>ID</th>
-                    <th>Type</th>
-                    <th>Service</th>
-                    <th>Recipient</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr className={`${checked ? 'bg-table-header-active' : ''}`}>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' onChange={(e) => setChecked(e.target.checked)} />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
+        {/* Recent shipments table */}
+        {dashboardData.recentShipments.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 font-medium text-main-text">Shipment ID</th>
+                  <th className="text-left py-3 px-4 font-medium text-main-text">Status</th>
+                  <th className="text-left py-3 px-4 font-medium text-main-text">Service</th>
+                  <th className="text-left py-3 px-4 font-medium text-main-text">Created</th>
+                  <th className="text-left py-3 px-4 font-medium text-main-text">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dashboardData.recentShipments.map((shipment, index) => (
+                  <tr key={shipment._id || index} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm text-main-text">
+                      {shipment.shipmentId || 'N/A'}
                     </td>
-                    <td>LBL-001</td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/icons/label.svg" alt="icon" className='h-15' /><span>Label</span>
-                      </div>
+                    <td className="py-3 px-4">
+                      <span className={`px-2 py-1 rounded-full text-xs ${
+                        shipment.status === 'delivered' ? 'bg-green-100 text-green-800' :
+                        shipment.status === 'in_transit' ? 'bg-blue-100 text-blue-800' :
+                        shipment.status === 'created' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {shipment.status || 'Unknown'}
+                      </span>
                     </td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/type-1.svg" alt="icon" className='h-29' />
-                        <div>
-                          <p>USPS</p>
-                          <p className='description'>Priority Mail</p>
-                        </div>
-                      </div>
+                    <td className="py-3 px-4 text-sm text-main-text">
+                      {shipment.service || 'N/A'}
                     </td>
-                    <td>
-                      <p>John Smith</p>
-                      <p className='description'>New York, NY</p>
+                    <td className="py-3 px-4 text-sm text-secondary-text">
+                      {shipment.createdAt ? new Date(shipment.createdAt).toLocaleDateString() : 'N/A'}
                     </td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge success-badge'>
-                          <img src="asset/table-image/success-check.svg" alt="icon" className='h-14' />
-                          <p>Delivered</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>04.06.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* eye */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              View Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* tracking */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Track
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
+                    <td className="py-3 px-4">
+                      <button className="text-cta-secondary text-sm hover:underline">
+                        View Details
+                      </button>
                     </td>
                   </tr>
-
-                  <tr>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </td>
-                    <td>LBL-002</td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/icons/postcard.svg" alt="icon" className='h-15' /><span>Postcard</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/delivery.svg" alt="icon" className='h-29' />
-                        <div>
-                          <p>First Class</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <p>Sarah Johnson</p>
-                      <p className='description'>Los Angeles, CA</p>
-                    </td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge info-badge'>
-                          <img src="asset/table-image/info-delivery.svg" alt="icon" className='h-14' />
-                          <p>In Transit</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>03.06.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* tracking */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Track
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </td>
-                    <td>LBL-003</td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/icons/label.svg" alt="icon" className='h-15' /><span>Label</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/dhl.svg" alt="icon" className='h-29' />
-                        <div>
-                          <p>DHL</p>
-                          <p className='description'>Express</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <p>Mike Wilson</p>
-                      <p className='description'>Chicago, IL</p>
-                    </td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge warning-badge'>
-                          <img src="asset/table-image/warning-clock.svg" alt="icon" className='h-14' />
-                          <p>Created</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>02.06.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* eye */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              View Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* tracking */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Track
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </td>
-                    <td>LBL-004</td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/icons/latter.svg" alt="icon" className='h-15' /><span>Letter</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/delivery.svg" alt="icon" className='h-29' />
-                        <div>
-                          <p>Standart Class</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <p>Emily Davis</p>
-                      <p className='description'>Seattle, WA</p>
-                    </td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge info-badge'>
-                          <img src="asset/table-image/info-delivery.svg" alt="icon" className='h-14' />
-                          <p>In Transit</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>01.06.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* tracking */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Track
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </td>
-                    <td>LBL-005</td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/icons/label.svg" alt="icon" className='h-15' /><span>Label</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/ups.svg" alt="icon" className='h-29' />
-                        <div>
-                          <p>UPS</p>
-                          <p className='description'>Ground</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <p>David Brown</p>
-                      <p className='description'>London, UK</p>
-                    </td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge success-badge'>
-                          <img src="asset/table-image/success-check.svg" alt="icon" className='h-14' />
-                          <p>Delivered</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>30.05.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* eye */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              View Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* tracking */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Track
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </div>
+        ) : (
+          <div className="text-center py-8">
+            <p className="text-secondary-text">No recent shipments found.</p>
+          </div>
+        )}
       </div>
 
       {/* Active Pickup Requests*/}
