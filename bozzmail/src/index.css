@@ -1,0 +1,511 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    /* font-family */
+    --font-display: "Onest", "sans-serif";
+
+    /* for colors */
+    --color-primary: #008BA5;
+    --color-primary-hover: #029AB6;
+    --color-primary-active: #00819A;
+    --color-secondary-text: #576B6E;
+    --color-main-text: #032C33;
+    --color-main-text-shaded: #425255;
+    --color-cta-secondary: #014754;
+    --color-cta-disable: #89B1B8;
+    --color-cta-complimentary: #F89463;
+    --color-Outlines: #CBD9DB;
+    --color-form-input: #FBFBFB;
+    --color-form-label: #425255;
+    --color-place-holder: #022C3480;
+    --color-light-gray: #F8F8F8;
+    --color-outlines-active: #95ADB1;
+    --color-icon: #F3F6F6;
+    --color-icon-active: #EFF5F5;
+    --color-hr: #DEDEDE;
+    --color-table-header: #F6F9FA;
+    --color-sidebar-menu: #03333C;
+    --color-positive-warning: #1B902B;
+    --color-negative-warning: #D03B3D;
+    --color-card-sky-blue: #EAF8F9;
+    --color-card-light-green: #EAF9F0;
+    --color-card-light-purple: #F0EAF9;
+    --color-card-light-yellow: #F6FFE7;
+    --color-card-cream: #F9F2EA;
+    --color-success-badge: #E9FFE9;
+    --color-success-text: #57B057;
+    --color-info-badge: #E9FBFF;
+    --color-info-text: #5298A7;
+    --color-warning-badge: #FAF8D4;
+    --color-warning-text: #75723A;
+    --color-schedule-badge: #F1EDFF;
+    --color-schedule-text: #7F6DC3;
+    --color-lime: #F5FFF5;
+    --color-model-bg: #F8F8F8F0;
+    --color-paid-badge: #FFEFFE;
+    --color-paid-text: #855A81;
+    --color-draft-badge: #F2F2F2;
+    --color-draft-text: #666666;
+    --color-table-header-active: #E4EDF0;
+    --color-export-btn:#FFFFFF21;
+    --color-export-btn-active: #FFFFFF1F;
+    --color-tab-inactive: #EEF4F5;
+    --color-arrow: #7C9297;
+    --color-number-input: #EAF2F3;
+    --color-number-input-hover: #E0E9EB;
+    --color-number-input-active: #D9E4E6;
+    --color-tab-finish: #E8F4F6;
+
+    /* shadow */
+    --shadow-box: 0 4px 20px 0px #00000008; 
+    --shadow-dropdown: 0 2px 5px 0 #032C3314;
+    --shadow-filter: 0 10px 30px 0 #032C3366;
+
+    /* border-radius */
+    --radius-2px: 2px;
+    --radius-5px: 5px;
+    --radius-7px: 7px;
+    --radius-10px: 10px;
+    --radius-15px: 15px;
+    --radius-20px: 20px;
+    --radius-400px: 400px;
+
+    /* max width */
+    --spacing: 1px;
+    --spacing-form: 378px;
+
+    /* text size */
+    --text-9px: 9px;
+    --text-10px: 10px;
+    --text-11px: 11px;
+    --text-13px: 13px;
+    --text-15px: 15px;
+    --text-17px: 17px;
+    --text-22px: 22px;
+    --text-25px: 25px;
+}
+
+@import "../src/style.css";
+
+/* ------------------------------------------- common css ------------------------------------------------------------- */
+.primary-btn {
+    @apply rounded-7px bg-primary p-12 text-center font-semibold text-sm text-white cursor-pointer hover:bg-primary-hover focus:bg-primary-active active:bg-primary-active inline-block focus:outline-0;
+}
+
+.disable-primary-btn {
+    @apply rounded-7px bg-cta-disable p-12 text-center font-semibold text-sm text-white cursor-not-allowed inline-block focus:outline-0;
+}
+
+.outline-btn{
+    @apply rounded-7px border border-Outlines focus:border-outlines-active active:border-outlines-active p-11 text-sm text-main-text font-medium inline-block;
+}
+
+.text-link {
+    @apply text-primary hover:text-primary-hover focus:text-primary-active active:text-primary-active text-sm font-medium;
+}
+
+.footer-text {
+    @apply font-medium text-secondary-text text-13px;
+}
+
+.footer-text-link {
+    @apply text-cta-secondary font-medium text-13px hover:text-primary-hover focus:text-primary-active active:text-primary-active;
+}
+
+.material-symbols-outlined {
+    font-size: 15px;
+}
+
+.dropdown-menu {
+    @apply fixed top-60 right-15 max-sm:left-15 sm:absolute sm:top-full sm:right-0 mt-8 bg-white rounded-7px border border-outlines-active shadow-dropdown py-12 px-16 z-50;
+}
+
+.dropdown-title {
+    @apply text-13px font-semibold text-main-text;
+}
+
+.dropdown-description {
+    @apply text-xs font-medium text-secondary-text;
+}
+
+.dropdown-time {
+    @apply text-11px font-medium text-secondary-text;
+}
+
+a:focus,
+.menu-navlink {
+    @apply outline-0;
+}
+
+button:focus,
+input:focus,
+select:focus {
+    @apply border border-outlines-active;
+}
+
+.select-button {
+    @apply bg-table-header py-12 pr-12 pl-16 rounded-lg sm:rounded-7px flex items-center justify-between gap-40 w-full cursor-pointer border border-Outlines sm:border-transparent;
+}
+
+.export-btn{
+    @apply py-6 px-11 rounded-7px flex items-center justify-center gap-10 w-full cursor-pointer bg-export-btn text-white border border-transparent focus:border-export-btn-active active:border-export-btn;
+}
+
+.export-cross-btn{
+    @apply p-4 hover:bg-export-btn focus:bg-export-btn rounded-full cursor-pointer flex items-center justify-center border border-transparent focus:border-export-btn-active active:border-export-btn text-white text-xl;
+}
+
+.bottom-menu {
+    @apply fixed bottom-0 bg-main-text text-white px-16 sm:px-29 w-full max-w-fit flex-col gap-22 flex;
+}
+
+.menu-navlink {
+    @apply text-center flex justify-center flex-col;
+}
+
+.menu-navlink p {
+    @apply text-9px text-white uppercase font-medium;
+}
+
+.menu-icon {
+    @apply w-40 h-40 flex justify-center items-center rounded-full bg-white/10 mb-5;
+}
+
+.create-btn .menu-icon {
+    @apply bg-primary;
+}
+
+.create-btn p {
+    @apply text-primary;
+}
+
+.bottom-navlink {
+    @apply flex items-center gap-10 py-8;
+}
+
+.bottom-navlink p {
+    @apply text-white text-13px font-medium;
+}
+
+.badge{
+    @apply min-w-[110px];
+}
+.paid-badge {
+    @apply bg-paid-badge text-paid-text;
+}
+.draft-badge {
+    @apply bg-draft-badge text-draft-text;
+}
+
+.button-icon{
+    @apply rounded-7px bg-primary border border-transparent p-10 text-center font-semibold text-sm text-white cursor-pointer hover:bg-primary-hover focus:bg-primary-active;
+}
+
+.disable-button-icon{
+    @apply rounded-7px bg-cta-disable border border-transparent p-10 text-center font-semibold text-sm text-white cursor-pointer;
+}
+
+.button-border{
+    @apply rounded-7px bg-white border border-Outlines p-10 text-center font-semibold text-sm text-main-text cursor-pointer hover:border-outlines-active focus:border-outlines-active;
+}
+
+/*----------------- custome scrollbar for dashboard------------------------ */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 40px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #e2e2e2;
+    border-radius: 9999px;
+}
+
+/* ------------------ main scrollbar -------------------------------------- */
+.dropdown-scrollbar::-webkit-scrollbar{
+    width: 4px;
+}
+.main-scrollbar::-webkit-scrollbar {
+    height: 7px;
+}
+
+.main-scrollbar::-webkit-scrollbar-track,
+.dropdown-scrollbar::-webkit-scrollbar-track {
+    background: var(--color-table-header);
+    margin: 0 27px;
+    border-radius: 100px;
+    width: 20px;
+}
+
+.main-scrollbar::-webkit-scrollbar-thumb,
+.dropdown-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-main-text-shaded);
+    border-radius: 100px;
+}
+
+
+/* -------------------------------------------  hearder ---------------------------------------------------- */
+.header-icon {
+    @apply py-4 px-6 rounded-sm flex justify-center items-center cursor-pointer hover:bg-icon hover:text-cta-secondary;
+}
+
+/* ----------------------------------------------- sidebar ------------------------------------------------------------ */
+.sidebar-title {
+    @apply text-15px font-semibold text-sidebar-menu;
+}
+
+.navlink {
+    @apply flex justify-between items-center;
+}
+
+.navlink-item {
+    @apply flex justify-start items-center gap-8 py-8 px-11 bg-white rounded-7px w-168 hover:bg-icon active:bg-icon-active;
+}
+
+.sidebar-add {
+    @apply py-8 px-11 bg-white rounded-7px hover:bg-icon active:bg-icon-active;
+}
+
+
+/* -------------------------------------------- dashboard card ------------------------------------------------------- */
+.card-layout {
+    @apply w-270 lg:w-full max-lg:flex-shrink-0 rounded-15px py-16 px-20 overflow-hidden relative h-full;
+}
+
+.card-label {
+    @apply font-medium text-10px uppercase;
+}
+
+.card-number {
+    @apply font-semibold text-xl py-4;
+}
+
+.card-percentage {
+    @apply flex gap-5 items-center rounded-5px py-3 px-7 relative z-60;
+}
+
+.card-success-small-text {
+    @apply text-positive-warning font-medium text-xs;
+}
+
+.card-danger-small-text {
+    @apply text-negative-warning font-medium text-xs;
+}
+
+.card-design {
+    @apply border border-Outlines rounded-10px py-4 px-5
+}
+
+/* ------------------------------------------- table ---------------------------------------------------------------- */
+.table-content{
+    @apply border border-Outlines rounded-10px overflow-hidden w-full ;
+}
+
+.custom-table thead th {
+    @apply text-sm font-medium text-main-text py-14 text-left align-middle pl-40 xl:pl-20;
+}
+
+.custom-table thead th:first-child,
+.custom-table tbody td:first-child {
+    @apply pl-27;
+}
+
+.custom-table thead th:last-child,
+.custom-table tbody td:last-child {
+    @apply pr-19;
+}
+
+.custom-table tbody tr {
+    @apply border-t border-Outlines;
+}
+
+.custom-table tbody td {
+    @apply text-sm font-medium text-main-text py-11 text-left align-middle pl-40 xl:pl-20 whitespace-nowrap;
+}
+
+.custom-table .description {
+    @apply text-secondary-text text-xs font-medium;
+}
+
+.badge {
+    @apply flex gap-7 items-center justify-center py-5 px-13 rounded-20px;
+}
+
+.success-badge {
+    @apply bg-success-badge text-success-text;
+}
+
+.info-badge {
+    @apply bg-info-badge text-info-text;
+}
+
+.warning-badge {
+    @apply bg-warning-badge text-warning-text;
+}
+
+.schedule-badge {
+    @apply bg-schedule-badge text-schedule-text;
+}
+
+
+.action-btn {
+    @apply flex justify-center items-center border border-Outlines hover:border-outlines-active focus:border-outlines-active rounded-md w-31 h-31 cursor-pointer bg-white;
+}
+
+.action-tooltip {
+    @apply absolute -top-35 left-1/2 -translate-x-1/2 hidden group-hover:flex flex-col items-center whitespace-nowrap;
+}
+
+.tooltip-label {
+    @apply text-xs font-medium text-white bg-main-text px-8 py-4 rounded;
+}
+
+.label-badge {
+    @apply rounded-5px border border-Outlines py-2 px-20 xl:px-6 gap-3 text-11px flex w-fit justify-center items-center;
+}
+
+.table-dropdown-menu {
+    @apply sm:absolute sm:top-full sm:right-0 mt-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col;
+}
+
+.table-dropdown-menu-up {
+    @apply sm:absolute sm:bottom-full sm:right-0 max-sm:mt-8 sm:mb-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col;
+}
+
+.filter-dropdown-menu{
+    @apply absolute top-full right-0 mt-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col;
+}
+
+.table-dropdown-item {
+    @apply w-full cursor-pointer max-h-100 sm:max-h-200 overflow-y-auto;
+}
+
+.table-dropdown-title {
+    @apply text-13px font-semibold text-main-text p-8 rounded-md bg-white hover:bg-icon w-full pr-8;
+}
+
+.table-search {
+    @apply rounded-lg border border-transparent bg-table-header p-12 inline-block w-full font-medium text-sm focus:outline-1 focus:-outline-offset-1 focus:outline-outlines-active active:text-main-text placeholder:text-place-holder pl-40;
+}
+
+.table-small-search {
+    @apply rounded-7px border border-transparent bg-table-header p-8 inline-block w-full font-medium text-sm focus:outline-1 focus:-outline-offset-1 focus:outline-outlines-active active:text-main-text placeholder:text-place-holder pl-30;
+}
+
+.filter-btn{
+    @apply rounded-7px bg-white border border-Outlines hover:border-outlines-active focus:border-outlines-active py-6 px-9 text-13px font-medium text-main-text cursor-pointer;
+}
+
+.filter-menu{
+    @apply max-sm:bg-white max-sm:shadow-filter max-sm:rounded-tr-15px max-sm:rounded-tl-15px max-sm:px-15 max-sm:py-18 w-full max-sm:fixed max-sm:bottom-0 max-sm:left-0 sm:block;
+}
+
+.filter-toggle{
+    @apply max-sm:fixed max-sm:inset-0 max-sm:z-40000 max-sm:transition-all max-sm:duration-300 max-sm:ease-in-out max-sm:transform w-full 2xl:w-1/2;
+}
+
+.filter-open{
+    @apply max-sm:translate-y-0 max-sm:opacity-100 max-sm:pointer-events-auto;
+}
+
+.filter-close{
+    @apply max-sm:translate-y-full max-sm:opacity-0 max-sm:pointer-events-none;
+}
+
+
+/* ------------------------------------------- form css ------------------------------------------------------------- */
+
+.label-text {
+    @apply font-semibold text-sm capitalize text-form-label cursor-pointer;
+}
+
+.form-input {
+    @apply rounded-lg border border-Outlines bg-form-input p-12 inline-block w-full font-medium text-sm focus:outline-1 focus:-outline-offset-1 focus:outline-outlines-active text-main-text active:text-main-text placeholder:text-place-holder;
+}
+
+input[type="checkbox"] {
+    @apply border-2 border-Outlines w-16 h-16 rounded-2px appearance-none cursor-pointer transition-all focus:border-Outlines focus:border-2 bg-form-input;
+}
+
+input[type="radio"] {
+  accent-color: var(--color-secondary-text); 
+  border-color: #B4C7CA;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  appearance: none;
+}
+
+.number-arrow-btn{
+    @apply bg-number-input rounded-2px p-1 cursor-pointer text-sm text-main-text focus:border-none hover:bg-number-input-hover focus:bg-number-input-active active:bg-number-input-active;
+}
+
+.checkbox-text{
+    @apply text-sm font-medium text-main-text cursor-pointer;
+}
+
+/* -------------------------------------------- subscription --------------------------------------------------------- */
+.subscription-badge {
+    @apply rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium;
+}
+
+.subsription-title {
+    @apply font-semibold text-base text-main-text;
+}
+
+.subsription-description {
+    @apply font-medium text-sm text-secondary-text;
+}
+
+.subscription-amount {
+    @apply text-xl font-semibold text-primary;
+}
+
+.subscription-provided {
+    @apply flex gap-6 items-center text-sm font-medium text-main-text;
+}
+
+.subscription-unprovided {
+    @apply flex gap-6 items-center text-sm font-medium text-secondary-text;
+}
+
+/* ------------------------------------------ tab --------------------------------------------------------- */
+.tab-btn{
+    @apply flex justify-center items-center gap-5 cursor-pointer focus:border-none flex-none;
+}
+.tab-digit{
+    @apply w-33 h-33 sm:w-37 sm:h-37 rounded-full flex justify-center items-center text-xs font-medium;
+}
+.complete-tab{
+    @apply bg-tab-finish flex-none;
+}
+.tab-digit-active{
+    @apply bg-primary text-white flex-none;
+}
+.tab-digit-inactive{
+    @apply bg-tab-inactive text-main-text flex-none;
+}
+.tab-text{
+    @apply uppercase text-xs font-semibold hidden xl:block text-left;
+}
+.tab-line{
+    @apply w-full h-1 bg-Outlines;
+}
+
+.tab-select {
+    @apply bg-form-input py-12 pr-12 pl-16 rounded-lg sm:rounded-7px flex items-center justify-between gap-40 w-full cursor-pointer border border-Outlines;
+}
+
+.form-dropdown-menu {
+    @apply absolute top-full right-0 mt-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col;
+}
+
+.form-dropdown-menu-up {
+    @apply absolute bottom-full right-0 mb-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col max-xl:top-full max-xl:bottom-auto max-xl:mt-8;
+}

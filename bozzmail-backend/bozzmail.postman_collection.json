@@ -1,0 +1,2311 @@
+{
+	"info": {
+		"_postman_id": "30f4123e-7e83-48fb-9b73-944f989943a7",
+		"name": "bozzmail",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "7103822"
+	},
+	"item": [
+		{
+			"name": "telynxphoneverification",
+			"item": [
+				{
+					"name": "send-code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/send-otp"
+					},
+					"response": []
+				},
+				{
+					"name": "verify-code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\" : \"\",\r\n    \"otp\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/verify-otp"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "shipment",
+			"item": [
+				{
+					"name": "goShippo",
+					"item": [
+						{
+							"name": "create shipment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"address_from\": {\r\n        \"name\": \"Shawn Ippotle\",\r\n        \"street1\": \"215 Clayton St.\",\r\n        \"street2\": \"215 Clayton St.\",\r\n        \"city\": \"San Francisco\",\r\n        \"state\": \"CA\",\r\n        \"zip\": \"94117\",\r\n        \"country\": \"US\",\r\n        \"phone\": \"1234567890\",\r\n        \"email\": \"\"\r\n    },\r\n    \"address_to\": {\r\n        \"name\": \"Test Customer\",\r\n        \"street1\": \"305 Water St\",\r\n        \"street2\": \"\",\r\n        \"city\": \"Vancouver\",\r\n        \"state\": \"BC\",\r\n        \"country\": \"CA\",\r\n        \"zip\": \"V6B 1B9\",\r\n        \"phone\": \"1111111111\",\r\n        \"email\": \"\"\r\n    },\r\n    \"parcel\": {\r\n        \"length\": \"5\",\r\n        \"width\": \"5\",\r\n        \"height\": \"5\",\r\n        \"distance_unit\": \"in\",\r\n        \"weight\": \"10\",\r\n        \"mass_unit\": \"lb\"\r\n    },\r\n    \"insurance_added\": true,\r\n    \"insurance\": {\r\n        \"amount\": \"200\",\r\n        \"currency\": \"USD\"\r\n    },\r\n    \"additional_info\": \"handle with care\",\r\n    \"customs_declaration\": {\r\n        \"contents_type\": \"MERCHANDISE\",\r\n        \"non_delivery_option\": \"RETURN\",\r\n        \"certify\": true,\r\n        \"certify_signer\": \"Simon Kreuz\",\r\n        \"incoterm\": \"DDU\",\r\n        \"items\": [\r\n            {\r\n                \"description\": \"T-shirt\",\r\n                \"quantity\": 20,\r\n                \"net_weight\": \"5\",\r\n                \"mass_unit\": \"lb\",\r\n                \"value_amount\": \"200\",\r\n                \"value_currency\": \"USD\",\r\n                \"tariff_number\": \"\",\r\n                \"origin_country\": \"US\"\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/shipments/goshippo/create-new"
+							},
+							"response": []
+						},
+						{
+							"name": "purchase shipment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"rateId\" : \"19699afa9f8440f889e931447548ca8d\",\r\n    \"amount\" : 400\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/shipments/goshippo/purchase"
+							},
+							"response": []
+						},
+						{
+							"name": "track Shipment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"carrier\": \"shippo\",\n    \"tracking_number\" : \"SHIPPO_TRANSIT\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/shipments/goshippo/trackShipment"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "easypost",
+					"item": [
+						{
+							"name": "create shipment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"to_address\": {\r\n        \"name\": \"Dr. Steve Brule\",\r\n        \"street1\": \"179 N Harbor Dr\",\r\n        \"city\": \"Redondo Beach\",\r\n        \"state\": \"CA\",\r\n        \"zip\": \"90277\",\r\n        \"country\": \"US\",\r\n        \"phone\": \"8573875756\",\r\n        \"email\": \"dr_steve_brule@gmail.com\"\r\n    },\r\n    \"from_address\": {\r\n        \"name\": \"EasyPost\",\r\n        \"street1\": \"417 Montgomery Street\",\r\n        \"street2\": \"5th Floor\",\r\n        \"city\": \"San Francisco\",\r\n        \"state\": \"CA\",\r\n        \"zip\": \"94104\",\r\n        \"country\": \"US\",\r\n        \"phone\": \"4153334445\",\r\n        \"email\": \"support@easypost.com\"\r\n    },\r\n    \"parcel\": {\r\n        \"length\": \"20.2\",\r\n        \"width\": \"10.9\",\r\n        \"height\": \"5\",\r\n        \"weight\": \"65.9\"\r\n    },\r\n    \"additional_info\" : \"handle with care\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/shipments/easypost/create-new"
+							},
+							"response": []
+						},
+						{
+							"name": "purchase shipment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"shipmentId\" : \"shp_e74e03bf0474431abcd18d191e96f2b1\",\r\n    \"rateId\" : \"rate_51b4eecfa5624e40b9e8c6d499320eae\",\r\n    \"insurance\" : {\r\n        \"amount\" : 30.0\r\n    },\r\n    \"amount\" : 400\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/shipments/easypost/purchase"
+							},
+							"response": []
+						},
+						{
+							"name": "track Shipment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n      \"tracking_code\": \"EZ1000000001\",\n      \"carrier\": \"USPS\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/shipments/easypost/trackShipment"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "flavourCloud (LTL shipping)",
+					"item": [
+						{
+							"name": "purchase shipment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"from_address\": {\r\n        \"name\": \"Test Customer\",\r\n        \"street1\": \"200 Townsend Street\",\r\n        \"city\": \"San Francisco\",\r\n        \"state\": \"CA\",\r\n        \"country\": \"US\",\r\n        \"zip\": \"94107\",\r\n        \"phone\": \"6094120178\",\r\n        \"email\": \"jake.krachman@flavorcloud.com\"\r\n    },\r\n    \"to_address\": {\r\n        \"name\": \"Test Customer\",\r\n        \"street1\": \"305 Water St\",\r\n        \"street2\": \"\",\r\n        \"city\": \"Vancouver\",\r\n        \"state\": \"BC\",\r\n        \"country\": \"CA\",\r\n        \"zip\": \"V6B 1B9\",\r\n        \"phone\": \"1111111111\",\r\n        \"email\": \"contact@flavorcloud.com\"\r\n    },\r\n    \"parcel\": {\r\n        \"length\": 3,\r\n        \"width\": 3,\r\n        \"height\": 3,\r\n        \"distance_unit\": \"in\",\r\n        \"weight\": 2,\r\n        \"mass_unit\": \"lb\"\r\n    },\r\n    \"items\": [\r\n        {\r\n            \"description\": \"T-shirt\",\r\n            \"quantity\": 1,\r\n            \"weight\": 0.5,\r\n            \"value\": 10,\r\n            \"hs_tariff_number\": \"610910\",\r\n            \"origin_country\": \"US\"\r\n        }\r\n    ],\r\n    \"service_code\": \"EXPRESS\",\r\n    \"export_type\": \"merchandise\",\r\n    \"reference_id\": \"412537730822\",\r\n    \"hash_key\": \"2bd9aaed-8c06-47f8-8777-2b7ed9168168\",\r\n    \"duty_hash_key\": \"\",\r\n    \"pickup_date\" : \"2024-07-28\",\r\n    \"terms_of_trade\" : \"DDP\",\r\n    \"currency\" : \"USD\",\r\n    \"amount\" : 100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/shipments/flavourcloud/create-new"
+							},
+							"response": []
+						},
+						{
+							"name": "get-rates",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"from_address\": {\r\n        \"name\": \"Test Customer\",\r\n        \"street1\": \"200 Townsend Street\",\r\n        \"city\": \"San Francisco\",\r\n        \"state\": \"CA\",\r\n        \"country\": \"US\",\r\n        \"zip\": \"94107\",\r\n        \"phone\": \"6094120178\",\r\n        \"email\": \"jake.krachman@flavorcloud.com\"\r\n    },\r\n    \"to_address\": {\r\n        \"name\": \"Test Customer\",\r\n        \"street1\": \"305 Water St\",\r\n        \"street2\": \"\",\r\n        \"city\": \"Vancouver\",\r\n        \"state\": \"BC\",\r\n        \"country\": \"CA\",\r\n        \"zip\": \"V6B 1B9\",\r\n        \"phone\": \"1111111111\",\r\n        \"email\": \"contact@flavorcloud.com\"\r\n    },\r\n    \"parcel\": {\r\n        \"length\": 3,\r\n        \"width\": 3,\r\n        \"height\": 3,\r\n        \"distance_unit\": \"in\",\r\n        \"weight\": 2,\r\n        \"mass_unit\": \"lb\"\r\n    },\r\n    \"items\": [\r\n        {\r\n            \"description\": \"T-shirt\",\r\n            \"quantity\": 1,\r\n            \"weight\": 0.5,\r\n            \"value\": 10,\r\n            \"hs_tariff_number\": \"610910\",\r\n            \"origin_country\": \"US\",\r\n            \"category\": [\r\n                \"merchandise\"\r\n            ]\r\n        }\r\n    ],\r\n    \"service_code\": [\r\n        \"STANDARD\",\r\n        \"EXPRESS\"\r\n    ],\r\n    \"export_type\": \"merchandise\",\r\n    \"reference_id\": \"412537730834\",\r\n    \"currency\": \"USD\",\r\n    \"insurance_added\": false,\r\n    \"insurance\": {\r\n        \"amount\": \"20\",\r\n        \"currency\": \"USD\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/shipments/flavourcloud/get-rates"
+							},
+							"response": []
+						},
+						{
+							"name": "track Shipment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/shipments/flavourcloud/trackShipment/:trackingNum",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"shipments",
+										"flavourcloud",
+										"trackShipment",
+										":trackingNum"
+									],
+									"variable": [
+										{
+											"key": "trackingNum",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get shipment",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/shipments/getUserShippment?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shipments",
+								"getUserShippment"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getShipmentById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/shipments/getShipment/:shipmentId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shipments",
+								"getShipment",
+								":shipmentId"
+							],
+							"variable": [
+								{
+									"key": "shipmentId",
+									"value": "lytvwfv0eoe"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "google",
+					"item": [
+						{
+							"name": "google link",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{base_url}}/auth/google/callback"
+							},
+							"response": []
+						},
+						{
+							"name": "login-success",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{base_url}}/auth/login/success"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "telegram",
+					"item": [
+						{
+							"name": "signin with telegram",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\" : \"\",\r\n    \"last_name\" : \"\",\r\n    \"id\" : \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/auth/telegram/callback"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "signUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"\",\r\n    \"password\": \"\",\r\n    \"phoneNumber\" : \"\",\r\n    \"notify_mobile\" : false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "signIn-with-password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@gmail.com\",\r\n    \"password\": \"Password@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/signin/password"
+					},
+					"response": []
+				},
+				{
+					"name": "signIn with phoneNumber",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\": \"\",\r\n    \"otp\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/signin-phone-num"
+					},
+					"response": []
+				},
+				{
+					"name": "signIn-request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"test123b@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/signin/request"
+					},
+					"response": []
+				},
+				{
+					"name": "signIn with otp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"\",\r\n    \"otp\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/signin/otp"
+					},
+					"response": []
+				},
+				{
+					"name": "signIn with email code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"\",\r\n    \"verificationCode\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/signin/email"
+					},
+					"response": []
+				},
+				{
+					"name": "send reset password link",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/forgot-password"
+					},
+					"response": []
+				},
+				{
+					"name": "reset-password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\" : \"\",\r\n    \"newPassword\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/reset-password"
+					},
+					"response": []
+				},
+				{
+					"name": "send email verification code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/send-email-code"
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "email-verify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"emailId\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/verify-email"
+					},
+					"response": []
+				},
+				{
+					"name": "verify phone number",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/verify-phone-number"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "payment",
+					"item": [
+						{
+							"name": "register user for payment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\" : \"\",\r\n    \"name\" : \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/user/payment/register"
+							},
+							"response": []
+						},
+						{
+							"name": "add wallet fund",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\" : 50\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/user/payment/add-wallet-fund"
+							},
+							"response": []
+						},
+						{
+							"name": "get wallet balance",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/user/payment/wallet-balance"
+							},
+							"response": []
+						},
+						{
+							"name": "get transaction list",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/user/payment/transactions"
+							},
+							"response": []
+						},
+						{
+							"name": "get transaction details",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/user/payment/transactions/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"payment",
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user details",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "{{base_url}}/user/details"
+					},
+					"response": []
+				},
+				{
+					"name": "change-password",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\" : \"\",\r\n    \"newPassword\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/user/change-password"
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"\",\r\n    \"phoneNumber\": \"\",\r\n    \"address\": {\r\n        \"street1\": \"\",\r\n        \"street2\": \"\",\r\n        \"city\": \"\",\r\n        \"state\": \"\",\r\n        \"country\": \"\",\r\n        \"postalCode\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/user/update"
+					},
+					"response": []
+				},
+				{
+					"name": "upload profile",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profileImg",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": "{{base_url}}/user/update-profile-pic"
+					},
+					"response": []
+				},
+				{
+					"name": "delete profile pic",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{base_url}}/user/delete-profile-pic"
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{base_url}}/user/delete"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "customs",
+			"item": [
+				{
+					"name": "easypost",
+					"item": [
+						{
+							"name": "create-custom",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customs_signer\": \"Steve Brule\",\r\n    \"contents_type\": \"merchandise\",\r\n    \"contents_explanation\": \"\",\r\n    \"restriction_type\": \"none\",\r\n    \"eel_pfc\": \"NOEEI 30.37(a)\",\r\n    \"customs_items\": [\r\n        {\r\n            \"description\": \"T-shirt\",\r\n            \"quantity\": \"1\",\r\n            \"weight\": \"5\",\r\n            \"value\": \"10\",\r\n            \"hs_tariff_number\": \"123456\",\r\n            \"origin_country\": \"US\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/customs/easypost/create-new"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "goshippo",
+					"item": [
+						{
+							"name": "create-custom",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customs_signer\": \"Steve Brule\",\r\n    \"contents_type\": \"merchandise\",\r\n    \"non_delivery_option\" : \"return\",\r\n    \"incoterm\" : \"DDU\",\r\n    \"contents_explanation\" : \"\",\r\n    \"eel_pfc\": \"NOEEI_30_37_a\",\r\n    \"customs_items\": [\r\n        {\r\n            \"description\": \"T-shirt\",\r\n            \"quantity\": \"1\",\r\n            \"weight\": \"5\",\r\n            \"mass_unit\": \"lb\",\r\n            \"value\": \"10\",\r\n            \"currency\": \"USD\",\r\n            \"hs_tariff_number\": \"123456\",\r\n            \"origin_country\": \"US\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/customs/goshippo/create-new"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delete-custom",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/customs/:id/delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customs",
+								":id",
+								"delete"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit-custom",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customs_signer\": \"Steve Brule\",\r\n    \"contents_type\": \"merchandise\",\r\n    \"non_delivery_option\": \"return\",\r\n    \"incoterm\": \"DDU\",\r\n    \"contents_explanation\": \"\",\r\n    \"restriction_type\": \"none\",\r\n    \"eel_pfc\": \"NOEEI_30_37_a\",\r\n    \"customs_items\": [\r\n        {\r\n            \"description\": \"T-shirt\",\r\n            \"quantity\": \"1\",\r\n            \"weight\": \"5\",\r\n            \"mass_unit\": \"lb\",\r\n            \"value\": \"10\",\r\n            \"currency\": \"USD\",\r\n            \"hs_tariff_number\": \"123\",\r\n            \"origin_country\": \"US\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/customs/:Id/edit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customs",
+								":Id",
+								"edit"
+							],
+							"variable": [
+								{
+									"key": "Id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user customs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/customs"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "pickup",
+			"item": [
+				{
+					"name": "easypost",
+					"item": [
+						{
+							"name": "create-pickup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"reference\": \"my-first-pickup\",\r\n    \"min_datetime\": \"2024-10-01 10:30:00\",\r\n    \"max_datetime\": \"2024-10-02 10:30:00\",\r\n    \"shipment_id\": \"shp_bfdb9804ece7478fb2a7bf70a5a9ca01\",\r\n    \"address_id\": \"adr_4a57a008435e11efa8c0ac1f6bc539aa\",\r\n    \"is_account_address\": true,\r\n    \"instructions\": \"true pickup instructions\",\r\n    \"carrier_accounts\" : [ \"ca_ca3d92ead8734d10ac1fc5ffbd89802b\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/pickup/easypost/create-new"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "goshippo",
+					"item": [
+						{
+							"name": "create-pickup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"carrier_account\": \"b3ec4cc034f24e7e978a71dcdd283c47\",\r\n    \"building_location_type\": \"Other\",\r\n    \"building_type\": \"suite\",\r\n    \"instructions\": \"Behind screen door\",\r\n    \"address\": {\r\n        \"name\": \"Shawn Ippotle\",\r\n        \"company\": \"Hungry Hippos\",\r\n        \"street1\": \"965 Mission St #201\",\r\n        \"city\": \"San Francisco\",\r\n        \"state\": \"CA\",\r\n        \"zip\": \"95122\",\r\n        \"country\": \"US\",\r\n        \"phone\": \"+14159876543\",\r\n        \"email\": \"mrshippo@shippo.com\"\r\n    },\r\n    \"transaction_id\": \"1f096a1fa7494674a22dd5f9a35893d4\",\r\n    \"min_datetime\": \"2024-08-12T12:00:00Z\",\r\n    \"max_datetime\": \"2024-08-12T16:00:00Z\",\r\n    \"is_test\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/pickup/goshippo/create-new"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get-pickup",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/pickup/getPickup?service=easypost&page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pickup",
+								"getPickup"
+							],
+							"query": [
+								{
+									"key": "service",
+									"value": "easypost"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "hscodes",
+			"item": [
+				{
+					"name": "delete-hscode",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/hscode/:id/delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"hscode",
+								":id",
+								"delete"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit-hscode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product\": {\r\n        \"description\": \"Bluetooth 5.0 Wireless Headphone\",\r\n        \"image_url\": \"https://m.media-amazon.com/images/I/71z97HfSZxS._AC_SX679_.jpg\",\r\n        \"title\": \"Bluetooth 5.0 Wireless Headphone with Active Noise Cancellation - 30-Hour Battery Life, USB-C Fast Charging, Virtual Assistant Button, Foldable - Black\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/hscode/:Id/edit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"hscode",
+								":Id",
+								"edit"
+							],
+							"variable": [
+								{
+									"key": "Id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user hscode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/hscode"
+					},
+					"response": []
+				},
+				{
+					"name": "add new hscode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product\": {\r\n        \"description\": \"Bluetooth 5.0 Wireless Headphone\",\r\n        \"image_url\": \"https://m.media-amazon.com/images/I/71z97HfSZxS._AC_SX679_.jpg\",\r\n        \"title\": \"Bluetooth 5.0 Wireless Headphone with Active Noise Cancellation - 30-Hour Battery Life, USB-C Fast Charging, Virtual Assistant Button, Foldable - Black\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/hscode"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "print and mail",
+			"item": [
+				{
+					"name": "send letter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "address_from[first_name]",
+									"value": "Alex",
+									"type": "text"
+								},
+								{
+									"key": "address_from[last_name]",
+									"value": "Johnson",
+									"type": "text"
+								},
+								{
+									"key": "address_from[company_name]",
+									"value": "ExampleCorp",
+									"type": "text"
+								},
+								{
+									"key": "address_from[street1]",
+									"value": "123 Main St.",
+									"type": "text"
+								},
+								{
+									"key": "address_from[city]",
+									"value": "Los Angeles",
+									"type": "text"
+								},
+								{
+									"key": "address_from[state]",
+									"value": "CA",
+									"type": "text"
+								},
+								{
+									"key": "address_from[zip]",
+									"value": "90001",
+									"type": "text"
+								},
+								{
+									"key": "address_from[country]",
+									"value": "US",
+									"type": "text"
+								},
+								{
+									"key": "address_to[first_name]",
+									"value": "Jane",
+									"type": "text"
+								},
+								{
+									"key": "address_to[last_name]",
+									"value": "Doe",
+									"type": "text"
+								},
+								{
+									"key": "address_to[company_name]",
+									"value": "Sample Company",
+									"type": "text"
+								},
+								{
+									"key": "address_to[street1]",
+									"value": "456 Elm St",
+									"type": "text"
+								},
+								{
+									"key": "address_to[city]",
+									"value": "Toronto",
+									"type": "text"
+								},
+								{
+									"key": "address_to[state]",
+									"value": "ON",
+									"type": "text"
+								},
+								{
+									"key": "address_to[country]",
+									"value": "CA",
+									"type": "text"
+								},
+								{
+									"key": "address_to[zip]",
+									"value": "M5H 2N2",
+									"type": "text"
+								},
+								{
+									"key": "html",
+									"value": "<i>Hello, World!</i>",
+									"type": "text"
+								},
+								{
+									"key": "addressPlacement",
+									"value": "top_first_page",
+									"type": "text"
+								},
+								{
+									"key": "doubleSided",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "perforatedPage",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "extraService",
+									"value": "certified",
+									"type": "text"
+								},
+								{
+									"key": "envelopeType",
+									"value": "flat",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Sample HTML letter",
+									"type": "text"
+								},
+								{
+									"key": "size",
+									"value": "us_letter",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "pdf",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "mailingClass",
+									"value": "first_class",
+									"type": "text"
+								},
+								{
+									"key": "sendDate",
+									"value": "2024-10-16T15:40:35.873Z",
+									"type": "text"
+								},
+								{
+									"key": "express",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "pdfLink",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{base_url}}/print-mail/send/letter"
+					},
+					"response": []
+				},
+				{
+					"name": "send postcard",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "address_to[first_name]",
+									"value": "Jane",
+									"type": "text"
+								},
+								{
+									"key": "address_to[last_name]",
+									"value": "Doe",
+									"type": "text"
+								},
+								{
+									"key": "address_to[company_name]",
+									"value": "Sample Company",
+									"type": "text"
+								},
+								{
+									"key": "address_to[street1]",
+									"value": "456 Elm St",
+									"type": "text"
+								},
+								{
+									"key": "address_to[city]",
+									"value": "Toronto",
+									"type": "text"
+								},
+								{
+									"key": "address_to[state]",
+									"value": "ON",
+									"type": "text"
+								},
+								{
+									"key": "address_to[country]",
+									"value": "CA",
+									"type": "text"
+								},
+								{
+									"key": "address_to[zip]",
+									"value": "M5H 2N2",
+									"type": "text"
+								},
+								{
+									"key": "frontHTML",
+									"value": "<i>Hello, World!</i>",
+									"type": "text"
+								},
+								{
+									"key": "backHTML",
+									"value": "<i>Hello, World!</i>",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Sample HTML letter",
+									"type": "text"
+								},
+								{
+									"key": "size",
+									"value": "11x6",
+									"type": "text"
+								},
+								{
+									"key": "mailingClass",
+									"value": "first_class",
+									"type": "text"
+								},
+								{
+									"key": "sendDate",
+									"value": "2024-10-16T15:40:35.873Z",
+									"type": "text"
+								},
+								{
+									"key": "express",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "pdfLink",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "pdf",
+									"type": "file",
+									"src": "/C:/Users/means/Downloads/sample.pdf"
+								}
+							]
+						},
+						"url": "{{base_url}}/print-mail/send/postcard"
+					},
+					"response": []
+				},
+				{
+					"name": "add webhook",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\" : \"https://1d9a-125-63-97-88.ngrok-free.app/webhooks/print-mail\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/print-mail/add-webhook"
+					},
+					"response": []
+				},
+				{
+					"name": "cancel mail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"note\": \"Cancelled due to template changes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/print-mail/:id/cancel",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"print-mail",
+								":id",
+								"cancel"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch user printmail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/print-mail?mailType=letter&page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"print-mail"
+							],
+							"query": [
+								{
+									"key": "mailType",
+									"value": "letter"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch single printmail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/print-mail/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"print-mail",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "letter_coHNLUgg3rx3mN93Z5Apte"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "notifications",
+			"item": [
+				{
+					"name": "user notification",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/notifications?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"notifications"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read notification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\" : [\r\n        \"66990acb71cb40ca8fd91762\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/user/notifications/mark-read"
+					},
+					"response": []
+				},
+				{
+					"name": "delete notifications",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\" : [\r\n        \"66990acb71cb40ca8fd91761\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/user/delete-notifications"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "address book",
+			"item": [
+				{
+					"name": "add user address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"street1\": \"building 2\",\r\n    \"street2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"country\": \"US\",\r\n    \"postalCode\": \"20166\",\r\n    \"addressType\": \"office\",\r\n    \"name\" : \"test user\",\r\n    \"email\" : \"abc@gmail.com\",\r\n    \"phoneNumber\" : \"+91 9876543210\",\r\n    \"is_default\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/address/user"
+					},
+					"response": []
+				},
+				{
+					"name": "verify address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"street1\": \"building 2\",\r\n    \"street2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"country\": \"US\",\r\n    \"postalCode\": \"20166\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/address/verify"
+					},
+					"response": []
+				},
+				{
+					"name": "import address csv file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": "{{base_url}}/address/import"
+					},
+					"response": []
+				},
+				{
+					"name": "get user addresses",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/address/user?limit=10&page=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"address",
+								"user"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get address",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/address/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"address",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "669a413ef3843737d03f93fa"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"street1\": \"building 2\",\r\n    \"street2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"country\": \"US\",\r\n    \"postalCode\": \"20166\",\r\n    \"addressType\": \"office\",\r\n    \"name\" : \"test user\",\r\n    \"email\" : \"abc@gmail.com\",\r\n    \"phoneNumber\" : \"+91 9876543210\",\r\n    \"is_default\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/address/:id/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"address",
+								":id",
+								"update"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "669a413ef3843737d03f93fa"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user address",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/address/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"address",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "669a413ef3843737d03f93fa"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "batch",
+			"item": [
+				{
+					"name": "goshippo",
+					"item": [
+						{
+							"name": "create batch",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"default_carrier_account\": \"b3ec4cc034f24e7e978a71dcdd283c47\",\r\n    \"default_servicelevel_token\": \"usps_priority_mail_express_international\",\r\n    \"label_filetype\": \"PDF_4x6\",\r\n    \"batch_shipments\": [\r\n        {\r\n            \"shipment\": {\r\n                \"address_from\": {\r\n                    \"name\": \"Mr Hippo\",\r\n                    \"street1\": \"965 Mission St\",\r\n                    \"street2\": \"Ste 201\",\r\n                    \"city\": \"San Francisco\",\r\n                    \"state\": \"CA\",\r\n                    \"zip\": \"94103\",\r\n                    \"country\": \"US\",\r\n                    \"phone\": \"4151234567\",\r\n                    \"email\": \"mrhippo@shippo.com\"\r\n                },\r\n                \"address_to\": {\r\n                    \"name\": \"Mrs Hippo\",\r\n                    \"company\": \"\",\r\n                    \"street1\": \"Broadway 1\",\r\n                    \"street2\": \"\",\r\n                    \"city\": \"New York\",\r\n                    \"state\": \"NY\",\r\n                    \"zip\": \"10007\",\r\n                    \"country\": \"US\",\r\n                    \"phone\": \"4151234567\",\r\n                    \"email\": \"mrshippo@shippo.com\"\r\n                },\r\n                \"parcels\": [\r\n                    {\r\n                        \"length\": \"5\",\r\n                        \"width\": \"5\",\r\n                        \"height\": \"5\",\r\n                        \"distance_unit\": \"in\",\r\n                        \"weight\": \"2\",\r\n                        \"mass_unit\": \"oz\"\r\n                    }\r\n                ]\r\n            }\r\n        },\r\n        {\r\n            \"shipment\": {\r\n                \"address_from\": {\r\n                    \"name\": \"Mr Hippo\",\r\n                    \"street1\": \"1092 Indian Summer Ct\",\r\n                    \"city\": \"San Jose\",\r\n                    \"state\": \"CA\",\r\n                    \"zip\": \"95122\",\r\n                    \"country\": \"US\",\r\n                    \"phone\": \"4151234567\",\r\n                    \"email\": \"mrhippo@shippo.com\"\r\n                },\r\n                \"address_to\": {\r\n                    \"name\": \"Mrs Hippo\",\r\n                    \"company\": \"\",\r\n                    \"street1\": \"Broadway 1\",\r\n                    \"street2\": \"\",\r\n                    \"city\": \"New York\",\r\n                    \"state\": \"NY\",\r\n                    \"zip\": \"10007\",\r\n                    \"country\": \"US\",\r\n                    \"phone\": \"4151234567\",\r\n                    \"email\": \"mrshippo@shippo.com\"\r\n                },\r\n                \"parcels\": [\r\n                    {\r\n                        \"length\": \"5\",\r\n                        \"width\": \"5\",\r\n                        \"height\": \"5\",\r\n                        \"distance_unit\": \"in\",\r\n                        \"weight\": \"20\",\r\n                        \"mass_unit\": \"lb\"\r\n                    }\r\n                ]\r\n            },\r\n            \"carrier_account\": \"a4391cd4ab974f478f55dc08b5c8e3b3\",\r\n            \"servicelevel_token\": \"fedex_2_day\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/batch/goshippo/create-new"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "easypost",
+					"item": [
+						{
+							"name": "create batch",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"batch\": {\r\n        \"shipments\": [\r\n            {\r\n                \"id\": \"shp_f10a4438617242dda1b481dd24529eda\"\r\n            },\r\n            {\r\n                \"id\": \"shp_05e69dd00cac43f3a69051cfb8fd1342\"\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/batch/easypost/create-new"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get-batches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/batch?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"batch"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/admin/users"
+					}
+				},
+				{
+					"name": "Get All Shipments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/admin/shipments"
+					}
+				}
+			]
+		},
+		{
+			"name": "customs",
+			"item": [
+				{
+					"name": "Get Customs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/customs"
+					}
+				},
+				{
+					"name": "Create Customs",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" },
+							{ "key": "Content-Type", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"\",\n  \"value\": 0\n}"
+						},
+						"url": "{{base_url}}/customs"
+					}
+				},
+				{
+					"name": "Edit Customs",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" },
+							{ "key": "Content-Type", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Updated\",\n  \"value\": 100\n}"
+						},
+						"url": "{{base_url}}/customs/{{customId}}"
+					}
+				},
+				{
+					"name": "Delete Customs",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/customs/{{customId}}"
+					}
+				}
+			]
+		},
+		{
+			"name": "batchShipment",
+			"item": [
+				{
+					"name": "Create New Batch",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" },
+							{ "key": "Content-Type", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"service\": \"goshippo\",\n  \"payload\": {}\n}"
+						},
+						"url": "{{base_url}}/batchShipment/goshippo/create-new"
+					}
+				},
+				{
+					"name": "Get User Batches",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/batchShipment"
+					}
+				}
+			]
+		},
+		{
+			"name": "printMail",
+			"item": [
+				{
+					"name": "Get User Print Mail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/printMail"
+					}
+				},
+				{
+					"name": "Add Webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" },
+							{ "key": "Content-Type", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"url\": \"https://webhook.site/your-webhook-url\"\n}"
+						},
+						"url": "{{base_url}}/printMail/add-webhook"
+					}
+				}
+			]
+		},
+		{
+			"name": "hscode",
+			"item": [
+				{
+					"name": "Get HSCode",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/hscode"
+					}
+				},
+				{
+					"name": "Create HSCode",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" },
+							{ "key": "Content-Type", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"\",\n  \"description\": \"\"\n}"
+						},
+						"url": "{{base_url}}/hscode"
+					}
+				},
+				{
+					"name": "Edit HSCode",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" },
+							{ "key": "Content-Type", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"updated\",\n  \"description\": \"updated\"\n}"
+						},
+						"url": "{{base_url}}/hscode/{{hscodeId}}"
+					}
+				},
+				{
+					"name": "Delete HSCode",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/hscode/{{hscodeId}}"
+					}
+				}
+			]
+		},
+		{
+			"name": "pickup",
+			"item": [
+				{
+					"name": "Create Pickup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" },
+							{ "key": "Content-Type", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"service\": \"goshippo\",\n  \"payload\": {}\n}"
+						},
+						"url": "{{base_url}}/pickup/goshippo/create-new"
+					}
+				},
+				{
+					"name": "Get Pickup",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/pickup/getPickup"
+					}
+				}
+			]
+		},
+		{
+			"name": "webhooks",
+			"item": [
+				{
+					"name": "Print Mail Webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"event\": \"test\",\n  \"data\": {}\n}"
+						},
+						"url": "{{base_url}}/webhooks/print-mail"
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"const signinUrl = pm.environment.get('base_url') + '/auth/signin/password';\r",
+					"const email = pm.environment.get('test_user_email');\r",
+					"const password = pm.environment.get('test_user_password');\r",
+					"pm.sendRequest({\r",
+					"    url: signinUrl,\r",
+					"    method: 'POST',\r",
+					"    header: {\r",
+					"        'Content-Type': 'application/json'\r",
+					"    },\r",
+					"    body: {\r",
+					"        mode: 'raw',\r",
+					"        raw: JSON.stringify({ email, password })\r",
+					"    }\r",
+					"}, function (err, res) {\r",
+					"    if (err) {\r",
+					"        console.error(err);\r",
+					"    } else {\r",
+					"        const responseJson = res.json();\r",
+					"        if (responseJson.token) {\r",
+					"            pm.variables.set(\"token\", responseJson.token);\r",
+					"            pm.request.headers.add({\r",
+					"                key: 'token',\r",
+					"                value:  responseJson.token\r",
+					"                });\r",
+					"            console.log(\"Token set successfully\");\r",
+					"        } else {\r",
+					"            console.error(\"Token not found in response\");\r",
+					"            console.log(responseJson);\r",
+					"        }\r",
+					"    }\r",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
