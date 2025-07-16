@@ -3,25 +3,9 @@ import { useEffect, useState } from 'react';
 import { RxCross2 } from "react-icons/rx";
 import { TbFileExport } from "react-icons/tb";
 import { IoChevronDown } from "react-icons/io5";
-import APITest from '../components/APITest';
-import { useDashboard } from '../hook/useDashboard';
-import LoadingSpinner from '../components/LoadingSpinner';
 
 
 const DashboardPage = () => {
-  const {
-    stats,
-    recentShipments,
-    notifications,
-    userProfile,
-    loading,
-    error,
-    refreshDashboard,
-    formatCurrency,
-    formatTimeAgo,
-    getStatusColor,
-    getStatusText
-  } = useDashboard();
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -57,26 +41,6 @@ const DashboardPage = () => {
         Make sure to apply this rule consistently for all dropdowns wherever they appear.
       */}
 
-      {/* Error Display */}
-      {error && (
-        <div className='mb-20 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg'>
-          <div className='flex items-center justify-between'>
-            <span>{error}</span>
-            <button 
-              onClick={refreshDashboard}
-              className='text-red-600 hover:text-red-800 underline'
-            >
-              Retry
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* API Test Component */}
-      <div className='mb-20'>
-        <APITest />
-      </div>
-
       {/* dashboard cards */}
       <div className='py-20 lg:py-30 pr-15 lg:pr-30 bg-white rounded-15px lg:rounded-20px'>
 
@@ -85,9 +49,7 @@ const DashboardPage = () => {
           <div className='flex gap-5 lg:gap-10'>
             <img src="asset/icons/dashboard-big.svg" alt="icon" className='hidden lg:block' />
             <img src="asset/icons/heading_label.svg" alt="icon" className='block lg:hidden' />
-            <h1 className='font-semibold text-22px lg:text-25px text-main-text'>
-              Welcome back {userProfile?.name || 'User'}!
-            </h1>
+            <h1 className='font-semibold text-22px lg:text-25px text-main-text'>Welcome back Rui!</h1>
           </div>
         </div>
 
@@ -95,90 +57,67 @@ const DashboardPage = () => {
 
         {/* cards */}
         <div className='pl-15 lg:pl-30 lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 lg:gap-20 pt-10 lg:pt-20'>
-          {loading ? (
-            // Loading state for cards
-            Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className='bg-gray-100 card-layout animate-pulse'>
-                <div className='flex justify-between items-center'>
-                  <div className='w-full'>
-                    <div className='h-4 bg-gray-200 rounded mb-2'></div>
-                    <div className='h-8 bg-gray-200 rounded mb-2'></div>
-                    <div className='h-3 bg-gray-200 rounded'></div>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <>
-              <div className='bg-card-sky-blue card-layout'>
-                <div className='flex justify-between items-center'>
-                  <div>
-                    <p className='card-label'>Total Labels</p>
-                    <p className='card-number'>{stats?.totalLabels?.toLocaleString() || '0'}</p>
-                    <p className="card-percentage [background:linear-gradient(90deg,_#EAF8F9_0%,_#F3FEFF_100%)]">
-                      <img src="asset/icons/growth-green.svg" alt="icon" />
-                      <span className='card-success-small-text'>
-                        +{stats?.growth?.labels || 0}% from last month
-                      </span>
-                    </p>
-                  </div>
-                  <img src="asset/icons/card-label.svg" alt="icon" className='z-20' />
-                </div>
-                <img src="asset/icons/skyblue-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
-              </div>
 
-              <div className='bg-card-light-green card-layout'>
-                <div className='flex justify-between items-center'>
-                  <div>
-                    <p className='card-label'>In Transit</p>
-                    <p className='card-number'>{stats?.inTransit || '0'}</p>
-                    <p className="card-percentage [background:linear-gradient(90deg,_#EAF9F0_0%,_#F6FFFA_100%)]">
-                      <img src="asset/icons/growth-green.svg" alt="icon" />
-                      <span className='card-success-small-text'>
-                        +{stats?.growth?.transit || 0}% from last month
-                      </span>
-                    </p>
-                  </div>
-                  <img src="asset/icons/card-transit.svg" alt="icon" className='z-20' />
-                </div>
-                <img src="asset/icons/green-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+          <div className='bg-card-sky-blue card-layout'>
+            <div className='flex justify-between items-center'>
+              <div>
+                <p className='card-label'>Total Labels</p>
+                <p className='card-number'>1,247</p>
+                <p className="card-percentage [background:linear-gradient(90deg,_#EAF8F9_0%,_#F3FEFF_100%)]">
+                  <img src="asset/icons/growth-green.svg" alt="icon" />
+                  <span className='card-success-small-text'>+12% from last month</span>
+                </p>
               </div>
+              <img src="asset/icons/card-label.svg" alt="icon" className='z-20' />
+            </div>
+            <img src="asset/icons/skyblue-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+          </div>
 
-              <div className='bg-card-light-purple card-layout'>
-                <div className='flex justify-between items-center'>
-                  <div>
-                    <p className='card-label'>Monthly Spend</p>
-                    <p className='card-number'>{formatCurrency(stats?.monthlySpend || 0)}</p>
-                    <p className="card-percentage [background:linear-gradient(90deg,_#F0EAF9_0%,_#F6F1FD_63.92%,_#F9F4FF_100%)]">
-                      <img src="asset/icons/growth-red.svg" alt="icon" />
-                      <span className='card-danger-small-text'>
-                        {stats?.growth?.spend > 0 ? '+' : ''}{stats?.growth?.spend || 0}% from last month
-                      </span>
-                    </p>
-                  </div>
-                  <img src="asset/icons/card-monthly-spend.svg" alt="icon" className='z-20' />
-                </div>
-                <img src="asset/icons/purple-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+          <div className='bg-card-light-green card-layout'>
+            <div className='flex justify-between items-center'>
+              <div>
+                <p className='card-label'>In Transit</p>
+                <p className='card-number'>23</p>
+                <p className="card-percentage [background:linear-gradient(90deg,_#EAF9F0_0%,_#F6FFFA_100%)]">
+                  <img src="asset/icons/growth-green.svg" alt="icon" />
+                  <span className='card-success-small-text'>+12% from last month</span>
+                </p>
               </div>
+              <img src="asset/icons/card-transit.svg" alt="icon" className='z-20' />
+            </div>
+            <img src="asset/icons/green-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+          </div>
 
-              <div className='bg-card-cream card-layout'>
-                <div className='flex justify-between items-center'>
-                  <div>
-                    <p className='card-label'>Saved Contacts</p>
-                    <p className='card-number'>{stats?.savedContacts || '0'}</p>
-                    <p className="card-percentage [background:linear-gradient(90deg,_#F9F2EA_0%,_#FFFAF4_100%)]">
-                      <img src="asset/icons/growth-green.svg" alt="icon" />
-                      <span className='card-success-small-text'>
-                        +{stats?.growth?.contacts || 0} this week
-                      </span>
-                    </p>
-                  </div>
-                  <img src="asset/icons/card-contact.svg" alt="icon" className='z-20' />
-                </div>
-                <img src="asset/icons/cream-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+          <div className='bg-card-light-purple card-layout'>
+            <div className='flex justify-between items-center'>
+              <div>
+                <p className='card-label'>Monthly Spend</p>
+                <p className='card-number'>1,247</p>
+                <p className="card-percentage [background:linear-gradient(90deg,_#F0EAF9_0%,_#F6F1FD_63.92%,_#F9F4FF_100%)]">
+                  <img src="asset/icons/growth-red.svg" alt="icon" />
+                  <span className='card-danger-small-text'>+8% from last month</span>
+                </p>
               </div>
-            </>
-          )}
+              <img src="asset/icons/card-monthly-spend.svg" alt="icon" className='z-20' />
+            </div>
+            <img src="asset/icons/purple-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+          </div>
+
+          <div className='bg-card-cream card-layout'>
+            <div className='flex justify-between items-center'>
+              <div>
+                <p className='card-label'>Saved Contacts</p>
+                <p className='card-number'>145</p>
+                <p className="card-percentage [background:linear-gradient(90deg,_#F9F2EA_0%,_#FFFAF4_100%)]">
+                  <img src="asset/icons/growth-green.svg" alt="icon" />
+                  <span className='card-success-small-text'>+3 this week</span>
+                </p>
+              </div>
+              <img src="asset/icons/card-contact.svg" alt="icon" className='z-20' />
+            </div>
+            <img src="asset/icons/cream-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+          </div>
+
         </div>
       </div>
 
@@ -229,9 +168,7 @@ const DashboardPage = () => {
 
         {/* dropdown */}
         <div className='flex justify-between'>
-          <h2 className='font-semibold  text-17px lg:text-xl text-main-text'>
-            Recent Shipments <span>({recentShipments.length})</span>
-          </h2>
+          <h2 className='font-semibold  text-17px lg:text-xl text-main-text'>Recent Shipments <span>(5)</span></h2>
           <img src="asset/icons/icon-park-outline_drag.svg" alt="icon" />
         </div>
 

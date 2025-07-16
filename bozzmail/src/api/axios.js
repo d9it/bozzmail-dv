@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use(
     }
 );
 
-// Response interceptor to handle common errors
+// Response interceptor to handle auth errors
 axiosInstance.interceptors.response.use(
     (response) => {
         return response;

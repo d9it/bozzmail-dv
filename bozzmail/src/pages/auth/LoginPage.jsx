@@ -1,82 +1,62 @@
-import { useState } from "react";
-import { NavLink, useNavigate } from "react-router";
+import React, { useState } from "react";
+import { NavLink } from "react-router";
 import FooterPage from "../../components/FooterPage";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import { useAuth } from "../../hook/useAuth";
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const { login, loading, error, clearError } = useAuth();
-  
+  const { login, loading, error } = useAuth();
   const [formData, setFormData] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: ''
   });
-  
   const [showPassword, setShowPassword] = useState(false);
-  const [validationErrors, setValidationErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-    
-    // Clear validation error when user starts typing
-    if (validationErrors[name]) {
-      setValidationErrors(prev => ({
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
         ...prev,
-        [name]: ""
+        [name]: ''
       }));
-    }
-    
-    // Clear API error when user starts typing
-    if (error) {
-      clearError();
     }
   };
 
-  // Validate form
   const validateForm = () => {
-    const errors = {};
+    const newErrors = {};
     
     if (!formData.email) {
-      errors.email = "Email is required";
+      newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = "Please enter a valid email address";
+      newErrors.email = 'Please enter a valid email address';
     }
     
     if (!formData.password) {
-      errors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      errors.password = "Password must be at least 6 characters";
+      newErrors.password = 'Password is required';
     }
     
-    setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validateForm()) {
       return;
     }
-    
-    const result = await login(formData);
-    
-    if (result.success) {
-      // Redirect to dashboard on successful login
-      navigate("/dashboard");
-    }
-  };
 
-  // Toggle password visibility
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    try {
+      await login(formData);
+    } catch (err) {
+      console.error('Login error:', err);
+    }
   };
 
   return (
@@ -94,13 +74,6 @@ const LoginPage = () => {
 
         <p className="text-center font-semibold text-xl pt-10 text-main-text">Welcome back!</p>
 
-        {/* API Error Display */}
-        {error && (
-          <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-            {error}
-          </div>
-        )}
-
         <form onSubmit={handleSubmit} className="pt-20 space-y-20">
           <div className='flex justify-start gap-8 flex-col w-full'>
             <label htmlFor="email" className="label-text">Email</label>
@@ -109,12 +82,12 @@ const LoginPage = () => {
               name="email" 
               id="email" 
               placeholder="hello@company.com"
-              className={`form-input ${validationErrors.email ? 'border-red-500' : ''}`}
+              className={`form-input ${errors.email ? 'border-red-500' : ''}`}
               value={formData.email}
               onChange={handleInputChange}
             />
-            {validationErrors.email && (
-              <span className="text-red-500 text-sm">{validationErrors.email}</span>
+            {errors.email && (
+              <span className="text-red-500 text-sm">{errors.email}</span>
             )}
           </div>
 
@@ -126,15 +99,15 @@ const LoginPage = () => {
                 name="password" 
                 id="password" 
                 placeholder="•••••••••••••••••••••••••"
-                className={`form-input ${validationErrors.password ? 'border-red-500' : ''}`}
+                className={`form-input ${errors.password ? 'border-red-500' : ''}`}
                 value={formData.password}
                 onChange={handleInputChange}
               />
 
               <button
                 type="button"
-                onClick={togglePasswordVisibility}
-                className="rounded-md bg-white border border-Outlines h-32 w-32 absolute right-8 top-8 flex items-center justify-center hover:bg-gray-50"
+                className="rounded-md bg-white border border-Outlines h-32 w-32 absolute right-8 top-8 flex items-center justify-center cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
               >
                 <img 
                   src={showPassword ? "/asset/icons/view-off.svg" : "/asset/icons/eye.svg"} 
@@ -146,24 +119,17 @@ const LoginPage = () => {
                 Forgot Password?
               </NavLink>
             </div>
-            {validationErrors.password && (
-              <span className="text-red-500 text-sm">{validationErrors.password}</span>
+            {errors.password && (
+              <span className="text-red-500 text-sm">{errors.password}</span>
             )}
           </div>
 
           <button 
             type="submit" 
-            className="primary-btn w-full disabled:opacity-50 disabled:cursor-not-allowed"
+            className="primary-btn w-full"
             disabled={loading}
           >
-            {loading ? (
-              <div className="flex items-center justify-center gap-2">
-                <LoadingSpinner size="sm" text="" />
-                <span>Logging in...</span>
-              </div>
-            ) : (
-              "Login"
-            )}
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 

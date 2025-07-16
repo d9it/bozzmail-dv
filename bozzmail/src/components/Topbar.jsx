@@ -1,21 +1,14 @@
 import useDarkMode from '../pages/useDarkMode'
 import useDropdown from '../hook/useDropdown';
 import { NavLink } from 'react-router';
-import { useAuth } from '../hook/useAuth';
 
 const Topbar = () => {
 
     // for change dark and light mode
     const { mode, darkMode, lightMode, systemMode } = useDarkMode();
-    const { user, logout } = useAuth();
 
     const dropdown1 = useDropdown();
     const dropdown2 = useDropdown();
-
-    const handleLogout = async () => {
-        await logout();
-        dropdown2.close();
-    };
 
     return (
 
@@ -126,7 +119,7 @@ const Topbar = () => {
                                                         <p className='dropdown-title'>Label is in Transit</p>
                                                         <p className='dropdown-time'>8 hours ago</p>
                                                     </div>
-                                                    <p className='dropdown-description'>Your label #LBL-003 changed status to 'In Transit'</p>
+                                                    <p className='dropdown-description'>Your label #LBL-003 changed status to ‘In Transit’</p>
                                                 </div>
                                             </div>
                                             <img src="/asset/icons/cross.svg" alt="icon" className='cursor-pointer' />
@@ -165,9 +158,7 @@ const Topbar = () => {
                     <div ref={dropdown2.ref} className="relative">
                         <button onClick={dropdown2.toggle} type='button' className="bg-white py-8 px-11 rounded-7px flex items-center gap-9 group cursor-pointer border hover:border-Outlines border-transparent">
                             <img src="/asset/icons/user.svg" alt="icon" />
-                            <p className='text-cta-secondary text-sm font-medium'>
-                                {user?.name || user?.email || 'User'}
-                            </p>
+                            <p className='text-cta-secondary text-sm font-medium'>Rui Doe</p>
                             <img src="/asset/icons/down.svg" alt="icon" />
                         </button>
 
@@ -178,8 +169,8 @@ const Topbar = () => {
 
                                     <div className='flex justify-between w-full'>
                                         <div>
-                                            <p className='font-semibold text-base'>{user?.name || 'User'}</p>
-                                            <p className='dropdown-description'>{user?.email || 'user@example.com'}</p>
+                                            <p className='font-semibold text-base'>Rui Doe</p>
+                                            <p className='dropdown-description'>rui@bozzmail.com</p>
                                         </div>
                                         <div className='py-3 px-6 rounded-5px border border-Outlines flex gap-4 justify-center items-center h-fit'>
                                             <img src="/asset/icons/Starter.svg" alt="icon" className='flex-none' />
@@ -214,13 +205,10 @@ const Topbar = () => {
 
                                     <hr className='border-hr w-full' />
 
-                                    <button 
-                                        onClick={handleLogout}
-                                        className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer'
-                                    >
+                                    <NavLink to={"/"} className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer'>
                                         <img src="/asset/icons/signout.svg" alt="icon" className='cursor-pointer' />
                                         <p className='dropdown-title'>Sign Out</p>
-                                    </button>
+                                    </NavLink>
                                 </div>
                             </div>
                         )}
