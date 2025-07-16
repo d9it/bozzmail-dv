@@ -15,7 +15,7 @@ export const dashboardAPI = {
   // Get user shipments (recent shipments)
   getUserShipments: async (page = 1, limit = 10) => {
     try {
-      const response = await apiCall('/shipments/getUserShippment', { page, limit }, 'GET');
+      const response = await apiCall('/user/shipments/recent', { limit }, 'GET');
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -55,7 +55,7 @@ export const dashboardAPI = {
   // Get address book (saved contacts)
   getAddressBook: async () => {
     try {
-      const response = await apiCall('/address/user', {}, 'GET');
+      const response = await apiCall('/address', {}, 'GET');
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
