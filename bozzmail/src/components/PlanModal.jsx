@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "./Modal"
 import { NavLink } from "react-router";
 import { PiWarningCircle } from "react-icons/pi";
@@ -10,11 +10,20 @@ const PlanModal = () => {
     const [isMonthCheck, setIsMonthCheck] = useState(false);
     const { 
         currentSubscription, 
+        subscriptionPlans, 
         loading, 
         error,
         upgradePlan 
     } = useSubscription();
     const { showToast } = useToast();
+
+    // Debug logging
+    useEffect(() => {
+        console.log('PlanModal - Current Subscription:', currentSubscription);
+        console.log('PlanModal - Subscription Plans:', subscriptionPlans);
+        console.log('PlanModal - Loading:', loading);
+        console.log('PlanModal - Error:', error);
+    }, [currentSubscription, subscriptionPlans, loading, error]);
 
     const handleChangeToggle = (event) => {
         setIsMonthCheck(event.target.checked)
@@ -80,7 +89,7 @@ const PlanModal = () => {
                 </div>
 
                 <div className="flex flex-col gap-12 sm:gap-20">
-                    <p className="text-xl sm:text-25px font-semibold text-main-text pr-40">Are you sure you want to cancel the Growth Plan?</p>
+                    <p className="text-xl sm:text-25px font-semibold text-main-text pr-40">Are you sure you want to cancel the {currentSubscription?.plan ? currentSubscription.plan.charAt(0).toUpperCase() + currentSubscription.plan.slice(1) : 'Growth'} Plan?</p>
 
                     <div className="warning-message">
                         <PiWarningCircle className='text-secondary-text text-17px stroke-3 flex-none' />
@@ -104,162 +113,104 @@ const PlanModal = () => {
 
                     {/* cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-
-                        {/* Starter */}
-                        <div className="rounded-15px py-26 px-20 flex gap-22 justify-start border border-Outlines flex-col">
-                            <div className="flex gap-13 justify-start items-center">
-                                <img src="asset/icons/Starter.svg" alt="icon" className='h-49' />
-                                <div className="space-y-8">
-                                    <div>
-                                        <p className="subsription-title">Starter</p>
-                                        <p className="subsription-description">Hobbyists, testers, and new users</p>
-                                    </div>
-                                    <div className="flex gap-8 items-start justify-start flex-col flex-wrap">
-                                        {!isMonthCheck ?
-                                            <p className="subscription-amount">$0/mo.</p> :
-                                            <>
-                                                <p className="subscription-amount">$0/mo.</p>
-                                                <div className="text-secondary-text text-sm font-medium flex items-center gap-14 break-all flex-wrap"><s className="font-semibold">$0/mo.</s><p>$0/year</p></div>
-                                            </>
-                                        }
-                                    </div>
-                                </div>
+                        {loading ? (
+                            <div className="col-span-full text-center py-20">
+                                <p className="text-main-text">Loading subscription plans...</p>
                             </div>
-
-                            <hr className="border-Outlines w-full" />
-
-                            <div className="space-y-16">
-                                <p className="font-semibold text-xs uppercase text-main-text">Includes:</p>
-
-                                <ul className="space-y-10">
-                                    <li className="subscription-provided">
-                                        <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                        <p>Create and print shipping labels</p>
-                                    </li>
-                                    <li className="subscription-provided">
-                                        <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                        <p>Send letters and postcards (pay per piece sent)</p>
-                                    </li>
-                                    <li className="subscription-provided">
-                                        <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                        <p>Store up to <b>10 contacts</b></p>
-                                    </li>
-                                    <li className="subscription-unprovided">
-                                        <img src="asset/icons/gray-check.svg" alt="icon" className='h-14' />
-                                        <p>Limited support</p>
-                                    </li>
-                                    <li className="subscription-unprovided">
-                                        <img src="asset/icons/gray-check.svg" alt="icon" className='h-14' />
-                                        <p>No API access</p>
-                                    </li>
-                                    <li className="subscription-unprovided">
-                                        <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                        <p>Standart shipping rates</p>
-                                    </li>
-                                    <li className="subscription-unprovided">
-                                        <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                        <p>No access to the Partner Program</p>
-                                    </li>
-                                    <li className="subscription-unprovided">
-                                        <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                        <p>Manual one-by-one shipping & mailing only</p>
-                                    </li>
-                                    <li className="subscription-unprovided">
-                                        <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                        <p>No batch import tools</p>
-                                    </li>
-                                </ul>
+                        ) : error ? (
+                            <div className="col-span-full text-center py-20">
+                                <p className="text-red-500">Error loading plans: {error}</p>
                             </div>
-                            <button 
-                                onClick={handleDowngrade}
-                                disabled={loading || currentSubscription?.plan === 'starter'}
-                                className={loading || currentSubscription?.plan === 'starter' ? "disable-primary-btn" : "primary-btn"}
-                            >
-                                {loading ? 'Downgrading...' : currentSubscription?.plan === 'starter' ? 'Current Plan' : 'Downgrade to Starter'}
-                            </button>
-                        </div>
+                        ) : subscriptionPlans && subscriptionPlans.length > 0 ? (
+                            subscriptionPlans.filter(plan => plan.id === 'starter' || plan.id === currentSubscription?.plan).map((plan) => {
+                                const isCurrentPlan = currentSubscription?.plan === plan.id;
+                                
+                                return (
+                                    <div 
+                                        key={plan.id}
+                                        className={`rounded-15px py-26 px-20 flex gap-22 justify-start ${
+                                            isCurrentPlan ? 'border-2 border-primary' : 'border border-Outlines'
+                                        } flex-col relative overflow-hidden`}
+                                    >
+                                        {/* Current Plan tag */}
+                                        {isCurrentPlan && (
+                                            <p className="bg-primary text-white text-sm font-medium py-4 px-13 rounded-bl-7px absolute top-0 right-0">Current Plan</p>
+                                        )}
 
-                        {/* Growth */}
-                        <div className="rounded-15px py-26 px-20 flex gap-22 justify-start border-2 border-primary flex-col relative overflow-hidden">
+                                        <div className="flex gap-13 justify-start items-center">
+                                            <img src={`asset/icons/${plan.name}.svg`} alt="icon" className='h-49' />
+                                            <div className="space-y-8">
+                                                <div>
+                                                    <p className="subsription-title">{plan.name}</p>
+                                                    <p className="subsription-description">{plan.description}</p>
+                                                </div>
+                                                
+                                                <div className="flex gap-8 items-start justify-start flex-col flex-wrap">
+                                                    {!isMonthCheck ? (
+                                                        <p className="subscription-amount">
+                                                            ${plan.price.monthly}/mo.
+                                                        </p>
+                                                    ) : (
+                                                        <>
+                                                            <p className="subscription-amount">
+                                                                ${(plan.price.yearly / 12).toFixed(1)}/mo.
+                                                            </p>
+                                                            <div className="text-secondary-text text-sm font-medium flex items-center gap-14 break-all flex-wrap">
+                                                                <s className="font-semibold">${plan.price.monthly}/mo.</s>
+                                                                <p>${plan.price.yearly}/year</p>
+                                                            </div>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            {/* tag */}
-                            <p className="bg-primary text-white text-sm font-medium py-4 px-13 rounded-bl-7px absolute top-0 right-0">Current Plan</p>
+                                        <hr className="border-Outlines w-full" />
 
-                            <div className="flex gap-13 justify-start items-center">
-                                <img src="asset/icons/Growth.svg" alt="icon" className='h-49' />
-                                <div className="space-y-8">
-                                    <div>
-                                        <p className="subsription-title">Growth</p>
-                                        <p className="subsription-description">Freelancers and side businesses</p>
+                                        <div className="space-y-16">
+                                            <p className="font-semibold text-xs uppercase text-main-text">Includes:</p>
+
+                                            <ul className="space-y-10">
+                                                {plan.features.map((feature, index) => {
+                                                    const isIncluded = plan.included.includes(index);
+                                                    const isExcluded = plan.excluded.includes(index);
+                                                    
+                                                    return (
+                                                        <li key={index} className={isIncluded ? "subscription-provided" : "subscription-unprovided"}>
+                                                            <img 
+                                                                src={isIncluded ? "asset/icons/check.svg" : isExcluded ? "asset/icons/gray-cross.svg" : "asset/icons/gray-check.svg"} 
+                                                                alt="icon" 
+                                                                className='h-14' 
+                                                            />
+                                                            <p dangerouslySetInnerHTML={{ __html: feature }}></p>
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </div>
+
+                                        {plan.id === 'starter' && (
+                                            <button 
+                                                onClick={handleDowngrade}
+                                                disabled={loading || isCurrentPlan}
+                                                className={loading || isCurrentPlan ? "disable-primary-btn" : "primary-btn"}
+                                            >
+                                                {loading ? 'Downgrading...' : isCurrentPlan ? 'Current Plan' : 'Downgrade to Starter'}
+                                            </button>
+                                        )}
                                     </div>
-
-                                    <div className="flex gap-8 items-start justify-start flex-col flex-wrap">
-                                        {!isMonthCheck ?
-                                            <p className="subscription-amount">$19/mo.</p> :
-                                            <>
-                                                <p className="subscription-amount">$15.2/mo.</p>
-                                                <div className="text-secondary-text text-sm font-medium flex items-center gap-14 break-all flex-wrap"><s className="font-semibold">$19/mo.</s><p>$182.4/year</p></div>
-                                            </>
-                                        }
-                                    </div>
-                                </div>
+                                );
+                            })
+                        ) : (
+                            <div className="col-span-full text-center py-20">
+                                <p className="text-main-text">No subscription plans available.</p>
                             </div>
-
-                            <hr className="border-Outlines w-full" />
-
-                            <div className="space-y-16">
-                                <p className="font-semibold text-xs uppercase text-main-text">Includes:</p>
-
-                                <ul className="space-y-10">
-                                    <li className="subscription-provided">
-                                        <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                        <p>Create and print shipping labels</p>
-                                    </li>
-                                    <li className="subscription-provided">
-                                        <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                        <p>Send letters and postcards (pay per piece sent)</p>
-                                    </li>
-                                    <li className="subscription-provided">
-                                        <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                        <p>Store up to <b>50 contacts</b></p>
-                                    </li>
-                                    <li className="subscription-provided">
-                                        <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                        <p>Priority support</p>
-                                    </li>
-                                    <li className="subscription-provided">
-                                        <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                        <p>Full API access</p>
-                                    </li>
-                                    <li className="subscription-provided">
-                                        <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                        <p>Access to discounted shipping rates</p>
-                                    </li>
-                                    <li className="subscription-provided">
-                                        <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                        <p>Access to the Partner Program</p>
-                                    </li>
-                                    <li className="subscription-unprovided">
-                                        <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                        <p>Manual one-by-one shipping & mailing only</p>
-                                    </li>
-                                    <li className="subscription-unprovided">
-                                        <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                        <p>No batch import tools</p>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <button onClick={handleModalClose} className="primary-btn">Stay on Growth</button>
-
-                        </div>
-
+                        )}
                     </div>
-
                 </div>
             </Modal>
         </>
     )
 }
 
-export default PlanModal;
+export default PlanModal
