@@ -2,3 +2,5 @@
 node_modules
 src/logs
 package-lock.json
+vite
+SUBSCRIPTION_API_DOCUMENTATION.md

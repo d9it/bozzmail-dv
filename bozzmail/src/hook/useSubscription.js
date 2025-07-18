@@ -1,16 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  getCurrentSubscription,
-  getSubscriptionPlans,
-  upgradeSubscription,
-  cancelSubscription,
-  getBillingCycle,
-  getRenewalDate,
-  getWalletBalance,
-  getTransactionHistory,
-  addWalletFunds,
-  getUserProfileSummary
-} from '../api/subscriptionAPI';
+import { subscriptionAPI } from '../api/subscriptionAPI';
 
 export const useSubscription = () => {
   const [currentSubscription, setCurrentSubscription] = useState(null);
@@ -28,7 +17,8 @@ export const useSubscription = () => {
     setLoading(true);
     setError(null);
     try {
-      const result = await getCurrentSubscription();
+      const result = await subscriptionAPI.getCurrentSubscription();
+      console.log('get current subscriptions: ', result)
       if (result.success) {
         setCurrentSubscription(result.data);
       } else {
@@ -46,7 +36,9 @@ export const useSubscription = () => {
     setLoading(true);
     setError(null);
     try {
-      const result = await getSubscriptionPlans();
+      const result = await subscriptionAPI.getSubscriptionPlans();
+      console.log('Get subscriptions Plans: ', result)
+
       if (result.success) {
         setSubscriptionPlans(result.data);
       } else {
@@ -64,7 +56,8 @@ export const useSubscription = () => {
     setLoading(true);
     setError(null);
     try {
-      const result = await upgradeSubscription(planId, billingCycle);
+      const result = await subscriptionAPI.upgradeSubscription(planId, billingCycle);
+      console.log('Upgrade subscription result: ', result)
       if (result.success) {
         // Refresh current subscription after upgrade
         await fetchCurrentSubscription();
@@ -87,7 +80,9 @@ export const useSubscription = () => {
     setLoading(true);
     setError(null);
     try {
-      const result = await cancelSubscription();
+      const result = await subscriptionAPI.cancelSubscription();
+      console.log('Cancel subscription result: ', result)
+
       if (result.success) {
         // Refresh current subscription after cancellation
         await fetchCurrentSubscription();
@@ -110,7 +105,9 @@ export const useSubscription = () => {
     setLoading(true);
     setError(null);
     try {
-      const result = await getWalletBalance();
+      const result = await subscriptionAPI.getWalletBalance();
+      console.log('Fetch wallet balance result: ', result)
+
       if (result.success) {
         setWalletBalance(result.data);
       } else {
@@ -128,7 +125,9 @@ export const useSubscription = () => {
     setLoading(true);
     setError(null);
     try {
-      const result = await getTransactionHistory();
+      const result = await subscriptionAPI.getTransactionHistory();
+      console.log('Fetch transaction history result: ', result)
+
       if (result.success) {
         setTransactions(result.data);
       } else {
@@ -142,19 +141,20 @@ export const useSubscription = () => {
   };
 
   // Add funds to wallet
-  const addFunds = async (amount) => {
+  const addFunds = async (amount, user) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await addWalletFunds(amount);
-      if (result.success) {
-        // Refresh wallet balance after adding funds
-        await fetchWalletBalance();
-        return { success: true, data: result.data };
-      } else {
-        setError(result.error);
-        return { success: false, error: result.error };
+      if (!user.walletToken) {
+        // Register user for payment
+        await subscriptionAPI.registerUserForPayment(user.email, user.name, user.mobile);
       }
+      // Now add funds
+      const result = await subscriptionAPI.addWalletFunds(amount);
+      console.log('Add funds to wallet result: ', result);
+      // Refresh wallet balance after adding funds
+      await fetchWalletBalance();
+      return { success: true, data: result };
     } catch (err) {
       const errorMsg = 'Failed to add funds to wallet';
       setError(errorMsg);
@@ -169,7 +169,9 @@ export const useSubscription = () => {
     setLoading(true);
     setError(null);
     try {
-      const result = await getBillingCycle();
+      const result = await subscriptionAPI.getBillingCycle();
+      console.log('Fetch billing cycle result: ', result)
+
       if (result.success) {
         setBillingCycle(result.data);
       } else {
@@ -187,7 +189,9 @@ export const useSubscription = () => {
     setLoading(true);
     setError(null);
     try {
-      const result = await getRenewalDate();
+      const result = await subscriptionAPI.getRenewalDate();
+      console.log('Fetch renewal date result: ', result)
+
       if (result.success) {
         setRenewalDate(result.data);
       } else {
@@ -205,7 +209,9 @@ export const useSubscription = () => {
     setLoading(true);
     setError(null);
     try {
-      const result = await getUserProfileSummary();
+      const result = await subscriptionAPI.getUserProfileSummary();
+      console.log('Fetch user profile summary result: ', result)
+
       if (result.success) {
         setUserProfile(result.data);
       } else {

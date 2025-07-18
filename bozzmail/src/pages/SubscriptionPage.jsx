@@ -6,13 +6,14 @@ import { useToast } from "../context/toast/ToastContext";
 const SubscriptionPage = () => {
 
     const [isMonthCheck, setIsMonthCheck] = useState(false);
-    const { 
-        currentSubscription, 
-        subscriptionPlans, 
-        loading, 
+    const {
+        currentSubscription,
+        subscriptionPlans,
+        loading,
         error,
-        upgradePlan 
+        upgradePlan
     } = useSubscription();
+    console.log('subscription plans: ', subscriptionPlans)
 
     // Debug logging
     useEffect(() => {
@@ -30,20 +31,20 @@ const SubscriptionPage = () => {
     const handleUpgrade = async (planId) => {
         const billingCycle = isMonthCheck ? 'yearly' : 'monthly';
         const result = await upgradePlan(planId, billingCycle);
-        
+
         if (result.success) {
-            showToast({ 
-                message: `Successfully upgraded to ${planId} plan!`, 
-                subText: 'Redirecting...' 
+            showToast({
+                message: `Successfully upgraded to ${planId} plan!`,
+                subText: 'Redirecting...'
             });
             // Refresh the page or navigate
             setTimeout(() => {
                 window.location.reload();
             }, 2000);
         } else {
-            showToast({ 
-                message: result.error || 'Failed to upgrade subscription', 
-                type: 'error' 
+            showToast({
+                message: result.error || 'Failed to upgrade subscription',
+                type: 'error'
             });
         }
     }
@@ -154,15 +155,13 @@ const SubscriptionPage = () => {
                         subscriptionPlans.map((plan) => {
                             const isCurrentPlan = currentSubscription?.plan === plan.id;
                             const isPopular = plan.id === 'growth';
-                            
+
                             return (
-                                <div 
+                                <div
                                     key={plan.id}
-                                    className={`rounded-15px py-26 px-20 flex gap-22 justify-start ${
-                                        isCurrentPlan ? 'border-2 border-primary' : 'border border-Outlines'
-                                    } flex-col relative overflow-hidden ${
-                                        plan.id === 'professional' ? 'md:col-span-2 xl:col-span-1' : ''
-                                    }`}
+                                    className={`rounded-15px py-26 px-20 flex gap-22 justify-start ${isCurrentPlan ? 'border-2 border-primary' : 'border border-Outlines'
+                                        } flex-col relative overflow-hidden ${plan.id === 'professional' ? 'md:col-span-2 xl:col-span-1' : ''
+                                        }`}
                                 >
                                     {/* Popular tag */}
                                     {isPopular && (
@@ -178,7 +177,7 @@ const SubscriptionPage = () => {
                                                 <p className="subsription-title">{plan.name}</p>
                                                 <p className="subsription-description">{plan.description}</p>
                                             </div>
-                                            
+
                                             <div className="flex gap-8 items-center flex-wrap">
                                                 {!isMonthCheck ? (
                                                     <p className="subscription-amount">
@@ -208,13 +207,13 @@ const SubscriptionPage = () => {
                                             {plan.features.map((feature, index) => {
                                                 const isIncluded = plan.included.includes(index);
                                                 const isExcluded = plan.excluded.includes(index);
-                                                
+
                                                 return (
                                                     <li key={index} className={isIncluded ? "subscription-provided" : "subscription-unprovided"}>
-                                                        <img 
-                                                            src={isIncluded ? "asset/icons/check.svg" : isExcluded ? "asset/icons/gray-cross.svg" : "asset/icons/gray-check.svg"} 
-                                                            alt="icon" 
-                                                            className='h-14' 
+                                                        <img
+                                                            src={isIncluded ? "asset/icons/check.svg" : isExcluded ? "asset/icons/gray-cross.svg" : "asset/icons/gray-check.svg"}
+                                                            alt="icon"
+                                                            className='h-14'
                                                         />
                                                         <p dangerouslySetInnerHTML={{ __html: feature }}></p>
                                                     </li>
@@ -225,19 +224,19 @@ const SubscriptionPage = () => {
 
                                     <p className="bg-table-header p-10 rounded-5px text-xs font-medium text-main-text">
                                         {plan.id === 'starter' ? 'Try the full workflow at no cost — just pay when you ship or mail.' :
-                                         plan.id === 'growth' ? 'Designed for solo operations that need recurring contact management and carrier discounts.' :
-                                         'Built for teams that need automation, scalability, and deeper workflow integration.'}
+                                            plan.id === 'growth' ? 'Designed for solo operations that need recurring contact management and carrier discounts.' :
+                                                'Built for teams that need automation, scalability, and deeper workflow integration.'}
                                     </p>
 
-                                    <button 
+                                    <button
                                         onClick={() => handleUpgrade(plan.id)}
                                         disabled={loading || isCurrentPlan}
                                         className={loading || isCurrentPlan ? "disable-primary-btn" : "primary-btn"}
                                     >
-                                        {loading ? 'Upgrading...' : 
-                                         isCurrentPlan ? 'Current Plan' : 
-                                         plan.id === 'starter' ? 'Downgrade to Starter' :
-                                         `Upgrade to ${plan.name}`}
+                                        {loading ? 'Upgrading...' :
+                                            isCurrentPlan ? 'Current Plan' :
+                                                plan.id === 'starter' ? 'Downgrade to Starter' :
+                                                    `Upgrade to ${plan.name}`}
                                     </button>
                                 </div>
                             );

@@ -27,3 +27,6 @@ package-lock.json
 # Ignore util.txt
 util.txt
 .env
+.vite/*
+vite
+SUBSCRIPTION_API_DOCUMENTATION.md
