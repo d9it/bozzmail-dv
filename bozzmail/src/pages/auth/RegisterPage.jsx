@@ -2,79 +2,41 @@ import React, { useState } from "react";
 import { NavLink } from "react-router";
 import FooterPage from "../../components/FooterPage";
 import { useAuth } from "../../hook/useAuth";
-import { toast } from 'react-toastify';
+import Spinner from "../../utils/spinner/Spinner";
+import { regex } from "../../utils/regex";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 const RegisterPage = () => {
   const { register, loading, error } = useAuth();
-  const [formData, setFormData] = useState({
+  const [showPassword, setShowPassword] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+
+  const initialValues = {
     fullName: '',
     email: '',
-    password: '',
-    confirmPassword: ''
+    password: ''
+  };
+
+  const validationSchema = Yup.object({
+    fullName: Yup.string().required('Full Name is required'),
+    email: Yup.string()
+      .required('Email is required')
+      .matches(regex.email, 'Please enter a valid email address'),
+    password: Yup.string()
+      .required('Password is required')
+      .matches(regex.password, 'Password must contain at least 8 characters, uppercase, lowercase, number, and special character'),
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [errors, setErrors] = useState({});
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-    
-    if (!formData.fullName) {
-      newErrors.fullName = 'Full Name is required';
-    }
-    
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-    
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters long';
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(formData.password)) {
-      newErrors.password = 'Password must contain uppercase, lowercase, number, and special character';
-    }
-    
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      // Remove confirmPassword from the data sent to API
-      const { confirmPassword, ...userData } = formData;
-      await register(userData);
+      await register(values);
+      resetForm();
+      setRegistrationSuccess(true);
     } catch (err) {
       console.error('Registration error:', err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -93,106 +55,84 @@ const RegisterPage = () => {
 
         <p className="text-center font-semibold text-xl pt-10 text-main-text">Create your account</p>
 
-        <form onSubmit={handleSubmit} className="pt-20 space-y-20">
-          <div className='flex justify-start gap-8 flex-col w-full'>
-            <label htmlFor="fullName" className="label-text">Full Name</label>
-            <input 
-              type="text" 
-              name="fullName" 
-              id="fullName" 
-              placeholder="Enter your full name"
-              className={`form-input ${errors.fullName ? 'border-red-500' : ''}`}
-              value={formData.fullName}
-              onChange={handleInputChange}
-            />
-            {errors.fullName && (
-              <span className="text-red-500 text-sm">{errors.fullName}</span>
-            )}
-          </div>
-
-          <div className='flex justify-start gap-8 flex-col w-full'>
-            <label htmlFor="email" className="label-text">Email</label>
-            <input 
-              type="email" 
-              name="email" 
-              id="email" 
-              placeholder="hello@company.com"
-              className={`form-input ${errors.email ? 'border-red-500' : ''}`}
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-            {errors.email && (
-              <span className="text-red-500 text-sm">{errors.email}</span>
-            )}
-          </div>
-
-          <div className='flex justify-start gap-8 flex-col w-full'>
-            <label htmlFor="password" className="label-text">Password</label>
-            <div className="relative">
-              <input 
-                type={showPassword ? "text" : "password"} 
-                name="password" 
-                id="password" 
-                placeholder="•••••••••••••••••••••••••"
-                className={`form-input ${errors.password ? 'border-red-500' : ''}`}
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-              <button
-                type="button"
-                className="rounded-md bg-white border border-Outlines h-32 w-32 absolute right-8 top-8 flex items-center justify-center cursor-pointer"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                <img 
-                  src={showPassword ? "/asset/icons/view-off.svg" : "/asset/icons/eye.svg"} 
-                  alt="icon" 
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting, errors, touched }) => (
+            <Form className="pt-20 space-y-20">
+              <div className='flex justify-start gap-8 flex-col w-full'>
+                <label htmlFor="fullName" className="label-text">Full Name</label>
+                <Field
+                  type="text"
+                  name="fullName"
+                  id="fullName"
+                  placeholder="Enter your full name"
+                  className={`form-input${errors.fullName && touched.fullName ? ' border-red-500' : ''}`}
                 />
-              </button>
-            </div>
-            {errors.password && (
-              <span className="text-red-500 text-sm">{errors.password}</span>
-            )}
-          </div>
+                <ErrorMessage name="fullName" component="span" className="text-red-500 text-sm" />
+              </div>
 
-          <div className='flex justify-start gap-8 flex-col w-full'>
-            <label htmlFor="confirmPassword" className="label-text">Confirm Password</label>
-            <div className="relative">
-              <input 
-                type={showConfirmPassword ? "text" : "password"} 
-                name="confirmPassword" 
-                id="confirmPassword" 
-                placeholder="•••••••••••••••••••••••••"
-                className={`form-input ${errors.confirmPassword ? 'border-red-500' : ''}`}
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-              />
-              <button
-                type="button"
-                className="rounded-md bg-white border border-Outlines h-32 w-32 absolute right-8 top-8 flex items-center justify-center cursor-pointer"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                <img 
-                  src={showConfirmPassword ? "/asset/icons/view-off.svg" : "/asset/icons/eye.svg"} 
-                  alt="icon" 
+              <div className='flex justify-start gap-8 flex-col w-full'>
+                <label htmlFor="email" className="label-text">Email</label>
+                <Field
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="hello@company.com"
+                  className={`form-input${errors.email && touched.email ? ' border-red-500' : ''}`}
                 />
-              </button>
-            </div>
-            {errors.confirmPassword && (
-              <span className="text-red-500 text-sm">{errors.confirmPassword}</span>
-            )}
-          </div>
+                <ErrorMessage name="email" component="span" className="text-red-500 text-sm" />
+              </div>
 
-          <button 
-            type="submit" 
-            className="primary-btn w-full"
-            disabled={loading}
-          >
-            {loading ? 'Creating account...' : 'Create Account'}
-          </button>
-        </form>
+              <div className='flex justify-start gap-8 flex-col w-full'>
+                <label htmlFor="password" className="label-text">Password</label>
+                <div className="relative">
+                  <Field
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    placeholder="•••••••••••••••••••••••••"
+                    className={`form-input${errors.password && touched.password ? ' border-red-500' : ''}`}
+                  />
+                  <button
+                    type="button"
+                    className="rounded-md bg-white border border-Outlines h-32 w-32 absolute right-8 top-8 flex items-center justify-center cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <img
+                      src={showPassword ? "/asset/icons/view-off.svg" : "/asset/icons/eye.svg"}
+                      alt="icon"
+                    />
+                  </button>
+                </div>
+                <ErrorMessage name="password" component="span" className="text-red-500 text-sm" />
+              </div>
+
+              <button
+                className={(loading || registrationSuccess || isSubmitting) ? "disable-primary-btn w-full" : "primary-btn w-full"}
+                type="submit"
+                disabled={loading || registrationSuccess || isSubmitting}
+              >
+                {registrationSuccess ? (
+                  <div className="flex justify-center items-center w-full text-center">
+                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-24" />
+                  </div>
+                ) : (loading || isSubmitting) ? (
+                  <div className="flex justify-center items-center w-full text-center">
+                    <Spinner />
+                  </div>
+                ) : (
+                  "Sign Up"
+                )}
+              </button>
+            </Form>
+          )}
+        </Formik>
 
         <p className="text-sm font-medium text-main-text text-center pt-20">
-          Already have an account? <NavLink to={"/login"} className="text-link">Sign in</NavLink>
+          Already have an account? <NavLink to={"/"} className="text-link">Sign in</NavLink>
         </p>
       </div>
 

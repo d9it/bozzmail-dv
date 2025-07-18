@@ -46,6 +46,7 @@ export const authAPI = {
   forgotPassword: async (emailData) => {
     try {
       const response = await apiCall('/auth/forgot-password', emailData, 'POST');
+      console.log('forgot password response: ',response)
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;

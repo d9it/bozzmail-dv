@@ -14,22 +14,22 @@ const ApiPage = () => {
     <>
 
       {/* dashboard cards */}
-      <div className='py-20 lg:py-30 pr-15 lg:pr-30 bg-white rounded-15px lg:rounded-20px'>
+      <div className='py-20 sm:py-30 pr-15 sm:pr-30 bg-white rounded-15px sm:rounded-20px'>
 
-        <div className='flex gap-15 lg:gap-25 items-center justify-start'>
+        <div className='flex gap-15 sm:gap-25 items-center justify-start'>
           <div className='w-5 h-40 bg-cta-secondary rounded-tr-10px rounded-br-10px'></div>
-          <div className='flex gap-5 lg:gap-10'>
-            <h1 className='font-semibold text-22px lg:text-25px text-main-text'>API Keys</h1>
+          <div className='flex gap-5 sm:gap-10'>
+            <h1 className='font-semibold text-22px sm:text-25px text-main-text'>API Keys</h1>
           </div>
         </div>
 
-        <p className='pr-15 lg:pl-30 text-17px font-medium text-secondary-text pt-5 hidden lg:block'>Manage your API keys for integrating with BozzMail's shipping and mailing services.</p>
+        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text pt-5 hidden sm:block'>Manage your API keys for integrating with BozzMail's shipping and mailing services.</p>
 
       </div>
 
-      <div className='py-20 lg:py-30 px-15 lg:px-30 bg-white rounded-15px lg:rounded-20px'>
+      <div className='py-20 sm:py-30 px-15 sm:px-30 bg-white rounded-15px sm:rounded-20px'>
         <div className='flex justify-between items-center flex-wrap gap-10'>
-          <div className='flex justify-start items-center gap-10 lg:gap-20 flex-wrap'>
+          <div className='flex justify-start items-center gap-10 sm:gap-20 flex-wrap'>
             <p className='text-xl font-semibold text-main-text'>API Keys</p>
             <div className='py-15 px-7 rounded-7px border border-[#E7F9E7] bg-lime flex gap-7 justify-start items-center flex-wrap'>
               <img src="/asset/icons/Starter.svg" alt="icon" className='h-29' />

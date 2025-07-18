@@ -3,8 +3,7 @@ import { IoChevronBack, IoChevronDown, IoChevronForward } from "react-icons/io5"
 import { RiUserLine } from "react-icons/ri";
 import { NavLink } from 'react-router';
 import useDropdown from '../../hook/useDropdown';
-
-
+import { PiWarningCircle } from "react-icons/pi";
 
 const AddressTab = () => {
   const dropdown1 = useDropdown();
@@ -23,11 +22,11 @@ const AddressTab = () => {
 
   return (
     <>
-      <div className='grid grid-cols-1 xl:grid-cols-2 gap-15 lg:gap-20 h-fit'>
+      <div className='grid grid-cols-1 xl:grid-cols-2 gap-15 sm:gap-20 h-fit'>
 
         {/* Sender Information */}
-        <div className='bg-white rounded-15px lg:rounded-20px py-20 px-15 lg:p-30 space-y-10 lg:space-y-20 h-fit'>
-          <p className='text-xl font-semibold text-main-text'>Sender Information</p>
+        <div className='bg-white rounded-15px sm:rounded-20px py-20 px-15 sm:p-30 space-y-10 sm:space-y-20 h-fit'>
+          <p className='tab-main-heading'>Sender Information</p>
 
           {/* form */}
           <form action="" className='space-y-20'>
@@ -44,26 +43,29 @@ const AddressTab = () => {
                         {/* 
                           Note for Developer:
                           For every dropdown — when a value is selected, the <p> tag text color should change to 'text-main-text' 
-                          instead of 'text-secondary or text-place-holder' (which is used for the placeholder).
+                          instead of 'text-secondary-text or text-place-holder' (which is used for the placeholder).
+
+                          For every dropdown <IoChevronDown> tag in this arrow color is 'text-arrow' color and it should change to 'text-main-text' color when value is selected.
                           
                           In short:
-                          - Placeholder text uses 'text-secondary or text-place-holder color'
-                          - Selected value should use 'text-main-text color'
+                          - Placeholder text uses 'text-secondary-text' or 'text-place-holder' color
+                          - Selected value should use 'text-main-text' color
+                          - selected value for arrow icon color should be 'text-main-text'
 
                           Make sure to apply this rule consistently for all dropdowns wherever they appear.
                         */}
-                        
+
                         <p className='text-place-holder text-sm font-medium'>John Smith</p>
                         <p className='text-secondary-text text-xs font-medium'>Tech Solutions Inc.</p>
                       </div>
                     </div>
-                    <IoChevronDown className={`text-lg transition-transform duration-300 text-arrow ${dropdown1.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                    <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown1.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
                 </div>
 
                 {/* Dropdown */}
                 {dropdown1.isOpen && (
-                  <div className="form-dropdown-menu w-full">
+                  <div className="form-dropdown-menu">
                     <div className='w-full relative'>
                       <input type="search" name='search' placeholder='Search' className='table-small-search' />
                       <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -139,7 +141,7 @@ const AddressTab = () => {
             </div>
 
             {/* general */}
-            <p className='text-sm text-main-text font-semibold uppercase'>General</p>
+            <p className='tab-heading'>General</p>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-20'>
               <div className='flex justify-start gap-8 flex-col w-full'>
                 <label htmlFor="name" className='label-text'>Full Name <span>*</span></label>
@@ -159,7 +161,7 @@ const AddressTab = () => {
             <hr className='text-Outlines' />
 
             {/* contact */}
-            <p className='text-sm text-main-text font-semibold uppercase'>Contacts</p>
+            <p className='tab-heading'>Contacts</p>
             <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2 gap-20'>
 
               <div className='flex justify-start gap-8 flex-col w-full'>
@@ -183,7 +185,7 @@ const AddressTab = () => {
 
                   {/* Dropdown */}
                   {dropdown5.isOpen && (
-                    <div className="form-dropdown-menu left-0 2xl:w-sm w-full">
+                    <div className="form-dropdown-menu">
                       <div className='w-full relative'>
                         <input type="search" name='search' placeholder='Search' className='table-small-search' />
                         <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -221,20 +223,20 @@ const AddressTab = () => {
             <hr className='text-Outlines' />
 
             {/* address */}
-            <p className='text-sm text-main-text font-semibold uppercase'>Address</p>
+            <p className='tab-heading'>Address</p>
             <div className='flex justify-start gap-8 flex-col w-full'>
               <label htmlFor="country" className='label-text'>Country <span>*</span></label>
               <div ref={dropdown2.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
                   <button onClick={dropdown2.toggle} id='country' type='button' className="tab-select group">
                     <p className='text-place-holder text-13px font-medium'>United States</p>
-                    <IoChevronDown className={`text-lg text-arrow transition-transform duration-300 ${dropdown2.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                    <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown2.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
                 </div>
 
                 {/* Dropdown */}
                 {dropdown2.isOpen && (
-                  <div className="form-dropdown-menu w-full">
+                  <div className="form-dropdown-menu">
                     <div className='w-full relative'>
                       <input type="search" name='search' placeholder='Search' className='table-small-search' />
                       <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -270,13 +272,13 @@ const AddressTab = () => {
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <button onClick={dropdown3.toggle} id='city' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium text-left'>Lompoc</p>
-                      <IoChevronDown className={`text-lg text-arrow transition-transform duration-300 ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                      <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
                   </div>
 
                   {/* Dropdown */}
                   {dropdown3.isOpen && (
-                    <div className="form-dropdown-menu-up w-full">
+                    <div className="form-dropdown-menu-up">
                       <div className='w-full relative'>
                         <input type="search" name='search' placeholder='Search' className='table-small-search' />
                         <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -300,13 +302,13 @@ const AddressTab = () => {
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <button onClick={dropdown4.toggle} id='state' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium'>California</p>
-                      <IoChevronDown className={`text-lg text-arrow transition-transform duration-300 ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                      <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
                   </div>
 
                   {/* Dropdown */}
                   {dropdown4.isOpen && (
-                    <div className="form-dropdown-menu-up w-full">
+                    <div className="form-dropdown-menu-up">
                       <div className='w-full relative'>
                         <input type="search" name='search' placeholder='Search' className='table-small-search' />
                         <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -335,30 +337,30 @@ const AddressTab = () => {
         </div>
 
         {/* Recipient Information */}
-        <div className='bg-white rounded-15px lg:rounded-20px py-20 px-15 lg:p-30 space-y-10 lg:space-y-20 h-fit'>
-          <p className='text-xl font-semibold text-main-text'>Recipient Information</p>
+        <div className='bg-white rounded-15px sm:rounded-20px py-20 px-15 sm:p-30 space-y-10 sm:space-y-20 h-fit'>
+          <p className='tab-main-heading'>Recipient Information</p>
 
           {/* form */}
           <form action="" className='space-y-20'>
 
             <div className='flex justify-start gap-8 flex-col w-full'>
-              <label htmlFor="contact" className='label-text'>Select from saved contacts <span>*</span></label>
+              <label htmlFor="rcontact" className='label-text'>Select from saved contacts <span>*</span></label>
               <div ref={dropdown6.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown6.toggle} id='contact' type='button' className="tab-select group">
+                  <button onClick={dropdown6.toggle} id='rcontact' type='button' className="tab-select group">
                     <div className='flex items-center justify-start gap-13'>
                       <RiUserLine className='text-secondary-text text-sm' />
                       <div className='text-left'>
                         <p className='text-place-holder text-sm font-medium'>Sarah Johnson</p>
                       </div>
                     </div>
-                    <IoChevronDown className={`text-lg transition-transform duration-300 text-arrow ${dropdown6.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                    <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown6.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
                 </div>
 
                 {/* Dropdown */}
                 {dropdown6.isOpen && (
-                  <div className="form-dropdown-menu w-full">
+                  <div className="form-dropdown-menu">
                     <div className='w-full relative'>
                       <input type="search" name='search' placeholder='Search' className='table-small-search' />
                       <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -434,33 +436,33 @@ const AddressTab = () => {
             </div>
 
             {/* general */}
-            <p className='text-sm text-main-text font-semibold uppercase'>General</p>
+            <p className='tab-heading'>General</p>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-20'>
               <div className='flex justify-start gap-8 flex-col w-full'>
-                <label htmlFor="name" className='label-text'>Full Name <span>*</span></label>
-                <input type="text" name="" id="name" required placeholder='John Smith' className='form-input' />
+                <label htmlFor="rname" className='label-text'>Full Name <span>*</span></label>
+                <input type="text" name="" id="rname" required placeholder='John Smith' className='form-input' />
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full'>
-                <label htmlFor="company" className='label-text'>Company <span>*</span></label>
-                <input type="text" name="" id="company" required placeholder='Tech Solutions Inc.' className='form-input' />
+                <label htmlFor="rcompany" className='label-text'>Company <span>*</span></label>
+                <input type="text" name="" id="rcompany" required placeholder='Tech Solutions Inc.' className='form-input' />
               </div>
             </div>
 
             <div className='flex justify-start gap-8 flex-col w-full'>
-              <label htmlFor="title" className='label-text'>Job Title <span>*</span></label>
-              <input type="text" name="" id="title" required placeholder='Not specified' className='form-input' />
+              <label htmlFor="rtitle" className='label-text'>Job Title <span>*</span></label>
+              <input type="text" name="" id="rtitle" required placeholder='Not specified' className='form-input' />
             </div>
             <hr className='text-Outlines' />
 
             {/* contacts */}
-            <p className='text-sm text-main-text font-semibold uppercase'>Contacts</p>
+            <p className='tab-heading'>Contacts</p>
             <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2 gap-20'>
               <div className='flex justify-start gap-8 flex-col w-full'>
-                <label htmlFor="pno" className='label-text'>Phone Number <span>*</span></label>
+                <label htmlFor="rpno" className='label-text'>Phone Number <span>*</span></label>
                 <div ref={dropdown7.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown7.toggle} id='pno' type='button' className="tab-select group !py-10">
+                    <button onClick={dropdown7.toggle} id='rpno' type='button' className="tab-select group !py-10">
                       <div className='flex items-center justify-start gap-13'>
                         <div className='flex gap-5 items-center'>
                           <img src="/asset/icons/flag.svg" alt="icon" />
@@ -477,7 +479,7 @@ const AddressTab = () => {
 
                   {/* Dropdown */}
                   {dropdown7.isOpen && (
-                    <div className="form-dropdown-menu left-0 md:w-sm w-full">
+                    <div className="form-dropdown-menu">
                       <div className='w-full relative'>
                         <input type="search" name='search' placeholder='Search' className='table-small-search' />
                         <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -508,27 +510,27 @@ const AddressTab = () => {
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full'>
-                <label htmlFor="email" className='label-text'>Email <span>*</span></label>
-                <input type="email" name="" id="email" required placeholder='warehouse@techsolutions .com' className='form-input' />
+                <label htmlFor="remail" className='label-text'>Email <span>*</span></label>
+                <input type="email" name="" id="remail" required placeholder='warehouse@techsolutions .com' className='form-input' />
               </div>
             </div>
             <hr className='text-Outlines' />
 
             {/* address */}
-            <p className='text-sm text-main-text font-semibold uppercase'>Address</p>
+            <p className='tab-heading'>Address</p>
             <div className='flex justify-start gap-8 flex-col w-full'>
-              <label htmlFor="country" className='label-text'>Country <span>*</span></label>
+              <label htmlFor="rcountry" className='label-text'>Country <span>*</span></label>
               <div ref={dropdown8.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown8.toggle} id='country' type='button' className="tab-select group">
+                  <button onClick={dropdown8.toggle} id='rcountry' type='button' className="tab-select group">
                     <p className='text-place-holder text-13px font-medium'>United States</p>
-                    <IoChevronDown className={`text-lg text-arrow transition-transform duration-300 ${dropdown8.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                    <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown8.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
                 </div>
 
                 {/* Dropdown */}
                 {dropdown8.isOpen && (
-                  <div className="form-dropdown-menu w-full">
+                  <div className="form-dropdown-menu">
                     <div className='w-full relative'>
                       <input type="search" name='search' placeholder='Search' className='table-small-search' />
                       <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -547,30 +549,30 @@ const AddressTab = () => {
 
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-20'>
               <div className='flex justify-start gap-8 flex-col w-full'>
-                <label htmlFor="add1" className='label-text'>Address Line 1 <span>*</span></label>
-                <input type="text" name="" id="add1" required placeholder='123 Business St' className='form-input' />
+                <label htmlFor="radd1" className='label-text'>Address Line 1 <span>*</span></label>
+                <input type="text" name="" id="radd1" required placeholder='123 Business St' className='form-input' />
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full'>
-                <label htmlFor="add2" className='label-text'>Address Line 2 <span>*</span></label>
-                <input type="text" name="" id="add2" required placeholder='Apt, Suite, Unit, etc.' className='form-input' />
+                <label htmlFor="radd2" className='label-text'>Address Line 2 <span>*</span></label>
+                <input type="text" name="" id="radd2" required placeholder='Apt, Suite, Unit, etc.' className='form-input' />
               </div>
             </div>
 
             <div className='flex flex-col sm:flex-row items-center justify-center gap-20 h-full'>
               <div className='flex justify-start gap-8 flex-col w-full sm:w-1/2'>
-                <label htmlFor="city" className='label-text'>City <span>*</span></label>
+                <label htmlFor="rcity" className='label-text'>City <span>*</span></label>
                 <div ref={dropdown9.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown9.toggle} id='city' type='button' className="tab-select group">
+                    <button onClick={dropdown9.toggle} id='rcity' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium text-left'>Lompoc</p>
-                      <IoChevronDown className={`text-lg text-arrow transition-transform duration-300 ${dropdown9.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                      <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown9.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
                   </div>
 
                   {/* Dropdown */}
                   {dropdown9.isOpen && (
-                    <div className="form-dropdown-menu-up w-full sm:!top-auto sm:!bottom-full">
+                    <div className="form-dropdown-menu-up sm:!top-auto sm:!bottom-full">
                       <div className='w-full relative'>
                         <input type="search" name='search' placeholder='Search' className='table-small-search' />
                         <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -588,18 +590,18 @@ const AddressTab = () => {
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full sm:w-1/2'>
-                <label htmlFor="state" className='label-text'>State <span>*</span></label>
+                <label htmlFor="rstate" className='label-text'>State <span>*</span></label>
                 <div ref={dropdown10.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown10.toggle} id='state' type='button' className="tab-select group">
+                    <button onClick={dropdown10.toggle} id='rstate' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium'>California</p>
-                      <IoChevronDown className={`text-lg text-arrow transition-transform duration-300 ${dropdown10.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                      <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown10.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
                   </div>
 
                   {/* Dropdown */}
                   {dropdown10.isOpen && (
-                    <div className="form-dropdown-menu-up w-full sm:!top-auto sm:!bottom-full">
+                    <div className="form-dropdown-menu-up sm:!top-auto sm:!bottom-full">
                       <div className='w-full relative'>
                         <input type="search" name='search' placeholder='Search' className='table-small-search' />
                         <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -617,10 +619,19 @@ const AddressTab = () => {
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full sm:w-1/3'>
-                <label htmlFor="zipcode" className='label-text'>Zip Code <span>*</span></label>
-                <input type="text" name="" id="zipcode" required placeholder='94105' className='form-input' />
+                <label htmlFor="rzipcode" className='label-text'>Zip Code <span>*</span></label>
+                <input type="text" name="" id="rzipcode" required placeholder='94105' className='form-input' />
               </div>
 
+            </div>
+            
+            {/* for International shipment warning message */}
+            <div className="warning-message">
+                <PiWarningCircle className='text-secondary-text text-17px stroke-3 flex-none' />
+                <div>
+                  <p>International shipment detected!</p>
+                  <p className='font-medium text-xs'>Additional customs documentation will be required.</p>
+                </div>
             </div>
           </form>
           <hr className='text-Outlines' />

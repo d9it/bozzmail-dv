@@ -1,13 +1,43 @@
 import { useState } from "react";
 import Modal from "./Modal"
 import { NavLink } from "react-router";
+import { PiWarningCircle } from "react-icons/pi";
+import { useSubscription } from "../hook/useSubscription";
+import { useToast } from "../context/toast/ToastContext";
 
 const PlanModal = () => {
 
     const [isMonthCheck, setIsMonthCheck] = useState(false);
+    const { 
+        currentSubscription, 
+        loading, 
+        error,
+        upgradePlan 
+    } = useSubscription();
+    const { showToast } = useToast();
 
     const handleChangeToggle = (event) => {
         setIsMonthCheck(event.target.checked)
+    }
+
+    const handleDowngrade = async () => {
+        const billingCycle = isMonthCheck ? 'yearly' : 'monthly';
+        const result = await upgradePlan('starter', billingCycle);
+        
+        if (result.success) {
+            showToast({ 
+                message: 'Successfully downgraded to Starter plan!', 
+                subText: 'Redirecting...' 
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            showToast({ 
+                message: result.error || 'Failed to downgrade subscription', 
+                type: 'error' 
+            });
+        }
     }
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -24,9 +54,9 @@ const PlanModal = () => {
     return (
         <>
             {/* button for open model */}
-            <button className="p-11 flex justify-center items-center gap-8 rounded-7px bg-white border border-Outlines cursor-pointer" onClick={handleModalOpen}>
+            <button className="flex items-center justify-between gap-8 button-border" onClick={handleModalOpen}>
                 <img src="asset/icons/tabler_cancel.svg" alt="icon" className='h-16' />
-                <p className="text-sm font-medium text-main-text hidden sm:block lg:hidden xl:block">Cancel</p>
+                <p className="hidden sm:block">Cancel</p>
             </button>
 
             {/* model start */}
@@ -49,11 +79,11 @@ const PlanModal = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-12 lg:gap-20">
-                    <p className="text-xl lg:text-25px font-semibold text-main-text pr-40">Are you sure you want to cancel the Growth Plan?</p>
+                <div className="flex flex-col gap-12 sm:gap-20">
+                    <p className="text-xl sm:text-25px font-semibold text-main-text pr-40">Are you sure you want to cancel the Growth Plan?</p>
 
-                    <div className="bg-table-header py-11 px-17 rounded-lg text-13px font-semibold text-secondary-text border border-Outlines flex justify-start items-center gap-10">
-                        <img src="asset/icons/grey-attention.svg" alt="icon" className='h-15' />
+                    <div className="warning-message">
+                        <PiWarningCircle className='text-secondary-text text-17px stroke-3 flex-none' />
                         <p>Canceling means you will be switched to our Starter plan which is free.</p>
                     </div>
 
@@ -140,7 +170,13 @@ const PlanModal = () => {
                                     </li>
                                 </ul>
                             </div>
-                            <NavLink to={"/subscription"} className="disable-primary-btn">Downgrade to Starter</NavLink>
+                            <button 
+                                onClick={handleDowngrade}
+                                disabled={loading || currentSubscription?.plan === 'starter'}
+                                className={loading || currentSubscription?.plan === 'starter' ? "disable-primary-btn" : "primary-btn"}
+                            >
+                                {loading ? 'Downgrading...' : currentSubscription?.plan === 'starter' ? 'Current Plan' : 'Downgrade to Starter'}
+                            </button>
                         </div>
 
                         {/* Growth */}

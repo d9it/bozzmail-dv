@@ -33,6 +33,7 @@
     --color-card-light-green: #EAF9F0;
     --color-card-light-purple: #F0EAF9;
     --color-card-light-yellow: #F6FFE7;
+    --color-card-light-blue: #F2FCFF;
     --color-card-cream: #F9F2EA;
     --color-success-badge: #E9FFE9;
     --color-success-text: #57B057;
@@ -57,6 +58,12 @@
     --color-number-input-hover: #E0E9EB;
     --color-number-input-active: #D9E4E6;
     --color-tab-finish: #E8F4F6;
+    --color-gray-btn-disable: #C2CED1;
+    --color-skyblue-icon: #66ACB1;
+    --color-lightgreen-icon: #78CA9A;
+    --color-lightpurple-icon: #9C80C5;
+    --color-dark-blue: #444CE7;
+    --color-blue-line: #B0D6D9;
 
     /* shadow */
     --shadow-box: 0 4px 20px 0px #00000008; 
@@ -87,19 +94,29 @@
     --text-25px: 25px;
 }
 
-@import "../src/style.css";
-
 /* ------------------------------------------- common css ------------------------------------------------------------- */
 .primary-btn {
-    @apply rounded-7px bg-primary p-12 text-center font-semibold text-sm text-white cursor-pointer hover:bg-primary-hover focus:bg-primary-active active:bg-primary-active inline-block focus:outline-0;
+    @apply rounded-7px bg-primary p-11 text-center font-semibold text-sm text-white cursor-pointer hover:bg-primary-hover focus:bg-primary-active active:bg-primary-active inline-block focus:border-none;
 }
 
 .disable-primary-btn {
-    @apply rounded-7px bg-cta-disable p-12 text-center font-semibold text-sm text-white cursor-not-allowed inline-block focus:outline-0;
+    @apply rounded-7px bg-cta-disable p-11 text-center font-semibold text-sm text-white cursor-not-allowed inline-block focus:border-none;
+}
+
+.disable-primary-btn-icon {
+    @apply rounded-7px bg-cta-disable p-11 text-center font-semibold text-sm text-white cursor-not-allowed  focus:border-none;
+}
+
+.disable-gray-button-icon{
+    @apply rounded-7px bg-gray-btn-disable border border-transparent p-11 text-center font-semibold text-sm text-white cursor-pointer;
 }
 
 .outline-btn{
     @apply rounded-7px border border-Outlines focus:border-outlines-active active:border-outlines-active p-11 text-sm text-main-text font-medium inline-block;
+}
+
+.payment-btn {
+    @apply rounded-7px bg-dark-blue py-18 p-12 text-center font-semibold text-sm text-white cursor-pointer inline-block focus:border-none;
 }
 
 .text-link {
@@ -200,15 +217,27 @@ select:focus {
 }
 
 .button-icon{
-    @apply rounded-7px bg-primary border border-transparent p-10 text-center font-semibold text-sm text-white cursor-pointer hover:bg-primary-hover focus:bg-primary-active;
+    @apply rounded-7px bg-primary border border-transparent p-11 text-center font-semibold text-sm text-white cursor-pointer hover:bg-primary-hover focus:bg-primary-active;
 }
 
 .disable-button-icon{
-    @apply rounded-7px bg-cta-disable border border-transparent p-10 text-center font-semibold text-sm text-white cursor-pointer;
+    @apply rounded-7px bg-cta-disable border border-transparent p-11 text-center font-semibold text-sm text-white cursor-pointer;
 }
 
 .button-border{
-    @apply rounded-7px bg-white border border-Outlines p-10 text-center font-semibold text-sm text-main-text cursor-pointer hover:border-outlines-active focus:border-outlines-active;
+    @apply rounded-7px bg-white border border-Outlines p-11 text-center font-medium text-sm text-main-text cursor-pointer hover:border-outlines-active focus:border-outlines-active;
+}
+
+.small-button-border{
+    @apply text-13px font-medium text-cta-secondary border border-Outlines bg-white rounded-md py-6 px-8 flex items-center justify-center gap-5 cursor-pointer;
+}
+
+.error-message{
+    @apply text-13px font-medium text-negative-warning;
+}
+
+.warning-message{
+    @apply bg-table-header py-11 px-17 rounded-lg text-13px font-semibold text-secondary-text border border-Outlines flex justify-start items-center gap-10;
 }
 
 /*----------------- custome scrollbar for dashboard------------------------ */
@@ -251,7 +280,7 @@ select:focus {
 
 /* -------------------------------------------  hearder ---------------------------------------------------- */
 .header-icon {
-    @apply py-4 px-6 rounded-sm flex justify-center items-center cursor-pointer hover:bg-icon hover:text-cta-secondary;
+    @apply py-4 px-6 rounded-sm flex justify-center items-center cursor-pointer hover:bg-icon hover:text-cta-secondary focus:border-none;
 }
 
 /* ----------------------------------------------- sidebar ------------------------------------------------------------ */
@@ -358,7 +387,7 @@ select:focus {
 }
 
 .action-tooltip {
-    @apply absolute -top-35 left-1/2 -translate-x-1/2 hidden group-hover:flex flex-col items-center whitespace-nowrap;
+    @apply absolute -top-30 left-1/2 -translate-x-1/2 hidden group-hover:flex flex-col items-center whitespace-nowrap;
 }
 
 .tooltip-label {
@@ -370,7 +399,7 @@ select:focus {
 }
 
 .table-dropdown-menu {
-    @apply sm:absolute sm:top-full sm:right-0 mt-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col;
+    @apply sm:absolute sm:top-full sm:right-0 mt-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col w-full;
 }
 
 .table-dropdown-menu-up {
@@ -421,7 +450,7 @@ select:focus {
 /* ------------------------------------------- form css ------------------------------------------------------------- */
 
 .label-text {
-    @apply font-semibold text-sm capitalize text-form-label cursor-pointer;
+    @apply font-semibold text-sm capitalize text-form-label;
 }
 
 .form-input {
@@ -448,6 +477,10 @@ input[type=number]::-webkit-inner-spin-button {
 
 .checkbox-text{
     @apply text-sm font-medium text-main-text cursor-pointer;
+}
+
+.radio-input-label{
+    @apply text-sm font-medium text-main-text flex items-center gap-7 justify-start cursor-pointer;
 }
 
 /* -------------------------------------------- subscription --------------------------------------------------------- */
@@ -503,9 +536,17 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .form-dropdown-menu {
-    @apply absolute top-full right-0 mt-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col;
+    @apply absolute top-full right-0 mt-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col w-full;
 }
 
 .form-dropdown-menu-up {
-    @apply absolute bottom-full right-0 mb-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col max-xl:top-full max-xl:bottom-auto max-xl:mt-8;
+    @apply absolute bottom-full right-0 mb-8 bg-white rounded-7px border border-outlines-active shadow-dropdown p-11 z-50 flex gap-8 flex-col max-xl:top-full max-xl:bottom-auto max-xl:mt-8 w-full;
+}
+
+.tab-main-heading{
+    @apply text-xl font-semibold text-main-text;
+}
+
+.tab-heading{
+    @apply text-sm text-main-text font-semibold uppercase;
 }

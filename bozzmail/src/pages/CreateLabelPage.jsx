@@ -8,6 +8,10 @@ import { NavLink } from 'react-router';
 import AddressTab from './shipping-label-tabs/AddressTab';
 import PackageTab from './shipping-label-tabs/PackageTab';
 import CarrierServiceTab from './shipping-label-tabs/CarrierServiceTab';
+import ReviewTab from './shipping-label-tabs/ReviewTab';
+import PaymentTab from './shipping-label-tabs/PaymentTab';
+import CompleteTab from './shipping-label-tabs/CompleteTab';
+import CustomTab from './shipping-label-tabs/CustomTab';
 
 const CreateLabelPage = () => {
 
@@ -16,12 +20,12 @@ const CreateLabelPage = () => {
   return (
     <>
       {/*Create Label*/}
-      <div className='py-20 lg:py-30 px-15 lg:px-30 bg-white rounded-15px lg:rounded-20px'>
+      <div className='py-20 sm:py-30 px-15 sm:px-30 bg-white rounded-15px sm:rounded-20px'>
 
         <div className='flex justify-between items-center'>
           <NavLink to={"/shipping-labels"} className='flex items-center justify-start gap-10'>
             <IoChevronBack className='text-xl text-main-text' />
-            <h2 className='font-semibold text-17px lg:text-xl text-main-text'>Create Label</h2>
+            <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Create Label</h2>
           </NavLink>
 
           <div className="flex justify-end gap-8">
@@ -38,10 +42,10 @@ const CreateLabelPage = () => {
       </div>
 
       {/* tab section */}
-      <div className='py-20 lg:py-30 px-15 lg:px-30 bg-white rounded-15px lg:rounded-20px'>
+      <div className='py-20 sm:py-30 px-10 sm:px-30 bg-white rounded-15px sm:rounded-20px overflow-hidden'>
 
         {/* tab */}
-        <div className='flex justify-between items-center gap-4 sm:gap-20'>
+        <div className='flex justify-between items-center gap-2 sm:gap-10'>
           
           {/* uncomment this button to show a finish state design */}
           {/* <button className='tab-btn' onClick={() => setActiveTab("addresses")}>
@@ -63,29 +67,36 @@ const CreateLabelPage = () => {
 
           <div className='tab-line'></div>
 
+          {/* this tab will be display on international shipment */}
+          <button className='tab-btn' onClick={() => setActiveTab("custom")}>
+            <div className={`tab-digit ${activeTab === "custom" ? "tab-digit-active" : "tab-digit-inactive"}`}>3</div>
+            <p className={`tab-text ${activeTab === "custom" ? "text-sidebar-menu" : "text-secondary-text"}`}>Customs</p>
+          </button>
+          <div className='tab-line'></div>
+
           <button className='tab-btn' onClick={() => setActiveTab("carrier-service")}>
-            <div className={`tab-digit ${activeTab === "carrier-service" ? "tab-digit-active" : "tab-digit-inactive"}`}>3</div>
+            <div className={`tab-digit ${activeTab === "carrier-service" ? "tab-digit-active" : "tab-digit-inactive"}`}>4</div>
             <p className={`tab-text ${activeTab === "carrier-service" ? "text-sidebar-menu" : "text-secondary-text"}`}>Carrier & Service</p>
           </button>
 
           <div className='tab-line'></div>
 
           <button className='tab-btn' onClick={() => setActiveTab("review")}>
-            <div className={`tab-digit ${activeTab === "review" ? "tab-digit-active" : "tab-digit-inactive"}`}>4</div>
+            <div className={`tab-digit ${activeTab === "review" ? "tab-digit-active" : "tab-digit-inactive"}`}>5</div>
             <p className={`tab-text ${activeTab === "review" ? "text-sidebar-menu" : "text-secondary-text"}`}>Review</p>
           </button>
 
           <div className='tab-line'></div>
 
           <button className='tab-btn' onClick={() => setActiveTab("payment")}>
-            <div className={`tab-digit ${activeTab === "payment" ? "tab-digit-active" : "tab-digit-inactive"}`}>5</div>
+            <div className={`tab-digit ${activeTab === "payment" ? "tab-digit-active" : "tab-digit-inactive"}`}>6</div>
             <p className={`tab-text ${activeTab === "payment" ? "text-sidebar-menu" : "text-secondary-text"}`}>Payment</p>
           </button>
 
           <div className='tab-line'></div>
 
           <button className='tab-btn' onClick={() => setActiveTab("complete")}>
-            <div className={`tab-digit ${activeTab === "complete" ? "tab-digit-active" : "tab-digit-inactive"}`}>6</div>
+            <div className={`tab-digit ${activeTab === "complete" ? "tab-digit-active" : "tab-digit-inactive"}`}>7</div>
             <p className={`tab-text ${activeTab === "complete" ? "text-sidebar-menu" : "text-secondary-text"}`}>Complete</p>
           </button>
         </div>
@@ -95,10 +106,11 @@ const CreateLabelPage = () => {
      
         {activeTab === "addresses" && <AddressTab />}
         {activeTab === "package" && <PackageTab />}
+        {activeTab === "custom" && <CustomTab />}
         {activeTab === "carrier-service" && <CarrierServiceTab />}
-        {activeTab === "review" && <div className="p-4 bg-gray-100">Content of Tab 4</div>}
-        {activeTab === "payment" && <div className="p-4 bg-gray-100">Content of Tab 5</div>}
-        {activeTab === "complete" && <div className="p-4 bg-gray-100">Content of Tab 6</div>}
+        {activeTab === "review" && <ReviewTab />}
+        {activeTab === "payment" && <PaymentTab />}
+        {activeTab === "complete" && <CompleteTab />}
       
 
     </>

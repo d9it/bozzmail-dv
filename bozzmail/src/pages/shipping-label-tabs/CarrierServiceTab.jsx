@@ -13,10 +13,10 @@ const CarrierServiceTab = () => {
     <>
 
       {/* Choose Carrier & Service */}
-      <div className='bg-white rounded-15px lg:rounded-20px py-20 px-15 lg:p-30 space-y-10 lg:space-y-20 xl:w-1/2 w-full'>
-        <p className='text-xl font-semibold text-main-text'>Choose Carrier & Service</p>
+      <div className='bg-white rounded-15px sm:rounded-20px py-20 px-15 sm:p-30 space-y-10 sm:space-y-20 xl:w-1/2 w-full'>
+        <p className='tab-main-heading'>Choose Carrier & Service</p>
 
-        <p className='text-sm text-main-text font-semibold uppercase'>Carrier</p>
+        <p className='tab-heading'>Carrier</p>
         <div className='grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-15'>
 
           <label className={`py-9 pr-30 pl-15 flex items-center justify-start gap-16 rounded-lg cursor-pointer ${selectedService === 'usps' ? 'border border-secondary-text bg-form-input' : 'border border-Outlines bg-white'}`}>
@@ -48,7 +48,7 @@ const CarrierServiceTab = () => {
           <>
             <hr className='text-Outlines' />
 
-            <p className='text-sm text-main-text font-semibold uppercase'>Service</p>
+            <p className='tab-heading'>Service</p>
 
             <div className='flex flex-col justify-start gap-10'>
 
@@ -127,10 +127,18 @@ const CarrierServiceTab = () => {
             <IoChevronBack className="text-sm transition-transform duration-300 text-main-text" />
             <span> Previous</span>
           </NavLink>
-          <NavLink to={"#"} className='flex items-center justify-between gap-8 button-icon'>
+
+          {/* disable btn */}
+          <NavLink to={"#"} className='flex items-center justify-between gap-8 disable-primary-btn-icon'>
             <span> Next</span>
             <IoChevronForward className="text-sm transition-transform duration-300 text-white" />
           </NavLink>
+
+          {/* enable btn */}
+          {/* <NavLink to={"#"} className='flex items-center justify-between gap-8 button-icon'>
+            <span> Next</span>
+            <IoChevronForward className="text-sm transition-transform duration-300 text-white" />
+          </NavLink> */}
         </div>
       </div>
     </>

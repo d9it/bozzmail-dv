@@ -2237,6 +2237,81 @@
 			]
 		},
 		{
+			"name": "subscription",
+			"item": [
+				{
+					"name": "Get Current Subscription",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/subscriptions/current"
+					}
+				},
+				{
+					"name": "Get Subscription Plans",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/subscriptions/plans"
+					}
+				},
+				{
+					"name": "Upgrade Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" },
+							{ "key": "Content-Type", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"planId\": \"growth\",\n  \"billingCycle\": \"monthly\"\n}"
+						},
+						"url": "{{base_url}}/subscriptions/upgrade"
+					}
+				},
+				{
+					"name": "Cancel Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" },
+							{ "key": "Content-Type", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": "{{base_url}}/subscriptions/cancel"
+					}
+				},
+				{
+					"name": "Get Billing Cycle",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/subscriptions/billing-cycle"
+					}
+				},
+				{
+					"name": "Get Renewal Date",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "token", "value": "{{token}}", "type": "text" }
+						],
+						"url": "{{base_url}}/subscriptions/renewal-date"
+					}
+				}
+			]
+		},
+		{
 			"name": "webhooks",
 			"item": [
 				{

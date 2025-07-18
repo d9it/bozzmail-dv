@@ -324,7 +324,7 @@ const sendResetPasswordLink = async (req, res) => {
       }
       await createPasswordReset(data)
     }
-    const resetLink = `${FE_APP_BASE_URL}/verify-reset-password/${token}`
+    const resetLink = `${FE_APP_BASE_URL}/forgot-password/${token}`
     const mail = await sendMail({
       user: existingUser,
       subject: "Password Reset",

@@ -25,20 +25,20 @@ const ShippingLabelsPage = () => {
   return (
     <>
       {/*  cards */}
-      <div className='py-20 lg:py-30 pr-15 lg:pr-30 bg-white rounded-15px lg:rounded-20px'>
+      <div className='py-20 sm:py-30 pr-15 sm:pr-30 bg-white rounded-15px sm:rounded-20px'>
 
-        <div className='flex gap-15 lg:gap-25 items-center justify-start'>
+        <div className='flex gap-15 sm:gap-25 items-center justify-start'>
           <div className='w-5 h-40 bg-cta-secondary rounded-tr-10px rounded-br-10px'></div>
-          <div className='flex gap-5 lg:gap-10'>
+          <div className='flex gap-5 sm:gap-10'>
             <img src="asset/icons/heading_label.svg" alt="icon" />
-            <h1 className='font-semibold text-22px lg:text-25px text-main-text'>Shipping Labels</h1>
+            <h1 className='font-semibold text-22px sm:text-25px text-main-text'>Shipping Labels</h1>
           </div>
         </div>
 
-        <p className='pr-15 lg:pl-30 text-17px font-medium text-secondary-text pt-5 hidden lg:block'>Create and manage your shipping labels for packages and mail</p>
+        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text pt-5 hidden sm:block'>Create and manage your shipping labels for packages and mail</p>
 
         {/* cards */}
-        <div className='pl-15 lg:pl-30 lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 lg:gap-20 pt-10 lg:pt-20'>
+        <div className='pl-15 sm:pl-30 lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 sm:gap-20 pt-10 sm:pt-20'>
           <div className='border border-Outlines card-layout py-21 w-full'>
             <div className='flex justify-between items-center'>
               <div>
@@ -86,10 +86,10 @@ const ShippingLabelsPage = () => {
       </div>
 
       {/* Recent Labels */}
-      <div className='py-20 lg:py-30 px-15 lg:px-30 bg-white rounded-15px lg:rounded-20px sm:space-y-20 space-y-10 w-full'>
+      <div className='py-20 sm:py-30 px-15 sm:px-30 bg-white rounded-15px sm:rounded-20px sm:space-y-20 space-y-10 w-full'>
         {/* dropdown */}
         <div className='flex justify-between items-center gap-8'>
-          <h2 className='font-semibold text-17px lg:text-xl text-main-text'>Recent Labels<span>(6)</span></h2>
+          <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Recent Labels<span>(6)</span></h2>
           <div className="flex justify-end gap-8">
             <NavLink to={"#"} className='flex items-center justify-between gap-8 button-border'>
               <img src="asset/icons/import-file.svg" alt="icon" />
@@ -136,7 +136,7 @@ const ShippingLabelsPage = () => {
                     <label htmlFor="carrier" className='label-text block sm:hidden'>Carrier</label>
                     <button onClick={dropdown3.toggle} id='carrier' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Carriers</p>
-                      <img src="/asset/icons/dropdown-gray.svg" alt="icon" className={`transition-transform duration-300 ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                      <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
                   </div>
 
@@ -163,7 +163,7 @@ const ShippingLabelsPage = () => {
                     <label htmlFor="status" className='label-text block sm:hidden'>Status</label>
                     <button onClick={dropdown4.toggle} id='status' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Statuses</p>
-                      <img src="/asset/icons/dropdown-gray.svg" alt="icon" className={`transition-transform duration-300 ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                      <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
                   </div>
 
@@ -187,7 +187,7 @@ const ShippingLabelsPage = () => {
                     <label htmlFor="time" className='label-text block sm:hidden'>Time</label>
                     <button onClick={dropdown5.toggle} id='time' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Time</p>
-                      <img src="/asset/icons/dropdown-gray.svg" alt="icon" className={`transition-transform duration-300 ${dropdown5.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                      <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown5.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
                   </div>
 

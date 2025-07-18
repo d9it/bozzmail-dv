@@ -1,44 +1,75 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { NavLink } from "react-router";
 import PlanModal from "../components/PlanModal";
 import CancelPlan from "../components/CancelPlan";
+import { useSubscription } from "../hook/useSubscription";
+import { useToast } from "../context/toast/ToastContext";
 
 const ProfessionalPlanManagement = () => {
 
     const [isMonthCheck, setIsMonthCheck] = useState(false);
+    const { 
+        currentSubscription, 
+        subscriptionPlans, 
+        loading, 
+        error,
+        upgradePlan 
+    } = useSubscription();
+    const { showToast } = useToast();
 
     const handleChangeToggle = (event) => {
         setIsMonthCheck(event.target.checked)
     }
 
+    const handleUpgrade = async (planId) => {
+        const billingCycle = isMonthCheck ? 'yearly' : 'monthly';
+        const result = await upgradePlan(planId, billingCycle);
+        
+        if (result.success) {
+            showToast({ 
+                message: `Successfully upgraded to ${planId} plan!`, 
+                subText: 'Redirecting...' 
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            showToast({ 
+                message: result.error || 'Failed to upgrade subscription', 
+                type: 'error' 
+            });
+        }
+    }
+
     return (
         <>
             {/*cards */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-15 lg:gap-20">
-                <div className='py-20 lg:py-30 pr-15 lg:pr-30 bg-white rounded-15px lg:rounded-20px'>
-                    <div className='flex gap-10 lg:gap-25 items-center justify-start'>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-15 sm:gap-20">
+                <div className='py-20 sm:py-30 pr-15 sm:pr-30 bg-white rounded-15px sm:rounded-20px'>
+                    <div className='flex gap-10 sm:gap-25 items-center justify-start'>
                         <div className='w-5 h-40 bg-cta-secondary rounded-tr-10px rounded-br-10px'></div>
-                        <div className='flex gap-5 lg:gap-10'>
-                            <h1 className='font-semibold text-22px lg:text-25px text-main-text'>Subscription</h1>
+                        <div className='flex gap-5 sm:gap-10'>
+                            <h1 className='font-semibold text-22px sm:text-25px text-main-text'>Subscription</h1>
                         </div>
                     </div>
 
                     {/* card */}
-                    <div className='pl-15 lg:pl-30 pt-10 lg:pt-20'>
+                    <div className='pl-15 sm:pl-30 pt-10 sm:pt-20'>
 
                         <div className='bg-card-light-yellow rounded-15px p-15 flex justify-between items-center flex-wrap gap-20'>
                             <div className="gap-20 flex justify-start items-center">
                                 <img src="asset/icons/Professional.svg" alt="icon" className='h-49' />
                                 <div>
                                     <p className='subsription-description'>Your Plan</p>
-                                    <p className='subsription-title'>Professional</p>
+                                    <p className='subsription-title'>{currentSubscription?.plan ? currentSubscription.plan.charAt(0).toUpperCase() + currentSubscription.plan.slice(1) : 'Professional'}</p>
                                 </div>
                             </div>
 
                             <div className="flex items-center justify-end gap-10">
-                                <a href="#upgarde" className="p-11 flex items-center gap-8 rounded-7px bg-white border border-Outlines" >
+
+                                <a href="#upgarde" className="flex items-center justify-between gap-8 button-border" >
                                     <img src="asset/icons/upgrade.svg" alt="icon" className='h-16' />
-                                    <p className="text-sm font-medium text-main-text hidden sm:block lg:hidden xl:block">Upgrade</p>
+                                    <span className="hidden sm:block">Upgrade</span>
                                 </a>
 
                                <PlanModal />
@@ -72,11 +103,11 @@ const ProfessionalPlanManagement = () => {
                     </div>
                 </div>
 
-                <div className='max-lg:py-20 max-lg:px-15 lg:p-30 bg-white rounded-15px lg:rounded-20px flex gap-10 lg:gap-20 justify-start items-start flex-col'>
+                <div className='max-sm:py-20 max-sm:px-15 sm:p-30 bg-white rounded-15px sm:rounded-20px flex gap-10 sm:gap-20 justify-start items-start flex-col'>
 
-                    <div className='flex gap-6 lg:gap-10'>
+                    <div className='flex gap-6 sm:gap-10'>
                         <img src="asset/icons/flash-solid.svg" alt="icon" />
-                        <h2 className='font-semibold text-17px lg:text-xl text-main-text'>Quick actions</h2>
+                        <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Quick actions</h2>
                     </div>
 
                     <div className="space-y-8">
@@ -119,9 +150,9 @@ const ProfessionalPlanManagement = () => {
 
             </div>
 
-            <div className="bg-white rounded-20px max-lg:py-20 max-lg:px-15 lg:p-30 flex justify-start gap-10 lg:gap-20 flex-col" id="upgarde">
+            <div className="bg-white rounded-20px max-sm:py-20 max-sm:px-15 sm:p-30 flex justify-start gap-10 sm:gap-20 flex-col" id="upgarde">
                 {/* header */}
-                <div className="flex justify-between lg:justify-start items-center gap-10 lg:gap-30 flex-wrap">
+                <div className="flex justify-between sm:justify-start items-center gap-10 sm:gap-30 flex-wrap">
                     <p className="font-semibold text-xl text-main-text">Plans</p>
                     <div className="flex gap-10 items-center justify-start flex-wrap">
                         <p className="text-sm font-medium text-main-text">Monthly</p>
@@ -209,7 +240,13 @@ const ProfessionalPlanManagement = () => {
 
                         <p className="bg-table-header p-10 rounded-5px text-xs font-medium text-main-text">Try the full workflow at no cost — just pay when you ship or mail.</p>
 
-                        <NavLink to={"/subscription"} className="primary-btn">Downgrade to Starter</NavLink>
+                        <button 
+                            onClick={() => handleUpgrade('starter')}
+                            disabled={loading || currentSubscription?.plan === 'starter'}
+                            className={loading || currentSubscription?.plan === 'starter' ? "disable-primary-btn" : "primary-btn"}
+                        >
+                            {loading ? 'Downgrading...' : currentSubscription?.plan === 'starter' ? 'Current Plan' : 'Downgrade to Starter'}
+                        </button>
                     </div>
 
                     {/* Growth */}
@@ -282,7 +319,13 @@ const ProfessionalPlanManagement = () => {
 
                         <p className="bg-table-header p-10 rounded-5px text-xs font-medium text-main-text">Designed for solo operations that need recurring contact management and carrier discounts.</p>
 
-                        <NavLink to={"/paid-plan-management"} className="primary-btn">Downgrade to Growth</NavLink>
+                        <button 
+                            onClick={() => handleUpgrade('growth')}
+                            disabled={loading || currentSubscription?.plan === 'growth'}
+                            className={loading || currentSubscription?.plan === 'growth' ? "disable-primary-btn" : "primary-btn"}
+                        >
+                            {loading ? 'Downgrading...' : currentSubscription?.plan === 'growth' ? 'Current Plan' : 'Downgrade to Growth'}
+                        </button>
 
                     </div>
 

@@ -19,6 +19,7 @@ const ForgotPasswordLinkSent = () => {
         <p className="text-center font-semibold text-xl pt-10 text-main-text">Check your Inbox</p>
         <p className="text-sm font-medium text-center pt-10 text-main-text-shaded">We’ve emailed you a link to reset your password.</p>
 
+        <NavLink to={"/"} className="text-link text-center block pt-20">Go back to Login</NavLink>
       </div>
 
       {/* footer */}

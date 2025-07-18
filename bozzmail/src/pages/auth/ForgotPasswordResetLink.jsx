@@ -1,31 +1,37 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, Navigate, useNavigate } from "react-router";
 import FooterPage from "../../components/FooterPage";
 import { useAuth } from "../../hook/useAuth";
-import { toast } from 'react-toastify';
+import Spinner from "../../utils/spinner/Spinner";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { regex } from "../../utils/regex";
 
 const ForgotPasswordResetLink = () => {
+  const navigate = useNavigate();
   const { forgotPassword, loading } = useAuth();
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    if (!email) {
-      setError("Email is required");
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Please enter a valid email address");
-      return;
-    }
+  const initialValues = {
+    email: ''
+  };
+
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .required('Email is required')
+      .matches(regex.email, 'Please enter a valid email address'),
+  });
+
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      await forgotPassword({ email });
+      await forgotPassword({ email: values.email });
       setSuccess(true);
+      resetForm();
+      navigate('/forgot-password-link-sent');
     } catch (err) {
-      setError(err.message || "Failed to send reset link");
+      console.log(err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -42,30 +48,52 @@ const ForgotPasswordResetLink = () => {
         </div>
         <p className="text-center font-semibold text-xl pt-10 text-main-text">Forgot Password</p>
         <p className="text-sm font-medium text-center pt-10 text-main-text-shaded">Please provide your Email so we can send you the reset password link</p>
-        {success ? (
+
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting, errors, touched }) => (
+            <Form className="pt-20 space-y-20">
+              <div className='flex justify-start gap-8 flex-col w-full'>
+                <label htmlFor="email" className="label-text">Email</label>
+                <Field
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="hello@company.com"
+                  className={`form-input${errors.email && touched.email ? ' border-red-500' : ''}`}
+                  disabled={loading || success}
+                />
+                <ErrorMessage name="email" component="span" className="text-red-500 text-sm" />
+              </div>
+              <button
+                className={(loading || success || isSubmitting) ? "disable-primary-btn block w-full" : "primary-btn block w-full"}
+                type="submit"
+                disabled={loading || success || isSubmitting}
+              >
+                {success ? (
+                  <div className="flex justify-center items-center w-full text-center">
+                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-24" />
+                  </div>
+                ) : (loading || isSubmitting) ? (
+                  <div className="flex justify-center items-center w-full text-center">
+                    <Spinner />
+                  </div>
+                ) : (
+                  "Send Reset Link"
+                )}
+              </button>
+            </Form>
+          )}
+        </Formik>
+
+        {/* {success && (
           <div className="text-green-600 text-center py-8">Reset link sent! Please check your email.</div>
-        ) : (
-          <form onSubmit={handleSubmit} className="pt-20 space-y-20">
-            <div className='flex justify-start gap-8 flex-col w-full'>
-              <label htmlFor="email" className="label-text">Email</label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="hello@company.com"
-                className={`form-input ${error ? 'border-red-500' : ''}`}
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                disabled={loading}
-              />
-              {error && <span className="text-red-500 text-sm">{error}</span>}
-            </div>
-            <button type="submit" className="primary-btn block w-full" disabled={loading}>
-              {loading ? 'Sending...' : 'Send Reset Link'}
-            </button>
-          </form>
-        )}
-        <NavLink to={"/login"} className="text-link text-center block pt-20">Go back to Login</NavLink>
+        )} */}
+
+        <NavLink to={"/"} className="text-link text-center block pt-20">Go back to Login</NavLink>
       </div>
       {/* footer */}
       <div className='text-center'>

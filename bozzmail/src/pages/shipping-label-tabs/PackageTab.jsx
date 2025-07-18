@@ -1,6 +1,7 @@
 import { IoChevronBack, IoChevronDown, IoChevronForward, IoChevronUp } from "react-icons/io5";
 import { NavLink } from 'react-router';
 import { useEffect, useState } from 'react';
+import { PiWarningCircle } from "react-icons/pi";
 
 const PackageTab = () => {
 
@@ -8,17 +9,17 @@ const PackageTab = () => {
 
   return (
     <>
-      <div className='grid grid-cols-1 xl:grid-cols-2 gap-15 lg:gap-20 h-fit'>
+      <div className='grid grid-cols-1 xl:grid-cols-2 gap-15 sm:gap-20 h-fit'>
 
         {/* Package Information */}
-        <div className='bg-white rounded-15px lg:rounded-20px py-20 px-15 lg:p-30 space-y-10 lg:space-y-20 h-fit'>
-          <p className='text-xl font-semibold text-main-text'>Package Information</p>
+        <div className='bg-white rounded-15px sm:rounded-20px py-20 px-15 sm:p-30 space-y-10 sm:space-y-20 h-fit'>
+          <p className='tab-main-heading'>Package Information</p>
 
           {/* form */}
           <form action="" className='space-y-20'>
 
             {/* general */}
-            <p className='text-sm text-main-text font-semibold uppercase'>General</p>
+            <p className='tab-heading'>General</p>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-20'>
               <div className='flex justify-start gap-8 flex-col w-full relative'>
                 <label htmlFor="weight" className='label-text'>Weight (lbs)<span>*</span></label>
@@ -33,7 +34,7 @@ const PackageTab = () => {
             <hr className='text-Outlines' />
 
             {/* Dimensions */}
-            <p className='text-sm text-main-text font-semibold uppercase'>Dimensions</p>
+            <p className='tab-heading'>Dimensions</p>
 
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-20'>
               <div className='flex justify-start gap-8 flex-col w-full'>
@@ -84,7 +85,7 @@ const PackageTab = () => {
             <hr className='text-Outlines' />
 
             {/* Return label */}
-            <p className='text-sm text-main-text font-semibold uppercase'>Return label</p>
+            <p className='tab-heading'>Return label</p>
             <div className='flex justify-start gap-8 flex-col w-full'>
               <label htmlFor="rlabel" className='label-text'>Add a Return Label</label>
               <div className='flex items-center justify-start gap-7'>
@@ -99,14 +100,14 @@ const PackageTab = () => {
               </div>
             </div>
 
-            <div className="bg-table-header py-11 px-17 rounded-lg text-13px font-semibold text-secondary-text border border-Outlines flex justify-start items-center gap-10">
-              <img src="asset/icons/grey-attention.svg" alt="icon" className='h-15' />
+            <div className="warning-message">
+              <PiWarningCircle className='text-secondary-text text-17px stroke-3 flex-none'/>
               <p>Return label will use the same address, weight, and dimensions.</p>
             </div>
             <hr className='text-Outlines' />
 
             {/* Insurance */}
-            <p className='text-sm text-main-text font-semibold uppercase'>Insurance</p>
+            <p className='tab-heading'>Insurance</p>
             <div className='flex justify-start gap-8 flex-col w-full'>
               <label htmlFor="insurance" className='label-text'>Add Shipment Insurance</label>
               <div className='flex items-center justify-start gap-7'>
@@ -127,8 +128,8 @@ const PackageTab = () => {
                   <input type="text" name="" id="insured" required placeholder='50.00' className='form-input' />
                 </div>
 
-                <div className="bg-table-header py-11 px-17 rounded-lg text-13px font-semibold text-secondary-text border border-Outlines flex justify-start items-center gap-10">
-                  <img src="asset/icons/grey-attention.svg" alt="icon" className='h-15' />
+                <div className="warning-message">
+                  <PiWarningCircle className='text-secondary-text text-17px stroke-3 flex-none'/>
                   <p>Insurance fee is 1.5% of the insured value. Minimum: $1, Maximum: $20.</p>
                 </div>
               </>
@@ -138,19 +139,19 @@ const PackageTab = () => {
         </div>
 
         {/* Recipient Information */}
-        <div className='bg-white rounded-15px lg:rounded-20px py-20 px-15 lg:p-30 space-y-10 lg:space-y-20 h-fit'>
-          <p className='text-xl font-semibold text-main-text'>Recipient Information</p>
+        <div className='bg-white rounded-15px sm:rounded-20px py-20 px-15 sm:p-30 space-y-10 sm:space-y-20 h-fit'>
+          <p className='tab-main-heading'>Recipient Information</p>
 
           {/* form */}
           <form action="" className='space-y-20'>
 
             <div className='flex justify-start gap-8 flex-col w-full relative'>
               <label htmlFor="description" className='label-text'>Description<span>*</span></label>
-              <textarea name="" id="description" className='form-input' placeholder='Not specified' rows={4}></textarea>
+              <textarea name="" id="description" className='form-input resize-none' placeholder='Not specified' rows={4}></textarea>
             </div>
 
             <div className='flex justify-start gap-8 flex-col w-full'>
-              <label htmlFor="material" className='label-text'>Hazardous Materials <span>*</span></label>
+              <p className='label-text'>Hazardous Materials <span>*</span></p>
               <div className='flex items-center justify-start gap-7'>
                 <label className="flex items-center cursor-pointer relative w-20 h-20">
                   <input type="checkbox" className='peer peer-checked:border-Outlines' id='material' />

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { authAPI } from '../api/authAPI';
-import { toast } from 'react-toastify';
+import { useToast } from "../context/toast/ToastContext";
 
 export const useAuth = () => {
+  const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -12,23 +13,26 @@ export const useAuth = () => {
   const login = async (credentials) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await authAPI.login(credentials);
-      
+      console.log('login response: ', response);
+
       // Store token in localStorage
       if (response.token) {
         localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('user', JSON.stringify(response.data));
       }
-      
-      toast.success('Login successful!');
-      navigate('/dashboard');
+
+      showToast({ message: 'Login successful!', subText: 'Redirecting...' });
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 5000);
       return response;
     } catch (err) {
       const errorMessage = err.message || 'Login failed. Please try again.';
       setError(errorMessage);
-      toast.error(errorMessage);
+      showToast({ message: errorMessage, type: 'error' });
       throw err;
     } finally {
       setLoading(false);
@@ -39,23 +43,27 @@ export const useAuth = () => {
   const register = async (userData) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await authAPI.register(userData);
-      
+      console.log('register response: ', response);
+
+
       // Store token in localStorage if auto-login is enabled
       if (response.token) {
         localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('user', JSON.stringify(response.data));
       }
-      
-      toast.success('Registration successful!');
-      navigate('/dashboard');
+
+      showToast({ message: 'Account created successfully!', subText: 'Redirecting...' });
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 5000);
       return response;
     } catch (err) {
       const errorMessage = err.message || 'Registration failed. Please try again.';
       setError(errorMessage);
-      toast.error(errorMessage);
+      showToast({ message: errorMessage, type: 'error' });
       throw err;
     } finally {
       setLoading(false);
@@ -72,8 +80,10 @@ export const useAuth = () => {
       // Clear localStorage
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      navigate('/login');
-      toast.success('Logged out successfully');
+      showToast({ message: 'Logged out successfully!', subText: 'Redirecting...' });
+      setTimeout(() => {
+        navigate('/');
+      }, 5000);
     }
   };
 
@@ -93,15 +103,15 @@ export const useAuth = () => {
   const sendOTP = async (phoneData) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await authAPI.sendOTP(phoneData);
-      toast.success('OTP sent successfully!');
+      showToast({ message: 'OTP sent successfully!' });
       return response;
     } catch (err) {
       const errorMessage = err.message || 'Failed to send OTP. Please try again.';
       setError(errorMessage);
-      toast.error(errorMessage);
+      showToast({ message: errorMessage, type: 'error' });
       throw err;
     } finally {
       setLoading(false);
@@ -112,15 +122,15 @@ export const useAuth = () => {
   const verifyOTP = async (otpData) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await authAPI.verifyOTP(otpData);
-      toast.success('OTP verified successfully!');
+      showToast({ message: 'OTP verified successfully!' });
       return response;
     } catch (err) {
       const errorMessage = err.message || 'Invalid OTP. Please try again.';
       setError(errorMessage);
-      toast.error(errorMessage);
+      showToast({ message: errorMessage, type: 'error' });
       throw err;
     } finally {
       setLoading(false);
@@ -131,15 +141,34 @@ export const useAuth = () => {
   const forgotPassword = async (emailData) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await authAPI.forgotPassword(emailData);
-      toast.success('Password reset link sent to your email!');
+      showToast({ message: 'Link has been successfully sent!' });
       return response;
     } catch (err) {
       const errorMessage = err.message || 'Failed to send reset link. Please try again.';
       setError(errorMessage);
-      toast.error(errorMessage);
+      showToast({ message: errorMessage, type: 'error' });
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Reset password
+  const resetPassword = async (resetData) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await authAPI.resetPassword(resetData);
+      showToast({ message: 'Login with your new password!' });
+      return response;
+    } catch (err) {
+      const errorMessage = err.message || 'Failed to reset password. Please try again.';
+      setError(errorMessage);
+      showToast({ message: errorMessage, type: 'error' });
       throw err;
     } finally {
       setLoading(false);
@@ -153,6 +182,7 @@ export const useAuth = () => {
     sendOTP,
     verifyOTP,
     forgotPassword,
+    resetPassword,
     isAuthenticated,
     getCurrentUser,
     loading,

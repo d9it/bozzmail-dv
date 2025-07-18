@@ -25,9 +25,9 @@ const Modal = ({ isOpen, onClose, children }) => {
 
   return (
     <div className="fixed inset-0 z-100000 flex items-start justify-center bg-model-bg min-h-screen overflow-y-auto">
-      <div ref={modalRef} className="bg-white rounded-20px p-15 lg:p-30 shadow-box w-full max-w-3xl relative mx-15 my-200 sm:my-160">
+      <div ref={modalRef} className="bg-white rounded-20px p-15 sm:p-30 shadow-box w-full max-w-3xl relative mx-15 my-200 sm:my-160">
 
-        <button onClick={onClose} className="absolute top-20 right-20 cursor-pointer focus:outline-none bg-white">
+        <button onClick={onClose} className="absolute top-15 right-15 sm:top-20 sm:right-20 cursor-pointer focus:border-none bg-white">
                 <img src="asset/icons/cross.svg" alt="icon" className='h-24' />
         </button>
 
