@@ -13,6 +13,14 @@ const SubscriptionPage = () => {
         error,
         upgradePlan 
     } = useSubscription();
+
+    // Debug logging
+    useEffect(() => {
+        console.log('SubscriptionPage - Current Subscription:', currentSubscription);
+        console.log('SubscriptionPage - Subscription Plans:', subscriptionPlans);
+        console.log('SubscriptionPage - Loading:', loading);
+        console.log('SubscriptionPage - Error:', error);
+    }, [currentSubscription, subscriptionPlans, loading, error]);
     const { showToast } = useToast();
 
     const handleChangeToggle = (event) => {
@@ -134,245 +142,111 @@ const SubscriptionPage = () => {
 
                 {/* cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-20">
-
-                    {/* Starter */}
-                    <div className="rounded-15px py-26 px-20 flex gap-22 justify-start border border-Outlines flex-col">
-                        <div className="flex gap-13 justify-start items-center">
-                            <img src="asset/icons/Starter.svg" alt="icon" className='h-49' />
-                            <div className="space-y-8">
-                                <div>
-                                    <p className="subsription-title">Starter</p>
-                                    <p className="subsription-description">Hobbyists, testers, and new users</p>
-                                </div>
-                                <div className="flex gap-8 items-center flex-wrap">
-                                    {!isMonthCheck ?
-                                        <p className="subscription-amount">$0/mo.</p> :
-                                        <>
-                                            <p className="subscription-amount">$0/mo.</p>
-                                            <div className="text-secondary-text text-sm font-medium flex items-center gap-14 break-all flex-wrap"><s className="font-semibold">$0/mo.</s><p>$0/year</p></div>
-                                        </>
-                                    }
-                                </div>
-                            </div>
+                    {loading ? (
+                        <div className="col-span-full text-center py-20">
+                            <p className="text-main-text">Loading subscription plans...</p>
                         </div>
-
-                        <hr className="border-Outlines w-full" />
-
-                        <div className="space-y-16">
-                            <p className="font-semibold text-xs uppercase text-main-text">Includes:</p>
-
-                            <ul className="space-y-10">
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Create and print shipping labels</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Send letters and postcards (pay per piece sent)</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Store up to <b>10 contacts</b></p>
-                                </li>
-                                <li className="subscription-unprovided">
-                                    <img src="asset/icons/gray-check.svg" alt="icon" className='h-14' />
-                                    <p>Limited support</p>
-                                </li>
-                                <li className="subscription-unprovided">
-                                    <img src="asset/icons/gray-check.svg" alt="icon" className='h-14' />
-                                    <p>No API access</p>
-                                </li>
-                                <li className="subscription-unprovided">
-                                    <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                    <p>Standart shipping rates</p>
-                                </li>
-                                <li className="subscription-unprovided">
-                                    <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                    <p>No access to the Partner Program</p>
-                                </li>
-                                <li className="subscription-unprovided">
-                                    <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                    <p>Manual one-by-one shipping & mailing only</p>
-                                </li>
-                                <li className="subscription-unprovided">
-                                    <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                    <p>No batch import tools</p>
-                                </li>
-                            </ul>
+                    ) : error ? (
+                        <div className="col-span-full text-center py-20">
+                            <p className="text-red-500">Error loading plans: {error}</p>
                         </div>
+                    ) : subscriptionPlans && subscriptionPlans.length > 0 ? (
+                        subscriptionPlans.map((plan) => {
+                            const isCurrentPlan = currentSubscription?.plan === plan.id;
+                            const isPopular = plan.id === 'growth';
+                            
+                            return (
+                                <div 
+                                    key={plan.id}
+                                    className={`rounded-15px py-26 px-20 flex gap-22 justify-start ${
+                                        isCurrentPlan ? 'border-2 border-primary' : 'border border-Outlines'
+                                    } flex-col relative overflow-hidden ${
+                                        plan.id === 'professional' ? 'md:col-span-2 xl:col-span-1' : ''
+                                    }`}
+                                >
+                                    {/* Popular tag */}
+                                    {isPopular && (
+                                        <p className="bg-primary text-white text-sm font-medium py-4 px-13 rounded-bl-7px absolute top-0 right-0">
+                                            Most Popular
+                                        </p>
+                                    )}
 
-                        <p className="bg-table-header p-10 rounded-5px text-xs font-medium text-main-text">Try the full workflow at no cost — just pay when you ship or mail.</p>
+                                    <div className="flex gap-13 justify-start items-center">
+                                        <img src={`asset/icons/${plan.name}.svg`} alt="icon" className='h-49' />
+                                        <div className="space-y-8">
+                                            <div>
+                                                <p className="subsription-title">{plan.name}</p>
+                                                <p className="subsription-description">{plan.description}</p>
+                                            </div>
+                                            
+                                            <div className="flex gap-8 items-center flex-wrap">
+                                                {!isMonthCheck ? (
+                                                    <p className="subscription-amount">
+                                                        ${plan.price.monthly}/mo.
+                                                    </p>
+                                                ) : (
+                                                    <>
+                                                        <p className="subscription-amount">
+                                                            ${(plan.price.yearly / 12).toFixed(1)}/mo.
+                                                        </p>
+                                                        <div className="text-secondary-text text-sm font-medium flex items-center gap-14 break-all flex-wrap">
+                                                            <s className="font-semibold">${plan.price.monthly}/mo.</s>
+                                                            <p>${plan.price.yearly}/year</p>
+                                                        </div>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
 
-                        <button 
-                            className="disable-primary-btn" 
-                            disabled={currentSubscription?.plan === 'starter'}
-                        >
-                            {currentSubscription?.plan === 'starter' ? 'Current Plan' : 'Downgrade to Starter'}
-                        </button>
-                    </div>
+                                    <hr className="border-Outlines w-full" />
 
-                    {/* Growth */}
-                    <div className="rounded-15px py-26 px-20 flex gap-22 justify-start border-2 border-primary flex-col relative overflow-hidden">
+                                    <div className="space-y-16">
+                                        <p className="font-semibold text-xs uppercase text-main-text">Includes:</p>
 
-                        {/* tag */}
-                        <p className="bg-primary text-white text-sm font-medium py-4 px-13 rounded-bl-7px absolute top-0 right-0">Most Popular</p>
+                                        <ul className="space-y-10">
+                                            {plan.features.map((feature, index) => {
+                                                const isIncluded = plan.included.includes(index);
+                                                const isExcluded = plan.excluded.includes(index);
+                                                
+                                                return (
+                                                    <li key={index} className={isIncluded ? "subscription-provided" : "subscription-unprovided"}>
+                                                        <img 
+                                                            src={isIncluded ? "asset/icons/check.svg" : isExcluded ? "asset/icons/gray-cross.svg" : "asset/icons/gray-check.svg"} 
+                                                            alt="icon" 
+                                                            className='h-14' 
+                                                        />
+                                                        <p dangerouslySetInnerHTML={{ __html: feature }}></p>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </div>
 
-                        <div className="flex gap-13 justify-start items-center">
-                            <img src="asset/icons/Growth.svg" alt="icon" className='h-49' />
-                            <div className="space-y-8">
-                                <div>
-                                    <p className="subsription-title">Growth</p>
-                                    <p className="subsription-description">Freelancers and side businesses</p>
+                                    <p className="bg-table-header p-10 rounded-5px text-xs font-medium text-main-text">
+                                        {plan.id === 'starter' ? 'Try the full workflow at no cost — just pay when you ship or mail.' :
+                                         plan.id === 'growth' ? 'Designed for solo operations that need recurring contact management and carrier discounts.' :
+                                         'Built for teams that need automation, scalability, and deeper workflow integration.'}
+                                    </p>
+
+                                    <button 
+                                        onClick={() => handleUpgrade(plan.id)}
+                                        disabled={loading || isCurrentPlan}
+                                        className={loading || isCurrentPlan ? "disable-primary-btn" : "primary-btn"}
+                                    >
+                                        {loading ? 'Upgrading...' : 
+                                         isCurrentPlan ? 'Current Plan' : 
+                                         plan.id === 'starter' ? 'Downgrade to Starter' :
+                                         `Upgrade to ${plan.name}`}
+                                    </button>
                                 </div>
-                                
-                                <div className="flex gap-8 items-center flex-wrap">
-                                    {!isMonthCheck ?
-                                        <p className="subscription-amount">$19/mo.</p> :
-                                        <>
-                                            <p className="subscription-amount">$15.2/mo.</p>
-                                            <div className="text-secondary-text text-sm font-medium flex items-center gap-14 break-all flex-wrap"><s className="font-semibold">$19/mo.</s><p>$182.4/year</p></div>
-                                        </>
-                                    }
-                                </div>
-                            </div>
+                            );
+                        })
+                    ) : (
+                        <div className="col-span-full text-center py-20">
+                            <p className="text-main-text">No subscription plans available</p>
                         </div>
-
-                        <hr className="border-Outlines w-full" />
-
-                        <div className="space-y-16">
-                            <p className="font-semibold text-xs uppercase text-main-text">Includes:</p>
-
-                            <ul className="space-y-10">
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Create and print shipping labels</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Send letters and postcards (pay per piece sent)</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Store up to <b>50 contacts</b></p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Priority support</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Full API access</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Access to discounted shipping rates</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Access to the Partner Program</p>
-                                </li>
-                                <li className="subscription-unprovided">
-                                    <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                    <p>Manual one-by-one shipping & mailing only</p>
-                                </li>
-                                <li className="subscription-unprovided">
-                                    <img src="asset/icons/gray-cross.svg" alt="icon" className='h-14' />
-                                    <p>No batch import tools</p>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <p className="bg-table-header p-10 rounded-5px text-xs font-medium text-main-text">Designed for solo operations that need recurring contact management and carrier discounts.</p>
-
-                        <button 
-                            onClick={() => handleUpgrade('growth')}
-                            disabled={loading || currentSubscription?.plan === 'growth'}
-                            className={loading || currentSubscription?.plan === 'growth' ? "disable-primary-btn" : "primary-btn"}
-                        >
-                            {loading ? 'Upgrading...' : currentSubscription?.plan === 'growth' ? 'Current Plan' : 'Upgrade to Growth'}
-                        </button>
-
-                    </div>
-
-                    {/* Professional */}
-                    <div className="md:col-span-2 xl:col-span-1 rounded-15px py-26 px-20 flex gap-22 justify-start border border-Outlines flex-col">
-                        <div className="flex gap-13 justify-start items-center">
-                            <img src="asset/icons/Professional.svg" alt="icon" className='h-49' />
-                            <div className="space-y-8">
-                                <div>
-                                    <p className="subsription-title">Professional</p>
-                                    <p className="subsription-description">Small brands, marketers, and teams</p>
-                                </div>
-
-                                <div className="flex gap-8 items-center flex-wrap">
-                                    {!isMonthCheck ?
-                                        <p className="subscription-amount">$49/mo.</p> :
-                                        <>
-                                            <p className="subscription-amount">$39.2/mo.</p>
-                                            <div className="text-secondary-text text-sm font-medium flex items-center gap-14 break-all flex-wrap"><s className="font-semibold">$0/mo.</s><p>$470.4/year</p></div>
-                                        </>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr className="border-Outlines w-full" />
-
-                        <div className="space-y-16">
-                            <p className="font-semibold text-xs uppercase text-main-text">Includes:</p>
-
-                            <ul className="space-y-10">
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Create and print shipping labels</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Send letters and postcards (pay per piece sent)</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Store up to <b>500 contacts</b></p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Priority support</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Full API access</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Access to discounted shipping rates</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Access to the Partner Program</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Batch shipping and mass mailing tools</p>
-                                </li>
-                                <li className="subscription-provided">
-                                    <img src="asset/icons/check.svg" alt="icon" className='h-14' />
-                                    <p>Import/export for contacts/campaigns</p>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <p className="bg-table-header p-10 rounded-5px text-xs font-medium text-main-text">Built for teams that need automation, scalability, and deeper workflow integration.</p>
-
-                        <button 
-                            onClick={() => handleUpgrade('professional')}
-                            disabled={loading || currentSubscription?.plan === 'professional'}
-                            className={loading || currentSubscription?.plan === 'professional' ? "disable-primary-btn" : "primary-btn"}
-                        >
-                            {loading ? 'Upgrading...' : currentSubscription?.plan === 'professional' ? 'Current Plan' : 'Upgrade to Professional'}
-                        </button>
-
-                    </div>
-
+                    )}
                 </div>
             </div>
         </>
