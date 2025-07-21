@@ -2,6 +2,9 @@ import { useState, useEffect } from "react"
 import { NavLink } from "react-router";
 import { useSubscription } from "../hook/useSubscription";
 import { useToast } from "../context/toast/ToastContext";
+import CancelPlanModal from "../components/CancelPlanModal";
+import CancelAnnualPlan from "../components/CancelAnnualPlan";
+import moment from "moment";
 
 const SubscriptionPage = () => {
 
@@ -9,23 +12,40 @@ const SubscriptionPage = () => {
     const {
         currentSubscription,
         subscriptionPlans,
+        renewalDate,
+        billingCycle,
         loading,
         error,
         upgradePlan
     } = useSubscription();
-    console.log('subscription plans: ', subscriptionPlans)
+    // console.log('====================subscription plans:=======================', currentSubscription)
 
     // Debug logging
     useEffect(() => {
-        console.log('SubscriptionPage - Current Subscription:', currentSubscription);
-        console.log('SubscriptionPage - Subscription Plans:', subscriptionPlans);
-        console.log('SubscriptionPage - Loading:', loading);
-        console.log('SubscriptionPage - Error:', error);
-    }, [currentSubscription, subscriptionPlans, loading, error]);
+        // console.log('===SubscriptionPage - Current Subscription plan:===', currentSubscription);
+        // console.log('SubscriptionPage - Subscription Plans:', subscriptionPlans);
+        // console.log('SubscriptionPage - Subscription Plan renewal date:', renewalDate);
+        // console.log('SubscriptionPage - Loading:', loading);
+        // console.log('SubscriptionPage - Error:', error);
+    }, [currentSubscription, subscriptionPlans, renewalDate, billingCycle, loading, error]);
+
+    const date = renewalDate?.renewalDate;
+    const formattedDate = moment(date).format("MMMM D, YYYY");
+
     const { showToast } = useToast();
 
     const handleChangeToggle = (event) => {
         setIsMonthCheck(event.target.checked)
+    }
+
+    const scrollToUpgradeSection = () => {
+        const upgradeElement = document.getElementById('upgarde');
+        if (upgradeElement) {
+            upgradeElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     }
 
     const handleUpgrade = async (planId) => {
@@ -34,13 +54,12 @@ const SubscriptionPage = () => {
 
         if (result.success) {
             showToast({
-                message: `Successfully upgraded to ${planId} plan!`,
-                subText: 'Redirecting...'
+                message: `Successfully upgraded to ${planId} plan!`
             });
             // Refresh the page or navigate
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 2000);
         } else {
             showToast({
                 message: result.error || 'Failed to upgrade subscription',
@@ -61,17 +80,130 @@ const SubscriptionPage = () => {
                         </div>
                     </div>
 
-                    {/* card */}
-                    <div className='pl-15 sm:pl-30 pt-10 sm:pt-20'>
 
-                        <div className='bg-lime rounded-15px p-15 sm:py-50 gap-20 flex justify-start items-center'>
-                            <img src={`asset/icons/${currentSubscription?.plan === 'growth' ? 'Growth' : currentSubscription?.plan === 'professional' ? 'Professional' : 'Starter'}.svg`} alt="icon" className='h-49' />
-                            <div>
-                                <p className='subsription-description'>Your Plan</p>
-                                <p className='subsription-title'>{currentSubscription?.plan ? currentSubscription.plan.charAt(0).toUpperCase() + currentSubscription.plan.slice(1) : 'Starter'}</p>
-                            </div>
-                        </div>
-                    </div>
+                    {/* card */}
+                    {(() => {
+                        const plan = currentSubscription?.plan;
+
+                        if (plan === 'professional') {
+                            return (
+                                // Professional Plan UI
+                                <div className='pl-15 sm:pl-30 pt-10 sm:pt-20'>
+                                    {/* Professional card */}
+                                    <div className='bg-card-light-yellow rounded-15px p-15 flex justify-between items-center flex-wrap gap-20'>
+                                        <div className="gap-20 flex justify-start items-center">
+                                            <img src={`asset/icons/${currentSubscription?.plan ? currentSubscription.plan.charAt(0).toUpperCase() + currentSubscription.plan.slice(1) : 'Professional'}.svg`} alt="icon" className='h-49' />
+                                            <div>
+                                                <p className='subsription-description'>Your Plan</p>
+                                                <p className='subsription-title'>{currentSubscription?.plan ? currentSubscription.plan.charAt(0).toUpperCase() + currentSubscription.plan.slice(1) : 'Professional'}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center justify-end gap-10">
+
+                                            <button
+                                                onClick={scrollToUpgradeSection}
+                                                className="flex items-center justify-between gap-8 button-border"
+                                            >
+                                                <img src="asset/icons/upgrade.svg" alt="icon" className='h-16' />
+                                                <span className="hidden sm:block">Upgrade</span>
+                                            </button>
+
+                                            <CancelPlanModal/>
+                                        </div>
+                                    </div>
+
+                                    <div className="pt-20 flex flex-col justify-start items-start gap-10 text-sm font-medium text-main-text">
+                                        <div className="flex gap-15">
+                                            <div className="flex items-center gap-10 min-w-90 sm:min-w-130">
+                                                <img src="asset/icons/solar_calendar-linear.svg" alt="icon" />
+                                                <p>Billing cycle:</p>
+                                            </div>
+                                            <p>{currentSubscription?.billingCycle === 'yearly' ? 'Annual' : 'Monthly'} <span className="text-secondary-text">({currentSubscription?.billingCycle === 'yearly' ? `$${currentSubscription?.price?.yearly}/year` : `$${currentSubscription?.price?.monthly}/month`})</span></p>
+
+                                            <CancelAnnualPlan />
+                                        </div>
+                                        <div className="flex justify-start items-start gap-15">
+                                            <div className="flex items-center gap-10 min-w-90 sm:min-w-130">
+                                                <img src="asset/icons/cycle.svg" alt="icon" />
+                                                <p>Next renewal:</p>
+                                            </div>
+                                            <div className="flex items-center justify-start gap-15 flex-wrap">
+                                                <div>
+                                                    <p className="text-sm font-medium text-negative-warning flex gap-4 items-center"><img src="asset/icons/warning-alert.svg" alt="icon" className="h-14" />Yesterday</p>
+                                                    <p className="text-sm font-medium text-secondary-text">There was a problem with the card!</p>
+                                                </div>
+                                                <button className="py-8 px-11 border border-Outlines focus:border-outlines-active active:border-outlines-active rounded-7px text-sm font-medium text-main-text cursor-pointer">Fix It</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        } else if (plan === 'growth') {
+                            return (
+                                // Growth Plan UI
+                                <div className='pl-15 sm:pl-30 pt-10 sm:pt-20'>
+                                    {/* Growth card */}
+
+                                    <div className='bg-card-light-purple rounded-15px p-15 flex justify-between items-center flex-wrap gap-20'>
+                                        <div className="gap-20 flex justify-start items-center">
+                                            <img src={`asset/icons/${currentSubscription?.plan ? currentSubscription.plan.charAt(0).toUpperCase() + currentSubscription.plan.slice(1) : 'Growth'}.svg`} alt="icon" className='h-49' />
+                                            <div>
+                                                <p className='subsription-description'>Your Plan</p>
+                                                <p className='subsription-title'>{currentSubscription?.plan ? currentSubscription.plan.charAt(0).toUpperCase() + currentSubscription.plan.slice(1) : 'Growth'}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center justify-end gap-10">
+
+                                            <button
+                                                onClick={scrollToUpgradeSection}
+                                                className="flex items-center justify-between gap-8 button-border"
+                                            >
+                                                <img src="asset/icons/upgrade.svg" alt="icon" className='h-16' />
+                                                <span className="hidden sm:block">Upgrade</span>
+                                            </button>
+
+                                            <CancelPlanModal />
+                                        </div>
+                                    </div>
+
+                                    <div className="pt-20 flex flex-col justify-start items-start gap-10 text-sm font-medium text-main-text">
+                                        <div className="flex justify-start items-start gap-15">
+                                            <div className="flex items-center gap-10 min-w-90 sm:min-w-130">
+                                                <img src="asset/icons/solar_calendar-linear.svg" alt="icon" />
+                                                <p>Billing cycle:</p>
+                                            </div>
+                                            <p>{currentSubscription?.billingCycle === 'yearly' ? 'Annual' : 'Monthly'} <span className="text-secondary-text">({currentSubscription?.billingCycle === 'yearly' ? `$${currentSubscription?.price?.yearly}/year` : `$${currentSubscription?.price?.monthly}/month`})</span></p>
+
+                                            <CancelAnnualPlan />
+                                        </div>
+                                        <div className="flex justify-start items-start gap-15">
+                                            <div className="flex items-center gap-10 min-w-90 sm:min-w-130">
+                                                <img src="asset/icons/cycle.svg" alt="icon" />
+                                                <p>Next renewal:</p>
+                                            </div>
+                                            <p>{formattedDate}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        } else {
+                            return (
+                                // Starter Plan UI (default fallback)
+                                <div className='pl-15 sm:pl-30 pt-10 sm:pt-20'>
+                                    {/* Starter card */}
+                                    <div className='bg-lime rounded-15px p-15 sm:py-50 gap-20 flex justify-start items-center'>
+                                        <img src={`asset/icons/${currentSubscription?.plan === 'growth' ? 'Growth' : currentSubscription?.plan === 'professional' ? 'Professional' : 'Starter'}.svg`} alt="icon" className='h-49' />
+                                        <div>
+                                            <p className='subsription-description'>Your Plan</p>
+                                            <p className='subsription-title'>{currentSubscription?.plan ? currentSubscription.plan.charAt(0).toUpperCase() + currentSubscription.plan.slice(1) : 'Starter'}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        }
+                    })()}
                 </div>
 
                 <div className='max-sm:py-20 max-sm:px-15 sm:p-30 bg-white rounded-15px sm:rounded-20px flex gap-10 sm:gap-20 justify-start items-start flex-col'>
@@ -121,7 +253,7 @@ const SubscriptionPage = () => {
 
             </div>
 
-            <div className="bg-white rounded-20px max-sm:py-20 max-sm:px-15 sm:p-30 flex justify-start gap-10 sm:gap-20 flex-col">
+            <div id="upgarde" className="bg-white rounded-20px max-sm:py-20 max-sm:px-15 sm:p-30 flex justify-start gap-10 sm:gap-20 flex-col">
                 {/* header */}
                 <div className="flex justify-between sm:justify-start items-center gap-10 sm:gap-30 flex-wrap">
                     <p className="font-semibold text-xl text-main-text">Plans</p>
@@ -137,7 +269,7 @@ const SubscriptionPage = () => {
                             </label>
                         </div>
 
-                        <p className="text-sm font-medium text-secondary-text">Annualy <span className="text-primary">(-20%)</span></p>
+                        <p className="text-sm font-medium text-secondary-text">Annually <span className={`${isMonthCheck ? "text-positive-warning" : "text-primary"}`}>(-20%)</span></p>
                     </div>
                 </div>
 

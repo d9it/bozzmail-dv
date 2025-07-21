@@ -5,49 +5,53 @@ import { PiWarningCircle } from "react-icons/pi";
 import { useSubscription } from "../hook/useSubscription";
 import { useToast } from "../context/toast/ToastContext";
 
-const PlanModal = () => {
+const CancelPlanModal = () => {
 
     const [isMonthCheck, setIsMonthCheck] = useState(false);
-    const { 
-        currentSubscription, 
-        subscriptionPlans, 
-        loading, 
+    const {
+        currentSubscription,
+        subscriptionPlans,
+        loading,
         error,
-        upgradePlan 
+        upgradePlan
     } = useSubscription();
     const { showToast } = useToast();
 
     // Debug logging
     useEffect(() => {
-        console.log('PlanModal - Current Subscription:', currentSubscription);
-        console.log('PlanModal - Subscription Plans:', subscriptionPlans);
-        console.log('PlanModal - Loading:', loading);
-        console.log('PlanModal - Error:', error);
+        // console.log('===CancelPlanModal - Current Subscription plan:===', currentSubscription);
+        // console.log('CancelPlanModal - Subscription Plans:', subscriptionPlans);
+        // console.log('CancelPlanModal - Current Subscription billing cycle:', );
+        // console.log('CancelPlanModal - Loading:', loading);
+        // console.log('CancelPlanModal - Error:', error);
     }, [currentSubscription, subscriptionPlans, loading, error]);
+
+
+    const handleDowngrade = async () => {
+        const billingCycle = isMonthCheck ? 'yearly' : 'monthly';
+        const result = await upgradePlan('starter', billingCycle);
+
+        if (result.success) {
+            showToast({
+                message: 'Successfully downgraded to Starter plan!',
+                subText: 'Redirecting...'
+            });
+            handleModalClose();
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 2000);
+        } else {
+            showToast({
+                message: result.error || 'Failed to downgrade subscription',
+                type: 'error'
+            });
+        }
+    }
 
     const handleChangeToggle = (event) => {
         setIsMonthCheck(event.target.checked)
     }
 
-    const handleDowngrade = async () => {
-        const billingCycle = isMonthCheck ? 'yearly' : 'monthly';
-        const result = await upgradePlan('starter', billingCycle);
-        
-        if (result.success) {
-            showToast({ 
-                message: 'Successfully downgraded to Starter plan!', 
-                subText: 'Redirecting...' 
-            });
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-        } else {
-            showToast({ 
-                message: result.error || 'Failed to downgrade subscription', 
-                type: 'error' 
-            });
-        }
-    }
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -72,21 +76,7 @@ const PlanModal = () => {
             <Modal isOpen={modalOpen} onClose={handleModalClose}>
 
                 {/* alert */}
-                <div className="fixed max-xl:top-16 max-xl:left-1/2 max-xl:transform max-xl:-translate-x-1/2 xl:bottom-30 xl:right-30 max-xl:px-16 max-xl:w-full max-xl:flex max-xl:justify-center z-2000000">
-                    <div className="bg-white rounded-15px overflow-hidden relative w-fit shadow-box">
-                        <div className="flex justify-start items-start gap-14 pt-20 pb-16 pr-96 xl:pr-80 pl-20">
-                            <img src="/asset/icons/success.svg" alt="icon" className="h-20 flex-none" />
-                            <div>
-                                <p className="text-main-text font-semibold pb-0.5">Your plan has been downgraded</p>
-                                <p className="text-secondary-text text-sm font-medium">Come back to paid plan whenever you ready!</p>
-                            </div>
-                        </div>
-                        <div className="h-3 bg-primary"></div>
 
-                        {/* cross alert */}
-                        <img src="/asset/icons/cross.svg" alt="icon" className="h-16 flex-none absolute top-12 right-24 cursor-pointer" />
-                    </div>
-                </div>
 
                 <div className="flex flex-col gap-12 sm:gap-20">
                     <p className="text-xl sm:text-25px font-semibold text-main-text pr-40">Are you sure you want to cancel the {currentSubscription?.plan ? currentSubscription.plan.charAt(0).toUpperCase() + currentSubscription.plan.slice(1) : 'Growth'} Plan?</p>
@@ -108,7 +98,7 @@ const PlanModal = () => {
                             </label>
                         </div>
 
-                        <p className="text-sm font-medium text-secondary-text">Annualy <span className="text-primary">(-20%)</span></p>
+                        <p className="text-sm font-medium text-secondary-text">Annually <span className={`${isMonthCheck ? "text-positive-warning" : "text-primary"}`}>(-20%)</span></p>
                     </div>
 
                     {/* cards */}
@@ -122,15 +112,16 @@ const PlanModal = () => {
                                 <p className="text-red-500">Error loading plans: {error}</p>
                             </div>
                         ) : subscriptionPlans && subscriptionPlans.length > 0 ? (
+                            
                             subscriptionPlans.filter(plan => plan.id === 'starter' || plan.id === currentSubscription?.plan).map((plan) => {
+                                console.log('curr sub plan: ',currentSubscription?.plan);
                                 const isCurrentPlan = currentSubscription?.plan === plan.id;
-                                
+
                                 return (
-                                    <div 
+                                    <div
                                         key={plan.id}
-                                        className={`rounded-15px py-26 px-20 flex gap-22 justify-start ${
-                                            isCurrentPlan ? 'border-2 border-primary' : 'border border-Outlines'
-                                        } flex-col relative overflow-hidden`}
+                                        className={`rounded-15px py-26 px-20 flex gap-22 justify-start ${isCurrentPlan ? 'border-2 border-primary' : 'border border-Outlines'
+                                            } flex-col relative overflow-hidden`}
                                     >
                                         {/* Current Plan tag */}
                                         {isCurrentPlan && (
@@ -144,7 +135,7 @@ const PlanModal = () => {
                                                     <p className="subsription-title">{plan.name}</p>
                                                     <p className="subsription-description">{plan.description}</p>
                                                 </div>
-                                                
+
                                                 <div className="flex gap-8 items-start justify-start flex-col flex-wrap">
                                                     {!isMonthCheck ? (
                                                         <p className="subscription-amount">
@@ -174,13 +165,13 @@ const PlanModal = () => {
                                                 {plan.features.map((feature, index) => {
                                                     const isIncluded = plan.included.includes(index);
                                                     const isExcluded = plan.excluded.includes(index);
-                                                    
+
                                                     return (
                                                         <li key={index} className={isIncluded ? "subscription-provided" : "subscription-unprovided"}>
-                                                            <img 
-                                                                src={isIncluded ? "asset/icons/check.svg" : isExcluded ? "asset/icons/gray-cross.svg" : "asset/icons/gray-check.svg"} 
-                                                                alt="icon" 
-                                                                className='h-14' 
+                                                            <img
+                                                                src={isIncluded ? "asset/icons/check.svg" : isExcluded ? "asset/icons/gray-cross.svg" : "asset/icons/gray-check.svg"}
+                                                                alt="icon"
+                                                                className='h-14'
                                                             />
                                                             <p dangerouslySetInnerHTML={{ __html: feature }}></p>
                                                         </li>
@@ -189,15 +180,19 @@ const PlanModal = () => {
                                             </ul>
                                         </div>
 
-                                        {plan.id === 'starter' && (
-                                            <button 
-                                                onClick={handleDowngrade}
-                                                disabled={loading || isCurrentPlan}
-                                                className={loading || isCurrentPlan ? "disable-primary-btn" : "primary-btn"}
+                                        {
+                                            <button
+                                                onClick={isCurrentPlan ? handleModalClose : handleDowngrade}
+                                                disabled={loading && !isCurrentPlan}
+                                                className={loading && !isCurrentPlan ? "disable-primary-btn" : "primary-btn"}
                                             >
-                                                {loading ? 'Downgrading...' : isCurrentPlan ? 'Current Plan' : 'Downgrade to Starter'}
+                                                {loading && !isCurrentPlan
+                                                    ? 'Downgrading...'
+                                                    : isCurrentPlan
+                                                        ? `Stay On ${currentSubscription.plan}`
+                                                        : 'Downgrade to Starter'}
                                             </button>
-                                        )}
+                                        }
                                     </div>
                                 );
                             })
@@ -213,4 +208,4 @@ const PlanModal = () => {
     )
 }
 
-export default PlanModal
+export default CancelPlanModal

@@ -18,7 +18,7 @@ export const useSubscription = () => {
     setError(null);
     try {
       const result = await subscriptionAPI.getCurrentSubscription();
-      console.log('get current subscriptions: ', result)
+      // console.log('get current subscriptions: ', result)
       if (result.success) {
         setCurrentSubscription(result.data);
       } else {
@@ -37,7 +37,7 @@ export const useSubscription = () => {
     setError(null);
     try {
       const result = await subscriptionAPI.getSubscriptionPlans();
-      console.log('Get subscriptions Plans: ', result)
+      // console.log('Get subscriptions Plans: ', result)
 
       if (result.success) {
         setSubscriptionPlans(result.data);
@@ -57,9 +57,9 @@ export const useSubscription = () => {
     setError(null);
     try {
       const result = await subscriptionAPI.upgradeSubscription(planId, billingCycle);
-      console.log('Upgrade subscription result: ', result)
+      // console.log('my sub plans: ',subscriptionPlans);
       if (result.success) {
-        // Refresh current subscription after upgrade
+        console.log('current subscription inside useSubscription: ', currentSubscription);
         await fetchCurrentSubscription();
         return { success: true, data: result.data };
       } else {
@@ -81,7 +81,7 @@ export const useSubscription = () => {
     setError(null);
     try {
       const result = await subscriptionAPI.cancelSubscription();
-      console.log('Cancel subscription result: ', result)
+      // console.log('Cancel subscription result: ', result)
 
       if (result.success) {
         // Refresh current subscription after cancellation
@@ -106,7 +106,7 @@ export const useSubscription = () => {
     setError(null);
     try {
       const result = await subscriptionAPI.getWalletBalance();
-      console.log('Fetch wallet balance result: ', result)
+      // console.log('Fetch wallet balance result: ', result)
 
       if (result.success) {
         setWalletBalance(result.data);
@@ -126,7 +126,7 @@ export const useSubscription = () => {
     setError(null);
     try {
       const result = await subscriptionAPI.getTransactionHistory();
-      console.log('Fetch transaction history result: ', result)
+      // console.log('Fetch transaction history result: ', result)
 
       if (result.success) {
         setTransactions(result.data);
@@ -151,7 +151,7 @@ export const useSubscription = () => {
       }
       // Now add funds
       const result = await subscriptionAPI.addWalletFunds(amount);
-      console.log('Add funds to wallet result: ', result);
+      // console.log('Add funds to wallet result: ', result);
       // Refresh wallet balance after adding funds
       await fetchWalletBalance();
       return { success: true, data: result };
@@ -170,7 +170,7 @@ export const useSubscription = () => {
     setError(null);
     try {
       const result = await subscriptionAPI.getBillingCycle();
-      console.log('Fetch billing cycle result: ', result)
+      // console.log('Fetch billing cycle result: ', result)
 
       if (result.success) {
         setBillingCycle(result.data);
@@ -190,7 +190,7 @@ export const useSubscription = () => {
     setError(null);
     try {
       const result = await subscriptionAPI.getRenewalDate();
-      console.log('Fetch renewal date result: ', result)
+      // console.log('Fetch renewal date result: ', result)
 
       if (result.success) {
         setRenewalDate(result.data);
@@ -210,7 +210,7 @@ export const useSubscription = () => {
     setError(null);
     try {
       const result = await subscriptionAPI.getUserProfileSummary();
-      console.log('Fetch user profile summary result: ', result)
+      // console.log('Fetch user profile summary result: ', result)
 
       if (result.success) {
         setUserProfile(result.data);
@@ -230,13 +230,14 @@ export const useSubscription = () => {
     fetchSubscriptionPlans();
     fetchBillingCycle();
     fetchRenewalDate();
-    fetchWalletBalance();
+    // fetchWalletBalance();
     fetchUserProfile();
   }, []);
 
   return {
     // State
     currentSubscription,
+    setCurrentSubscription,
     subscriptionPlans,
     billingCycle,
     renewalDate,

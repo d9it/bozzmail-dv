@@ -5,7 +5,7 @@ import { PiWarningCircle } from "react-icons/pi";
 import { useSubscription } from "../hook/useSubscription";
 import { useToast } from "../context/toast/ToastContext";
 
-const CancelPlan = () => {
+const CancelAnnualPlan = () => {
 
     const [isMonthCheck, setIsMonthCheck] = useState(false);
     const { 
@@ -53,10 +53,10 @@ const CancelPlan = () => {
     return (
         <>
             {/* button for open model */}
-            <button className="flex items-center gap-10 text-primary cursor-pointer focus:border-none" onClick={handleModalOpen}>
+            {currentSubscription?.billingCycle === 'yearly' && (<button className="flex items-center gap-10 text-primary cursor-pointer focus:border-none" onClick={handleModalOpen}>
                 <img src="asset/icons/refresh-primary.svg" alt="icon" />
                 <p className="hidden sm:block">Switch to monthly</p>
-            </button>
+            </button>)}
 
             {/* model start */}
             <Modal isOpen={modalOpen} onClose={handleModalClose}>
@@ -104,4 +104,4 @@ const CancelPlan = () => {
     )
 }
 
-export default CancelPlan;
+export default CancelAnnualPlan;
