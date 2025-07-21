@@ -47,9 +47,9 @@ export const subscriptionAPI = {
   // Get current user's subscription plan
   getCurrentSubscription: async () => {
     try {
-      console.log('Calling: /subscriptions/current');
+      // console.log('Calling: /subscriptions/current');
       const response = await apiCall('/subscriptions/current', {}, 'GET');
-      console.log('Response from /subscriptions/current:', response);
+      // console.log('Response from /subscriptions/current:', response);
       return response.data;
     } catch (error) {
       console.error('Error in getCurrentSubscription:', error);
@@ -60,9 +60,9 @@ export const subscriptionAPI = {
   // Get all available subscription plans
   getSubscriptionPlans: async () => {
     try {
-      console.log('Calling: /subscriptions/plans');
+      // console.log('Calling: /subscriptions/plans');
       const response = await apiCall('/subscriptions/plans', {}, 'GET');
-      console.log('Response from /subscriptions/plans:', response);
+      // console.log('Response from /subscriptions/plans:', response);
       return response.data;
     } catch (error) {
       console.error('Error in getSubscriptionPlans:', error);
@@ -73,9 +73,9 @@ export const subscriptionAPI = {
   // Upgrade subscription plan
   upgradeSubscription: async (planId, billingCycle = 'monthly') => {
     try {
-      console.log('Calling: /subscriptions/upgrade', { planId, billingCycle });
+      // console.log('Calling: /subscriptions/upgrade', { planId, billingCycle });
       const response = await apiCall('/subscriptions/upgrade', { planId, billingCycle }, 'POST');
-      console.log('Response from /subscriptions/upgrade:', response);
+      // console.log('Response from /subscriptions/upgrade:', response);
       return response.data;
     } catch (error) {
       console.error('Error in upgradeSubscription:', error);
@@ -86,9 +86,9 @@ export const subscriptionAPI = {
   // Cancel subscription
   cancelSubscription: async () => {
     try {
-      console.log('Calling: /subscriptions/cancel');
+      // console.log('Calling: /subscriptions/cancel');
       const response = await apiCall('/subscriptions/cancel', {}, 'POST');
-      console.log('Response from /subscriptions/cancel:', response);
+      // console.log('Response from /subscriptions/cancel:', response);
       return response.data;
     } catch (error) {
       console.error('Error in cancelSubscription:', error);
@@ -99,9 +99,9 @@ export const subscriptionAPI = {
   // Get user's wallet balance
   getWalletBalance: async () => {
     try {
-      console.log('Calling: /user/payment/wallet-balance');
+      // console.log('Calling: /user/payment/wallet-balance');
       const response = await apiCall('/user/payment/wallet-balance', {}, 'GET');
-      console.log('Response from /user/payment/wallet-balance:', response);
+      // console.log('Response from /user/payment/wallet-balance:', response);
       return response.data;
     } catch (error) {
       console.error('Error in getWalletBalance:', error);
@@ -112,9 +112,9 @@ export const subscriptionAPI = {
   // Get user's transaction history
   getTransactionHistory: async () => {
     try {
-      console.log('Calling: /user/payment/transactions');
+      // console.log('Calling: /user/payment/transactions');
       const response = await apiCall('/user/payment/transactions', {}, 'GET');
-      console.log('Response from /user/payment/transactions:', response);
+      // console.log('Response from /user/payment/transactions:', response);
       return response.data;
     } catch (error) {
       console.error('Error in getTransactionHistory:', error);
@@ -125,9 +125,9 @@ export const subscriptionAPI = {
   //Register for the payment
   registerUserForPayment: async (email, name, mobile) => {
     try {
-      console.log('Calling: /user/payment/register', { email, name, mobile });
+      // console.log('Calling: /user/payment/register', { email, name, mobile });
       const response = await apiCall('/user/payment/register', { email, name, mobile }, 'POST');
-      console.log('Response from /user/payment/register:', response);
+      // console.log('Response from /user/payment/register:', response);
       return response.data;
     } catch (error) {
       console.error('Error in registerUserForPayment:', error);
@@ -138,9 +138,9 @@ export const subscriptionAPI = {
   // Add funds to wallet
   addWalletFunds: async (amount) => {
     try {
-      console.log('Calling: /user/payment/add-wallet-fund', { amount });
+      // console.log('Calling: /user/payment/add-wallet-fund', { amount });
       const response = await apiCall('/user/payment/add-wallet-fund', { amount }, 'POST');
-      console.log('Response from /user/payment/add-wallet-fund:', response);
+      // console.log('Response from /user/payment/add-wallet-fund:', response);
       return response.data;
     } catch (error) {
       console.error('Error in addWalletFunds:', error);
@@ -151,9 +151,9 @@ export const subscriptionAPI = {
   // Get subscription billing cycle
   getBillingCycle: async () => {
     try {
-      console.log('Calling: /subscriptions/billing-cycle');
+      // console.log('Calling: /subscriptions/billing-cycle');
       const response = await apiCall('/subscriptions/billing-cycle', {}, 'GET');
-      console.log('Response from /subscriptions/billing-cycle:', response);
+      // console.log('Response from /subscriptions/billing-cycle:', response);
       return response.data;
     } catch (error) {
       console.error('Error in getBillingCycle:', error);
@@ -164,9 +164,9 @@ export const subscriptionAPI = {
   // Get next renewal date
   getRenewalDate: async () => {
     try {
-      console.log('Calling: /subscriptions/renewal-date');
+      // console.log('Calling: /subscriptions/renewal-date');
       const response = await apiCall('/subscriptions/renewal-date', {}, 'GET');
-      console.log('Response from /subscriptions/renewal-date:', response);
+      // console.log('Response from /subscriptions/renewal-date:', response);
       return response.data;
     } catch (error) {
       console.error('Error in getRenewalDate:', error);
@@ -177,9 +177,9 @@ export const subscriptionAPI = {
   // Get user profile summary
   getUserProfileSummary: async () => {
     try {
-      console.log('Calling: /user/profile/summary');
+      // console.log('Calling: /user/profile/summary');
       const response = await apiCall('/user/profile/summary', {}, 'GET');
-      console.log('Response from /user/profile/summary:', response);
+      // console.log('Response from /user/profile/summary:', response);
       return response.data;
     } catch (error) {
       console.error('Error in getUserProfileSummary:', error);

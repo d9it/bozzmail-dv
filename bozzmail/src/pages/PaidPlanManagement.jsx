@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { NavLink } from "react-router";
-import PlanModal from "../components/PlanModal";
-import CancelPlan from "../components/CancelPlan";
+import CancelPlanModal from "../components/CancelPlanModal";
+import CancelPlan from "../components/CancelAnnualPlan";
 import { useSubscription } from "../hook/useSubscription";
 import { useToast } from "../context/toast/ToastContext";
 
@@ -19,10 +19,10 @@ const PaidPlanManagement = () => {
 
     // Debug logging
     useEffect(() => {
-        console.log('PaidPlanManagement - Current Subscription:', currentSubscription);
-        console.log('PaidPlanManagement - Subscription Plans:', subscriptionPlans);
-        console.log('PaidPlanManagement - Loading:', loading);
-        console.log('PaidPlanManagement - Error:', error);
+        // console.log('PaidPlanManagement - Current Subscription:', currentSubscription);
+        // console.log('PaidPlanManagement - Subscription Plans:', subscriptionPlans);
+        // console.log('PaidPlanManagement - Loading:', loading);
+        // console.log('PaidPlanManagement - Error:', error);
     }, [currentSubscription, subscriptionPlans, loading, error]);
 
     const handleChangeToggle = (event) => {
@@ -80,7 +80,7 @@ const PaidPlanManagement = () => {
                                     <span className="hidden sm:block">Upgrade</span>
                                 </a>
 
-                                <PlanModal />
+                                <CancelPlanModal />
                             </div>
                         </div>
 

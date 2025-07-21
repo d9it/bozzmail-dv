@@ -16,7 +16,7 @@ export const useAuth = () => {
 
     try {
       const response = await authAPI.login(credentials);
-      console.log('login response: ', response);
+      // console.log('login response: ', response);
 
       // Store token in localStorage
       if (response.token) {
@@ -46,7 +46,7 @@ export const useAuth = () => {
 
     try {
       const response = await authAPI.register(userData);
-      console.log('register response: ', response);
+      // console.log('register response: ', response);
 
 
       // Store token in localStorage if auto-login is enabled
