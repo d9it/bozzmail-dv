@@ -2,16 +2,14 @@ import { useState } from "react";
 import Modal from "./Modal"
 import { NavLink } from "react-router";
 import { PiWarningCircle } from "react-icons/pi";
-import { GoPlus } from "react-icons/go";
-import { IoCardOutline } from "react-icons/io5";
+import { IoChevronBack, IoChevronDown, IoChevronForward } from "react-icons/io5";
+import useDropdown from '../hook/useDropdown';
 
-const TopUpWallet = () => {
 
-    const [isMonthCheck, setIsMonthCheck] = useState(false);
+const ConfirmAccountDelete = () => {
 
-    const handleChangeToggle = (event) => {
-        setIsMonthCheck(event.target.checked)
-    }
+    const dropdown1 = useDropdown();
+    const dropdown2 = useDropdown();
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -27,22 +25,22 @@ const TopUpWallet = () => {
     return (
         <>
             {/* button for open model */}
-            <button className='small-button-border' onClick={handleModalOpen}>
-                <GoPlus className='text-cta-secondary text-sm stroke-1' />
-                <p>Top Up</p>
-            </button>
+            <div onClick={handleModalOpen} className='flex items-center justify-between gap-8 small-button-border !border-border-danger w-fit'>
+                <img src="asset/icons/red-delete.svg" alt="icon" className="h-17" />
+                <span className='text-negative-warning'> Delete Account</span>
+            </div>
 
             {/* model start */}
             <Modal isOpen={modalOpen} onClose={handleModalClose}>
 
                 {/* alert */}
+                {/* this alert will be display on register page after click on yes delete account */}
                 <div className="fixed max-xl:top-16 max-xl:left-1/2 max-xl:transform max-xl:-translate-x-1/2 xl:bottom-30 xl:right-30 max-xl:px-16 max-xl:w-full max-xl:flex max-xl:justify-center z-2000000">
                     <div className="bg-white rounded-15px overflow-hidden relative w-fit shadow-box">
                         <div className="flex justify-start items-start gap-14 pt-20 pb-16 pr-50 xl:pr-60 pl-20">
                             <img src="/asset/icons/success.svg" alt="icon" className="h-20 flex-none" />
                             <div className="w-full sm:max-w-md max-h-100 sm:max-h-90 overflow-auto dropdown-scrollbar">
-                                <p className="text-main-text font-semibold pb-2">Funds added successfully!</p>
-                                <p className="text-secondary-text text-sm font-medium">$57 has been added to your wallet</p>
+                                <p className="text-main-text font-semibold pb-2">Your account was successfully removed</p>
                             </div>
                         </div>
                         <div className="h-3 bg-primary"></div>
@@ -54,26 +52,17 @@ const TopUpWallet = () => {
 
                 <div className="flex flex-col gap-12 sm:gap-20">
                     <div className="space-y-4">
-                        <p className="text-xl sm:text-25px font-semibold text-main-text pr-40">Top Up Wallet</p>
-                        <p className="font-medium text-13px sm:text-sm text-secondary-text">Add money to your BozzMail wallet for shipping and mail services.</p>
+                        <p className="text-xl sm:text-25px font-semibold text-main-text pr-40">Are you sure?</p>
+                        <p className="font-medium text-13px sm:text-sm text-secondary-text">You will lose all of the data you have in your account</p>
                     </div>
-
-                    <div className='flex justify-start gap-8 flex-col w-full relative'>
-                        <label htmlFor="insured" className='label-text'>Amount ($)<span>*</span></label>
-                        <input type="text" name="" id="insured" required placeholder='50.00' className='form-input' />
-                    </div>
-
-                    <div className="warning-message">
-                        <PiWarningCircle className='text-secondary-text text-17px stroke-3 flex-none' />
-                        <p>You will be redirected to our secure payment processor to complete the transaction.</p>
-                    </div>
-
+                    
+                    {/* on click of set loader and redirect to register page and alert page set on register page */}
                     <div className="flex justify-end items-center gap-10">
                         <button onClick={handleModalClose} className="outline-btn cursor-pointer">Cancel</button>
-                        <button className='flex items-center justify-between gap-8 button-icon'>
-                            <IoCardOutline className="text-white text-base"/>
-                            <span> Add $50.00</span>
-                        </button>
+                        <NavLink to={"/register"}  className='flex items-center justify-between gap-8 delete-btn'>
+                            <img src="asset/icons/white-delete.svg" alt="icon" className="h-16" />
+                            <span> Yes, Delete Account</span>
+                        </NavLink>
                     </div>
 
                 </div>
@@ -82,4 +71,4 @@ const TopUpWallet = () => {
     )
 }
 
-export default TopUpWallet;
+export default ConfirmAccountDelete;

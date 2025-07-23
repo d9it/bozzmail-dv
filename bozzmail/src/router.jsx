@@ -11,9 +11,12 @@ import PaidPlanManagement from "./pages/PaidPlanManagement"
 import ProfessionalPlanManagement from "./pages/ProfessionalPlanManagement"
 import ShippingLabelsPage from "./pages/ShippingLabelsPage"
 import CreateLabelPage from "./pages/CreateLabelPage"
+import CreateMail from "./pages/CreateMail"
 import ApiPage from "./pages/ApiPage"
 import MainLayout from "./layouts/MainLayout"
 import PrivateRoute from "./components/PrivateRoute"
+import PrintMailPage from "./pages/PrintMailPage"
+import ImportLabelPage from "./pages/ImportLabelPage"
 
 const AppRoute = () => {
 
@@ -27,9 +30,9 @@ const AppRoute = () => {
       <Route path="/success-message" element={<SuccessMessagePage />} />
 
       <Route element={
-        <PrivateRoute>
+        // <PrivateRoute>
           <MainLayout />
-        </PrivateRoute>
+        // </PrivateRoute>
       }>
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/subscription" element={<SubscriptionPage />} />
@@ -37,6 +40,9 @@ const AppRoute = () => {
         <Route path="/professional-plan-management" element={<ProfessionalPlanManagement />} />
         <Route path="/shipping-labels" element={<ShippingLabelsPage />} />
         <Route path="/create-labels" element={<CreateLabelPage />} />
+        <Route path="/import-labels" element={<ImportLabelPage />} />
+        <Route path="/print-mail" element={<PrintMailPage />} />
+        <Route path="/create-mail" element={<CreateMail />} />
         <Route path="/api" element={<ApiPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

@@ -5,27 +5,27 @@ import { TbFileExport } from "react-icons/tb";
 import { IoChevronBack, IoChevronDown, IoChevronForward } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa6";
 import { NavLink } from 'react-router';
-import AddressTab from './shipping-label-tabs/AddressTab';
-import PackageTab from './shipping-label-tabs/PackageTab';
-import CarrierServiceTab from './shipping-label-tabs/CarrierServiceTab';
+import ContentTypeTab from './create-mail-tabs/ContentTypeTab';
+import MailAddressTab from './create-mail-tabs/MailAddressTab';
+import ContentCreationTab from './create-mail-tabs/ContentCreationTab';
 import ReviewTab from './shipping-label-tabs/ReviewTab';
 import PaymentTab from './shipping-label-tabs/PaymentTab';
 import CompleteTab from './shipping-label-tabs/CompleteTab';
 import CustomTab from './shipping-label-tabs/CustomTab';
 
-const CreateLabelPage = () => {
+const CreateMail = () => {
 
-  const [activeTab, setActiveTab] = useState("addresses");
+  const [activeTab, setActiveTab] = useState("content-type");
 
   return (
     <>
-      {/*Create Label*/}
+      {/*Create Mail*/}
       <div className='py-20 sm:py-30 px-15 sm:px-30 bg-white rounded-15px sm:rounded-20px'>
 
         <div className='flex justify-between items-center flex-wrap gap-10 w-full'>
           <NavLink to={"/shipping-labels"} className='flex items-center justify-start gap-10'>
             <IoChevronBack className='text-xl text-main-text' />
-            <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Create Label</h2>
+            <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Create Mail</h2>
           </NavLink>
 
           <div className="flex justify-end  gap-10 sm:gap-25 flex-wrap">
@@ -56,35 +56,35 @@ const CreateLabelPage = () => {
         <div className='flex justify-between items-center gap-2 sm:gap-10'>
 
           {/* uncomment this button to show a finish state design */}
-          {/* <button className='tab-btn' onClick={() => setActiveTab("addresses")}>
+          {/* <button className='tab-btn' onClick={() => setActiveTab("content-type")}>
             <div className="tab-digit complete-tab"><FaCheck className='text-xs text-primary'/></div>
-            <p className="tab-text text-main-text">Addresses</p>
+            <p className="tab-text text-main-text">Content Type</p>
           </button> */}
 
+          <button className='tab-btn' onClick={() => setActiveTab("content-type")}>
+            <div className={`tab-digit ${activeTab === "content-type" ? "tab-digit-active" : "tab-digit-inactive"}`}>1</div>
+            <p className={`tab-text ${activeTab === "content-type" ? "text-sidebar-menu" : "text-secondary-text"}`}>Content Type</p>
+          </button>
+
+          <div className='tab-line'></div>
+
           <button className='tab-btn' onClick={() => setActiveTab("addresses")}>
-            <div className={`tab-digit ${activeTab === "addresses" ? "tab-digit-active" : "tab-digit-inactive"}`}>1</div>
+            <div className={`tab-digit ${activeTab === "addresses" ? "tab-digit-active" : "tab-digit-inactive"}`}>2</div>
             <p className={`tab-text ${activeTab === "addresses" ? "text-sidebar-menu" : "text-secondary-text"}`}>Addresses</p>
           </button>
 
           <div className='tab-line'></div>
 
-          <button className='tab-btn' onClick={() => setActiveTab("package")}>
-            <div className={`tab-digit ${activeTab === "package" ? "tab-digit-active" : "tab-digit-inactive"}`}>2</div>
-            <p className={`tab-text ${activeTab === "package" ? "text-sidebar-menu" : "text-secondary-text"}`}>Package</p>
+          <button className='tab-btn' onClick={() => setActiveTab("content-creation")}>
+            <div className={`tab-digit ${activeTab === "content-creation" ? "tab-digit-active" : "tab-digit-inactive"}`}>3</div>
+            <p className={`tab-text ${activeTab === "content-creation" ? "text-sidebar-menu" : "text-secondary-text"}`}>Content Creation</p>
           </button>
 
           <div className='tab-line'></div>
 
-          {/* this tab will be display on international shipment */}
-          <button className='tab-btn' onClick={() => setActiveTab("custom")}>
-            <div className={`tab-digit ${activeTab === "custom" ? "tab-digit-active" : "tab-digit-inactive"}`}>3</div>
-            <p className={`tab-text ${activeTab === "custom" ? "text-sidebar-menu" : "text-secondary-text"}`}>Customs</p>
-          </button>
-          <div className='tab-line'></div>
-
-          <button className='tab-btn' onClick={() => setActiveTab("carrier-service")}>
-            <div className={`tab-digit ${activeTab === "carrier-service" ? "tab-digit-active" : "tab-digit-inactive"}`}>4</div>
-            <p className={`tab-text ${activeTab === "carrier-service" ? "text-sidebar-menu" : "text-secondary-text"}`}>Carrier & Service</p>
+          <button className='tab-btn' onClick={() => setActiveTab("mail-service-option")}>
+            <div className={`tab-digit ${activeTab === "mail-service-option" ? "tab-digit-active" : "tab-digit-inactive"}`}>4</div>
+            <p className={`tab-text ${activeTab === "mail-service-option" ? "text-sidebar-menu" : "text-secondary-text"}`}>Mail Service Options</p>
           </button>
 
           <div className='tab-line'></div>
@@ -112,10 +112,10 @@ const CreateLabelPage = () => {
 
       {/* tab content */}
 
-      {activeTab === "addresses" && <AddressTab />}
-      {activeTab === "package" && <PackageTab />}
-      {activeTab === "custom" && <CustomTab />}
-      {activeTab === "carrier-service" && <CarrierServiceTab />}
+      {activeTab === "content-type" && <ContentTypeTab />}
+      {activeTab === "addresses" && <MailAddressTab />}
+      {activeTab === "content-creation" && <ContentCreationTab />}
+      {activeTab === "mail-service-option" && <CustomTab />}
       {activeTab === "review" && <ReviewTab />}
       {activeTab === "payment" && <PaymentTab />}
       {activeTab === "complete" && <CompleteTab />}
@@ -125,4 +125,4 @@ const CreateLabelPage = () => {
   )
 }
 
-export default CreateLabelPage
+export default CreateMail

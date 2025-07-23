@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { RxCross2 } from "react-icons/rx";
 import { IoChevronDown } from "react-icons/io5";
 import { TbFileExport } from "react-icons/tb";
-import BulkImport from '../components/BulkImport';
+import { MdMailOutline } from "react-icons/md";
+import { FaRegClock } from "react-icons/fa6";
 
-
-const ShippingLabelsPage = () => {
+const PrintMailPage = () => {
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -20,6 +20,7 @@ const ShippingLabelsPage = () => {
     }
   }, [isFilterOpen]);
 
+  const dropdown1 = useDropdown();
   const dropdown3 = useDropdown();
   const dropdown4 = useDropdown();
   const dropdown5 = useDropdown();
@@ -33,20 +34,20 @@ const ShippingLabelsPage = () => {
         <div className='flex gap-15 sm:gap-25 items-center justify-start'>
           <div className='w-5 h-40 bg-cta-secondary rounded-tr-10px rounded-br-10px'></div>
           <div className='flex items-center justify-start gap-5 sm:gap-10'>
-            <img src="asset/icons/heading_label.svg" alt="icon" />
-            <h1 className='font-semibold text-22px sm:text-25px text-main-text'>Shipping Labels</h1>
+            <MdMailOutline className='text-2xl text-main-text' />
+            <h1 className='font-semibold text-22px sm:text-25px text-main-text'>Print & Mail</h1>
           </div>
         </div>
 
-        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text pt-5 hidden sm:block'>Create and manage your shipping labels for packages and mail</p>
+        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text pt-5 hidden sm:block'>Send letters, postcards, and documents without leaving your desk.</p>
 
         {/* cards */}
         <div className='pl-15 sm:pl-30 lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 sm:gap-20 pt-10 sm:pt-20'>
           <div className='border border-Outlines card-layout py-21 w-full'>
             <div className='flex justify-between items-center'>
               <div>
-                <p className='font-medium text-10px uppercase mb-5 text-main-text'>Total Labels</p>
-                <p className='font-semibold text-xl text-main-text'>7</p>
+                <p className='font-medium text-10px uppercase mb-5 text-main-text'>Total orders</p>
+                <p className='font-semibold text-xl text-main-text'>8</p>
               </div>
               <img src="asset/icons/bx_label.svg" alt="icon" className='z-20' />
             </div>
@@ -57,7 +58,7 @@ const ShippingLabelsPage = () => {
             <div className='flex justify-between items-center'>
               <div>
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Total Spent</p>
-                <p className='font-semibold text-xl text-main-text'>$226.65</p>
+                <p className='font-semibold text-xl text-main-text'>$17.35</p>
               </div>
               <img src="asset/icons/spent.svg" alt="icon" className='z-20' />
             </div>
@@ -68,7 +69,7 @@ const ShippingLabelsPage = () => {
             <div className='flex justify-between items-center'>
               <div>
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Avg. Cost</p>
-                <p className='font-semibold text-xl text-main-text'>$32.38</p>
+                <p className='font-semibold text-xl text-main-text'>$2.49</p>
               </div>
               <img src="asset/icons/cost.svg" alt="icon" className='z-20' />
             </div>
@@ -92,12 +93,33 @@ const ShippingLabelsPage = () => {
       <div className='py-20 sm:py-30 px-15 sm:px-30 bg-white rounded-15px sm:rounded-20px sm:space-y-20 space-y-10 w-full'>
         {/* dropdown */}
         <div className='flex justify-between items-center gap-8'>
-          <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Recent Labels<span>(6)</span></h2>
+          <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Import Mail<span>(6)</span></h2>
           <div className="flex justify-end gap-8">
-            <BulkImport />
-            <NavLink to={"/create-labels"} className='flex items-center justify-between gap-8 button-icon'>
+
+            <div ref={dropdown1.ref} className="relative">
+              <div className='flex gap-8 justify-start items-start flex-col'>
+                <button className='flex items-center justify-between gap-8 button-border' onClick={dropdown1.toggle}>
+                  <img src="asset/icons/import-file.svg" alt="icon" />
+                  <span className='sm:block hidden'>Import Mail</span>
+                  <IoChevronDown className={`text-base transition-transform duration-300 text-main-text${dropdown1.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                </button>
+              </div>
+
+              {/* Dropdown */}
+              {dropdown1.isOpen && (
+                <div className="form-dropdown-menu max-sm:!min-w-150">
+                  <ul className='table-dropdown-item dropdown-scrollbar'>
+                    <li className='table-dropdown-title'>Typed Letters</li>
+                    <li className='table-dropdown-title'>PDFs</li>
+                    <li className='table-dropdown-title'>Postcards</li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            <NavLink to={"/create-mail"} className='flex items-center justify-between gap-8 button-icon'>
               <img src="asset/icons/white-plus.svg" alt="icon" />
-              <span className='sm:block hidden'> Create Label</span>
+              <span className='sm:block hidden'> Create Mail</span>
             </NavLink>
           </div>
         </div>
@@ -259,9 +281,10 @@ const ShippingLabelsPage = () => {
                       </label>
                     </th>
                     <th>ID</th>
+                    <th>Type</th>
                     <th>Recipient</th>
                     <th>Destination</th>
-                    <th>Carrier</th>
+                    <th>Delivery class</th>
                     <th>Status</th>
                     <th>Cost</th>
                     <th>Created</th>
@@ -279,7 +302,12 @@ const ShippingLabelsPage = () => {
                         </span>
                       </label>
                     </td>
-                    <td>LBL-001</td>
+                    <td>MAIL-001</td>
+                    <td>
+                      <div className='flex gap-6 items-center justify-start'>
+                        <MdMailOutline className='text-sm text-main-text' /><span>Letter</span>
+                      </div>
+                    </td>
                     <td><p>John Smith</p></td>
                     <td>
                       <p>123 Main St</p>
@@ -287,10 +315,9 @@ const ShippingLabelsPage = () => {
                     </td>
                     <td>
                       <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/type-1.svg" alt="icon" className='h-29' />
+                        <img src="asset/table-image/delivery.svg" alt="icon" className='h-29' />
                         <div>
-                          <p>USPS</p>
-                          <p className='description'>Priority Mail</p>
+                          <p>Standart Class</p>
                         </div>
                       </div>
                     </td>
@@ -318,32 +345,6 @@ const ShippingLabelsPage = () => {
                             <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
                           </span>
                         </div>
-
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* tracking */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Track
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
                       </div>
                     </td>
                   </tr>
@@ -357,7 +358,12 @@ const ShippingLabelsPage = () => {
                         </span>
                       </label>
                     </td>
-                    <td>LBL-002</td>
+                    <td>MAIL-002</td>
+                    <td>
+                      <div className='flex gap-6 items-center justify-start'>
+                        <img src="asset/table-image/postcard.svg" alt="icon" className='h-15' /><span>Postcard</span>
+                      </div>
+                    </td>
                     <td><p>Mike Wilson</p></td>
                     <td>
                       <p>789 Pine St</p>
@@ -365,10 +371,9 @@ const ShippingLabelsPage = () => {
                     </td>
                     <td>
                       <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/dhl.svg" alt="icon" className='h-29' />
+                        <img src="asset/table-image/delivery.svg" alt="icon" className='h-29' />
                         <div>
-                          <p>DHL</p>
-                          <p className='description'>Express</p>
+                          <p>First Class</p>
                         </div>
                       </div>
                     </td>
@@ -376,7 +381,7 @@ const ShippingLabelsPage = () => {
                       <div className='inline-block'>
                         <div className='badge info-badge'>
                           <img src="asset/table-image/badge-delivery.svg" alt="icon" className='h-16' />
-                          <p>Shipped</p>
+                          <p>Mailed</p>
                         </div>
                       </div>
                     </td>
@@ -397,19 +402,6 @@ const ShippingLabelsPage = () => {
                           </span>
                         </div>
 
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
                         {/* tracking */}
                         <div className="relative group">
                           <div className="action-btn">
@@ -435,7 +427,12 @@ const ShippingLabelsPage = () => {
                         </span>
                       </label>
                     </td>
-                    <td>LBL-003</td>
+                    <td>MAIL-003</td>
+                    <td>
+                      <div className='flex gap-6 items-center justify-start'>
+                        <img src="asset/table-image/postcard.svg" alt="icon" className='h-15' /><span>Postcard</span>
+                      </div>
+                    </td>
                     <td><p>Sarah Johnson</p></td>
                     <td>
                       <p>456 Oak Ave,</p>
@@ -443,10 +440,9 @@ const ShippingLabelsPage = () => {
                     </td>
                     <td>
                       <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/dhl.svg" alt="icon" className='h-29' />
+                        <img src="asset/table-image/delivery.svg" alt="icon" className='h-29' />
                         <div>
-                          <p>DHL</p>
-                          <p className='description'>Express</p>
+                          <p>First Class</p>
                         </div>
                       </div>
                     </td>
@@ -475,19 +471,6 @@ const ShippingLabelsPage = () => {
                           </span>
                         </div>
 
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
                         {/* tracking */}
                         <div className="relative group">
                           <div className="action-btn">
@@ -496,19 +479,6 @@ const ShippingLabelsPage = () => {
                           <span className="action-tooltip">
                             <span className='tooltip-label'>
                               Track
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* calendar */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/calendar.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              calendar
                             </span>
                             <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
                           </span>
@@ -526,7 +496,12 @@ const ShippingLabelsPage = () => {
                         </span>
                       </label>
                     </td>
-                    <td>LBL-004</td>
+                    <td>MAIL-004</td>
+                    <td>
+                      <div className='flex gap-6 items-center justify-start'>
+                        <MdMailOutline className='text-sm text-main-text' /><span>Letter</span>
+                      </div>
+                    </td>
                     <td><p>Mike Wilson</p></td>
                     <td>
                       <p>321 Elm Dr</p>
@@ -534,17 +509,16 @@ const ShippingLabelsPage = () => {
                     </td>
                     <td>
                       <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/dhl.svg" alt="icon" className='h-29' />
+                        <img src="asset/table-image/delivery.svg" alt="icon" className='h-29' />
                         <div>
-                          <p>DHL</p>
-                          <p className='description'>Express</p>
+                          <p>Standart Class</p>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className='inline-block'>
-                        <div className='badge paid-badge'>
-                          <img src="asset/table-image/paid.svg" alt="icon" className='h-14' />
+                        <div className='badge warning-badge'>
+                          <FaRegClock className='h-12' />
                           <p>Paid</p>
                         </div>
                       </div>
@@ -566,27 +540,14 @@ const ShippingLabelsPage = () => {
                           </span>
                         </div>
 
-                        {/* download */}
+                        {/* tracking */}
                         <div className="relative group">
                           <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
+                            <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
                           </div>
                           <span className="action-tooltip">
                             <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* calendar */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/calendar.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              calendar
+                              Track
                             </span>
                             <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
                           </span>
@@ -605,6 +566,10 @@ const ShippingLabelsPage = () => {
                       </label>
                     </td>
                     <td>DRAFT-LBL-005</td>
+                    <td><div className='flex gap-6 items-center justify-start'>
+                      <MdMailOutline className='text-sm text-main-text' /><span>Letter</span>
+                    </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -660,10 +625,15 @@ const ShippingLabelsPage = () => {
                     </td>
                     <td>
                       <div className='flex flex-wrap gap-6 items-center'>
-                        LBL-006
+                        MAIL-006
                         <p className="label-badge">
                           <img src="asset/icons/international.svg" alt="icon" className='h-13' /><span>Intl</span>
                         </p>
+                      </div>
+                    </td>
+                    <td>
+                      <div className='flex gap-6 items-center justify-start'>
+                        <img src="asset/table-image/postcard.svg" alt="icon" className='h-15' /><span>Postcard</span>
                       </div>
                     </td>
                     <td><p>David Brown</p></td>
@@ -673,10 +643,9 @@ const ShippingLabelsPage = () => {
                     </td>
                     <td>
                       <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/ups.svg" alt="icon" className='h-29' />
+                        <img src="asset/table-image/delivery.svg" alt="icon" className='h-29' />
                         <div>
-                          <p>UPS</p>
-                          <p className='description'>Ground</p>
+                          <p>First Class</p>
                         </div>
                       </div>
                     </td>
@@ -704,19 +673,6 @@ const ShippingLabelsPage = () => {
                             <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
                           </span>
                         </div>
-
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
                       </div>
                     </td>
                   </tr>
@@ -730,4 +686,4 @@ const ShippingLabelsPage = () => {
     </>
   )
 }
-export default ShippingLabelsPage
+export default PrintMailPage

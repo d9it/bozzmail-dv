@@ -4,13 +4,13 @@ import apiCall from '../api/axios';
 export const registerUser = createAsyncThunk(
   'user/registerUser',
   async (userData, { rejectWithValue }) => {
-    console.log('user data: ', userData);
+    //console.log('user data: ', userData);
     try {
       const response = await apiCall('/auth/signup', userData, 'POST');
-      console.log("response of user data: ", response.data);
+      //console.log("response of user data: ", response.data);
       return response.data;
     } catch (err) {
-      console.log("error response of user data: ", err?.response);
+      //console.log("error response of user data: ", err?.response);
       return rejectWithValue(err.response?.data?.message || err.message);
     }
   }

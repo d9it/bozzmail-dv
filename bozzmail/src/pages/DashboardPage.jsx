@@ -825,215 +825,217 @@ const DashboardPage = () => {
         </div>
 
         {/* Active Pickup Requests table */}
-        <div className="table-content">
-          <div className='overflow-x-auto main-scrollbar max-xl:mb-10 w-full'>
-            <table className='table-auto w-full custom-table'>
-              <thead className='bg-table-header'>
-                <tr>
-                  <th><label className="flex items-center cursor-pointer relative w-20 h-20">
-                    <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                    <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                      <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                    </span>
-                  </label></th>
-                  <th>Labels</th>
-                  <th>Carrier & Service</th>
-                  <th>Address</th>
-                  <th>Date and Time</th>
-                  <th>Status</th>
-                  <th>Price</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
+        <div className="relative">
+          <div className="table-content relative">
+            <div className='overflow-x-auto main-scrollbar max-xl:mb-10 w-full'>
+              <table className='table-auto w-full custom-table'>
+                <thead className='bg-table-header'>
+                  <tr>
+                    <th><label className="flex items-center cursor-pointer relative w-20 h-20">
+                      <input type="checkbox" className='peer peer-checked:border-Outlines' />
+                      <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
+                        <img src="/asset/icons/check.svg" alt="" className='h-19' />
+                      </span>
+                    </label></th>
+                    <th>Labels</th>
+                    <th>Carrier & Service</th>
+                    <th>Address</th>
+                    <th>Date and Time</th>
+                    <th>Status</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                <tr>
-                  <td><label className="flex items-center cursor-pointer relative w-20 h-20">
-                    <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                    <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                      <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                    </span>
-                  </label></td>
-                  <td className="w-full sm:w-175">
-                    <div className="flex flex-wrap gap-6">
-                      <p className="label-badge">
-                        <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-001</span>
-                      </p>
-                      <p className="label-badge">
-                        <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-002</span>
-                      </p>
-                      <p className="label-badge">
-                        <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-003</span>
-                      </p>
-                    </div>
-                  </td>
-                  <td>
-                    <div className='flex gap-6 items-center justify-start'>
-                      <img src="asset/table-image/type-1.svg" alt="icon" className='h-29' />
-                      <div>
-                        <p>USPS</p>
-                        <p className='description'>Priority Mail</p>
+                <tbody>
+                  <tr>
+                    <td><label className="flex items-center cursor-pointer relative w-20 h-20">
+                      <input type="checkbox" className='peer peer-checked:border-Outlines' />
+                      <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
+                        <img src="/asset/icons/check.svg" alt="" className='h-19' />
+                      </span>
+                    </label></td>
+                    <td className="w-full sm:w-175">
+                      <div className="flex flex-wrap gap-6">
+                        <p className="label-badge">
+                          <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-001</span>
+                        </p>
+                        <p className="label-badge">
+                          <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-002</span>
+                        </p>
+                        <p className="label-badge">
+                          <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-003</span>
+                        </p>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <p>123 Business St</p>
-                    <p className='description'>San Francisco, CA 94105</p>
-                  </td>
-                  <td>
-                    <p>11.07.2025</p>
-                    <p className='description'>9:00 AM - 12:00 PM</p>
-                  </td>
-                  <td>
-                    <div className='inline-block'>
-                      <div className='badge schedule-badge'>
-                        <img src="asset/table-image/schedule-calandar.svg" alt="icon" className='h-14' />
-                        <p>Scheduled</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td>$8.5</td>
-                  <td>
-                    <div className='flex gap-5 justify-start items-center'>
-                      {/* delete */}
-                      <div className="relative group">
-                        <div className="action-btn">
-                          <img src="/asset/icons/delete.svg" alt="icon" className="h-17" />
+                    </td>
+                    <td>
+                      <div className='flex gap-6 items-center justify-start'>
+                        <img src="asset/table-image/type-1.svg" alt="icon" className='h-29' />
+                        <div>
+                          <p>USPS</p>
+                          <p className='description'>Priority Mail</p>
                         </div>
-                        <span className="action-tooltip">
-                          <span className='tooltip-label'>
-                            Delete
-                          </span>
-                          <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                        </span>
                       </div>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td><label className="flex items-center cursor-pointer relative w-20 h-20">
-                    <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                    <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                      <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                    </span>
-                  </label>
-                  </td>
-                  <td className="w-full sm:w-175">
-                    <div className="flex flex-wrap gap-6">
-                      <p className="label-badge">
-                        <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-001</span>
-                      </p>
-                    </div>
-                  </td>
-                  <td>
-                    <div className='flex gap-6 items-center justify-start'>
-                      <img src="asset/table-image/dhl.svg" alt="icon" className='h-29' />
-                      <div>
-                        <p>DHL</p>
-                        <p className='description'>Express</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <p>Sarah Johnson</p>
-                    <p className='description'>Los Angeles, CA</p>
-                  </td>
-                  <td>
-                    <p>11.07.2025</p>
-                    <p className='description'>9:00 AM - 12:00 PM</p>
-                  </td>
-                  <td>
-                    <div className='inline-block'>
-                      <div className='badge warning-badge'>
-                        <img src="asset/table-image/warning-clock.svg" alt="icon" className='h-14' />
-                        <p>Created</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td>Free</td>
-                  <td>
-                    <div className='flex gap-5 justify-start items-center'>
-                      {/* edit */}
-                      <div className="relative group">
-                        <div className="action-btn">
-                          <img src="/asset/icons/edit.svg" alt="icon" className="h-14" />
+                    </td>
+                    <td>
+                      <p>123 Business St</p>
+                      <p className='description'>San Francisco, CA 94105</p>
+                    </td>
+                    <td>
+                      <p>11.07.2025</p>
+                      <p className='description'>9:00 AM - 12:00 PM</p>
+                    </td>
+                    <td>
+                      <div className='inline-block'>
+                        <div className='badge schedule-badge'>
+                          <img src="asset/table-image/schedule-calandar.svg" alt="icon" className='h-14' />
+                          <p>Scheduled</p>
                         </div>
-                        <span className="action-tooltip">
-                          <span className='tooltip-label'>
-                            Edit
-                          </span>
-                          <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                        </span>
                       </div>
-
-                      {/* delete */}
-                      <div className="relative group">
-                        <div className="action-btn">
-                          <img src="/asset/icons/delete.svg" alt="icon" className="h-17" />
+                    </td>
+                    <td>$8.5</td>
+                    <td>
+                      <div className='flex gap-5 justify-start items-center'>
+                        {/* delete */}
+                        <div className="relative group">
+                          <div className="action-btn">
+                            <img src="/asset/icons/delete.svg" alt="icon" className="h-17" />
+                          </div>
+                          <span className="action-tooltip">
+                            <span className='tooltip-label'>
+                              Delete
+                            </span>
+                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
+                          </span>
                         </div>
-                        <span className="action-tooltip">
-                          <span className='tooltip-label'>
-                            Delete
-                          </span>
-                          <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                        </span>
                       </div>
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
 
-                <tr>
-                  <td>
-                    <label className="flex items-center cursor-pointer relative w-20 h-20">
+                  <tr>
+                    <td><label className="flex items-center cursor-pointer relative w-20 h-20">
                       <input type="checkbox" className='peer peer-checked:border-Outlines' />
                       <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
                         <img src="/asset/icons/check.svg" alt="" className='h-19' />
                       </span>
                     </label>
-                  </td>
-                  <td className="w-full sm:w-175">
-                    <div className="flex flex-wrap gap-6">
-                      <p className="label-badge">
-                        <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-001</span>
-                      </p>
-                      <p className="label-badge">
-                        <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-003</span>
-                      </p>
-                    </div>
-                  </td>
-                  <td>
-                    <div className='flex gap-6 items-center justify-start'>
-                      <img src="asset/table-image/ups.svg" alt="icon" className='h-29' />
-                      <div>
-                        <p>UPS</p>
-                        <p className='description'>Ground</p>
+                    </td>
+                    <td className="w-full sm:w-175">
+                      <div className="flex flex-wrap gap-6">
+                        <p className="label-badge">
+                          <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-001</span>
+                        </p>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <p>Mike Wilson</p>
-                    <p className='description'>Chicago, IL</p>
-                  </td>
-                  <td>
-                    <p>11.07.2025</p>
-                    <p className='description'>9:00 AM - 12:00 PM</p>
-                  </td>
-                  <td>
-                    <div className='inline-block'>
-                      <div className='badge success-badge'>
-                        <img src="asset/table-image/success-check.svg" alt="icon" className='h-14' />
-                        <p>Completed</p>
+                    </td>
+                    <td>
+                      <div className='flex gap-6 items-center justify-start'>
+                        <img src="asset/table-image/dhl.svg" alt="icon" className='h-29' />
+                        <div>
+                          <p>DHL</p>
+                          <p className='description'>Express</p>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>$22.9</td>
-                  <td>
-                  </td>
-                </tr>
+                    </td>
+                    <td>
+                      <p>Sarah Johnson</p>
+                      <p className='description'>Los Angeles, CA</p>
+                    </td>
+                    <td>
+                      <p>11.07.2025</p>
+                      <p className='description'>9:00 AM - 12:00 PM</p>
+                    </td>
+                    <td>
+                      <div className='inline-block'>
+                        <div className='badge warning-badge'>
+                          <img src="asset/table-image/warning-clock.svg" alt="icon" className='h-14' />
+                          <p>Created</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Free</td>
+                    <td>
+                      <div className='flex gap-5 justify-start items-center'>
+                        {/* edit */}
+                        <div className="relative group">
+                          <div className="action-btn">
+                            <img src="/asset/icons/edit.svg" alt="icon" className="h-14" />
+                          </div>
+                          <span className="action-tooltip">
+                            <span className='tooltip-label'>
+                              Edit
+                            </span>
+                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
+                          </span>
+                        </div>
 
-              </tbody>
-            </table>
+                        {/* delete */}
+                        <div className="relative group">
+                          <div className="action-btn">
+                            <img src="/asset/icons/delete.svg" alt="icon" className="h-17" />
+                          </div>
+                          <span className="action-tooltip">
+                            <span className='tooltip-label'>
+                              Delete
+                            </span>
+                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <label className="flex items-center cursor-pointer relative w-20 h-20">
+                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
+                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
+                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
+                        </span>
+                      </label>
+                    </td>
+                    <td className="w-full sm:w-175">
+                      <div className="flex flex-wrap gap-6">
+                        <p className="label-badge">
+                          <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-001</span>
+                        </p>
+                        <p className="label-badge">
+                          <img src="asset/icons/label.svg" alt="icon" className='h-13' /><span>LBL-003</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>
+                      <div className='flex gap-6 items-center justify-start'>
+                        <img src="asset/table-image/ups.svg" alt="icon" className='h-29' />
+                        <div>
+                          <p>UPS</p>
+                          <p className='description'>Ground</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <p>Mike Wilson</p>
+                      <p className='description'>Chicago, IL</p>
+                    </td>
+                    <td>
+                      <p>11.07.2025</p>
+                      <p className='description'>9:00 AM - 12:00 PM</p>
+                    </td>
+                    <td>
+                      <div className='inline-block'>
+                        <div className='badge success-badge'>
+                          <img src="asset/table-image/success-check.svg" alt="icon" className='h-14' />
+                          <p>Completed</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>$22.9</td>
+                    <td>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

@@ -19,10 +19,10 @@ const Toast = ({ message, subText, onClose, type = "success" }) => {
   return (
     <div className="fixed max-xl:top-16 max-xl:left-1/2 max-xl:transform max-xl:-translate-x-1/2 xl:bottom-30 xl:right-30 max-xl:px-16 max-xl:w-full max-xl:flex max-xl:justify-center z-200">
       <div className="bg-white rounded-15px overflow-hidden relative w-fit shadow-box">
-        <div className="flex justify-start items-start gap-14 pt-20 pb-16 pr-96 xl:pr-80 pl-20">
+        <div className="flex justify-start items-start gap-14 pt-20 pb-16 pr-50 xl:pr-60 pl-20">
           <img src={iconSrc} alt="icon" className="h-20 flex-none" />
           <div>
-            <p className="text-main-text font-semibold pb-0.5">{message}</p>
+            <p className="text-main-text font-semibold pb-2">{message}</p>
             <p className="text-secondary-text text-sm font-medium">{subText}</p>
           </div>
         </div>

@@ -9,7 +9,7 @@ import { ToastProvider } from './context/toast/ToastProvider';
 
 createRoot(document.getElementById('root')).render(
 
-  <>
+  <StrictMode>
     <ToastProvider>
       <BrowserRouter>
         <Provider store={store}>
@@ -17,6 +17,6 @@ createRoot(document.getElementById('root')).render(
         </Provider>
       </BrowserRouter>
     </ToastProvider>
-  </>
+  </StrictMode>
 
 )
