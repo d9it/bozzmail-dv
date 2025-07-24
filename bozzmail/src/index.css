@@ -66,12 +66,15 @@
     --color-blue-line: #B0D6D9;
     --color-upload-green-border: #C8EFDB;
     --color-upload-green: #FBFFFD;
+    --color-upload-skyblue-border: #DCF3F5;
+    --color-upload-skyblue: #F9FFFF;
     --color-dark-green: #3E7E58;
     --color-warning-bg: #FFE8E8;
     --color-light-red-border: #EEBFC0;
     --color-danger-bg: #FFF5F5;
     --color-border-danger: #E6B0B0;
     --color-danger-active: #ef4648;
+
 
     /* shadow */
     --shadow-box: 0 4px 20px 0px #00000008;
@@ -254,7 +257,7 @@ select:focus {
 }
 
 .error-message {
-    @apply text-13px font-medium text-negative-warning;
+    @apply text-13px font-medium text-negative-warning -mt-5;
 }
 
 .warning-message {
@@ -327,7 +330,11 @@ select:focus {
 }
 
 .navlink-item-active{
- @apply bg-icon;
+    @apply bg-icon;
+}
+
+.menu-icon-active{
+    @apply bg-white/20;
 }
 
 
@@ -499,6 +506,11 @@ input[type="radio"] {
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
     appearance: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  cursor: pointer;
 }
 
 .number-arrow-btn {

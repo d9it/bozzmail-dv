@@ -40,7 +40,7 @@ const CreateLabelPage = () => {
                 <span className='sm:block hidden'> Previous</span>
               </NavLink>
 
-              <NavLink to={"/create-labels"} className='flex items-center justify-between gap-8 button-icon'>
+              <NavLink to={"#"} className='flex items-center justify-between gap-8 button-icon'>
                 <span className='sm:block hidden'> Next</span>
                 <IoChevronForward className='text-15px text-white' />
               </NavLink>

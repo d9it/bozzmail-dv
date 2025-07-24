@@ -83,7 +83,7 @@ export const useAuth = () => {
       showToast({ message: 'Logged out successfully!', subText: 'Redirecting...' });
       setTimeout(() => {
         navigate('/');
-      }, 5000);
+      }, 2000);
     }
   };
 

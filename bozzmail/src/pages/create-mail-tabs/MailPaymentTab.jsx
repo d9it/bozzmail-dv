@@ -5,7 +5,7 @@ import { PiWarningCircle } from "react-icons/pi";
 import { MdLockOutline } from "react-icons/md";
 import TopUpWallet from "../../components/TopUpWallet";
 
-const MailPaymentTab = () => {
+const PaymentTab = () => {
 
   return (
     <>
@@ -24,20 +24,24 @@ const MailPaymentTab = () => {
           <table className='text-sm font-medium text-main-text w-full table-auto'>
             <tbody>
               <tr>
-                <td className='pb-8'>USPS Priority Mail Express:</td>
-                <td className='text-right pb-8'>$7.45</td>
+                <td className='pb-8'>Printing & Processing:</td>
+                <td className='text-right pb-8'>$1</td>
+              </tr>
+              <tr>
+                <td className='pb-8'>First Class Mail Service:</td>
+                <td className='text-right pb-8'>$5.40</td>
+              </tr>
+              <tr>
+                <td className='pb-8'>Extra Certified:</td>
+                <td className='text-right pb-8'>$3.85</td>
               </tr>
               <tr>
                 <td className='pb-8'>Taxes:</td>
-                <td className='text-right pb-8'>$1.00</td>
-              </tr>
-              <tr>
-                <td className='pb-8'>Insurance:</td>
-                <td className='text-right pb-8'>$1.50</td>
+                <td className='text-right pb-8'>$1.24</td>
               </tr>
               <tr className='border-t border-[#D2DEE2]'>
                 <td className='pt-19 text-lg font-semibold text-main-text'>Total</td>
-                <td className='text-right pt-19 text-primary font-semibold text-22px'>$8.45</td>
+                <td className='text-right pt-19 text-primary font-semibold text-22px'>$10.25</td>
               </tr>
             </tbody>
           </table>
@@ -51,17 +55,17 @@ const MailPaymentTab = () => {
                     <img src="asset/icons/wallet-black.svg" alt="icon" className='h-19' />
                     <p className='font-semibold text-sm text-black'>Pay with your Wallet</p>
                   </div>
-                  <p className='font-medium text-xs text-negative-warning'>($5.90)</p>
+                  {/* for insufficient balance */}
+                  {/* <p className='font-medium text-xs text-negative-warning'>($5.90)</p> */}
 
-                  {/* for sufficient balance */}
-                  {/* <p className='font-medium text-xs text-secondary-text'>($127.50)</p> */}
+                  <p className='font-medium text-xs text-secondary-text'>($127.50)</p>
                 </div>
 
                 <TopUpWallet />
               </div>
 
               {/* for insufficient balance */}
-              <div className="warning-message">
+              {/* <div className="warning-message">
                 <PiWarningCircle className='text-secondary-text text-17px stroke-3 flex-none'/>
                 <p>Insufficient balance! Please top up your wallet.</p>
               </div>
@@ -70,15 +74,15 @@ const MailPaymentTab = () => {
                   <img src="asset/icons/white-wallet.svg" alt="icon" className='h-19'/>
                   Pay With Wallet
                 </div>
-              </button>
+              </button> */}
 
               {/* for sufficient balance */}
-              {/* <button className='primary-btn w-full !py-18'>
+              <button className='primary-btn w-full !py-18'>
                 <div className='flex gap-9 items-center justify-center'>
                   <img src="asset/icons/white-wallet.svg" alt="icon" className='h-19'/>
                   Pay With Wallet
                 </div>
-              </button> */}
+              </button>
 
             </div>
 
@@ -125,4 +129,4 @@ const MailPaymentTab = () => {
   )
 }
 
-export default MailPaymentTab
+export default PaymentTab

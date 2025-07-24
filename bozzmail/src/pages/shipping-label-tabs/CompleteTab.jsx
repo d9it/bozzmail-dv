@@ -32,7 +32,7 @@ const CompleteTab = () => {
           </div>
 
           <div className="flex justify-center items-center gap-10 flex-wrap">
-            <NavLink to={"/create-labels"} className='flex items-center justify-between gap-8 button-icon'>
+            <NavLink to={"/shipping-labels"} className='flex items-center justify-between gap-8 button-icon'>
               <CgEye className="text-17px text-white flex-none" />
               <span> View Label</span>
             </NavLink>

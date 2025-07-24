@@ -69,7 +69,7 @@ const LoginPage = () => {
                   placeholder="hello@company.com"
                   className={`form-input${errors.email && touched.email ? ' border-red-500' : ''}`}
                 />
-                <ErrorMessage name="email" component="span" className="text-red-500 text-sm" />
+                <ErrorMessage name="email" component="span" className="error-message" />
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full'>
@@ -93,11 +93,11 @@ const LoginPage = () => {
                     />
                   </button>
 
+                  <ErrorMessage name="password" component="span" className="error-message" />
                   <NavLink to={"/forgot-password-reset-link"} className="text-link text-right block pt-4">
                     Forgot Password?
                   </NavLink>
                 </div>
-                <ErrorMessage name="password" component="span" className="text-red-500 text-sm" />
               </div>
 
               <button

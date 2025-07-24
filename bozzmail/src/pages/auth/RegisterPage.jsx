@@ -71,7 +71,7 @@ const RegisterPage = () => {
                   placeholder="Enter your full name"
                   className={`form-input${errors.fullName && touched.fullName ? ' border-red-500' : ''}`}
                 />
-                <ErrorMessage name="fullName" component="span" className="text-red-500 text-sm" />
+                <ErrorMessage name="fullName" component="span" className="error-message" />
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full'>
@@ -83,7 +83,7 @@ const RegisterPage = () => {
                   placeholder="hello@company.com"
                   className={`form-input${errors.email && touched.email ? ' border-red-500' : ''}`}
                 />
-                <ErrorMessage name="email" component="span" className="text-red-500 text-sm" />
+                <ErrorMessage name="email" component="span" className="error-message" />
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full'>
@@ -107,7 +107,7 @@ const RegisterPage = () => {
                     />
                   </button>
                 </div>
-                <ErrorMessage name="password" component="span" className="text-red-500 text-sm" />
+                <ErrorMessage name="password" component="span" className="error-message" />
               </div>
 
               <button

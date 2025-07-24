@@ -6,6 +6,7 @@ import { IoChevronDown } from "react-icons/io5";
 import { TbFileExport } from "react-icons/tb";
 import { MdMailOutline } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa6";
+import TypedLettersBulkImport from '../components/Mail/TypedLettersBulkImport';
 
 const PrintMailPage = () => {
 
@@ -107,9 +108,11 @@ const PrintMailPage = () => {
 
               {/* Dropdown */}
               {dropdown1.isOpen && (
-                <div className="form-dropdown-menu max-sm:!min-w-150">
-                  <ul className='table-dropdown-item dropdown-scrollbar'>
-                    <li className='table-dropdown-title'>Typed Letters</li>
+                <div className="form-dropdown-menu max-sm:!min-w-150 !z-10005">
+
+                  {/* set a condition like when pop up open !cursor-auto class add otherwise not  */}
+                  <ul className='table-dropdown-item dropdown-scrollbar !cursor-auto'>
+                    <TypedLettersBulkImport />
                     <li className='table-dropdown-title'>PDFs</li>
                     <li className='table-dropdown-title'>Postcards</li>
                   </ul>

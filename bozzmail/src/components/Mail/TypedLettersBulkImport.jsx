@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "./Modal"
+import Modal from "../Modal"
 import { NavLink } from "react-router";
 import { PiWarningCircle } from "react-icons/pi";
 import { GoPlus } from "react-icons/go";
@@ -9,8 +9,7 @@ import { PiExportBold } from "react-icons/pi";
 import { TbFileImport } from "react-icons/tb";
 import { GrDocumentCsv } from "react-icons/gr";
 
-
-const BulkImport = () => {
+const TypedLettersBulkImport = () => {
 
     const [isMonthCheck, setIsMonthCheck] = useState(false);
 
@@ -29,14 +28,11 @@ const BulkImport = () => {
         setModalOpen(false)
         document.body.classList.remove('overflow-y-hidden');
     }
-    
+
     return (
         <>
             {/* button for open model */}
-            <button className='flex items-center justify-between gap-8 button-border' onClick={handleModalOpen}>
-                <TbFileImport className="text-base text-main-text"/>
-                <span className='sm:block hidden'> Import Labels</span>
-            </button>
+            <li className='table-dropdown-title' onClick={handleModalOpen}>Typed Letters</li>
 
             {/* model start */}
             <Modal isOpen={modalOpen} onClose={handleModalClose}>
@@ -47,7 +43,7 @@ const BulkImport = () => {
                         <div className="flex justify-start items-start gap-14 pt-20 pb-16 pr-50 xl:pr-60 pl-20">
                             <img src="/asset/icons/success.svg" alt="icon" className="h-20 flex-none" />
                             <div className="w-full sm:max-w-md max-h-100 sm:max-h-90 overflow-auto dropdown-scrollbar">
-                                <p className="text-main-text font-semibold pb-2">File uploaded successfully!</p>
+                                <p className="text-main-text font-semibold pb-2">File imported successfully!</p>
                             </div>
                         </div>
                         <div className="h-3 bg-primary"></div>
@@ -59,10 +55,10 @@ const BulkImport = () => {
 
                 <div className="flex flex-col gap-12 sm:gap-20">
                     <div className="space-y-4">
-                        <p className="text-xl sm:text-25px font-semibold text-main-text pr-40">Bulk Import Shipping Labels</p>
-                        <p className="font-medium text-13px sm:text-sm text-secondary-text">Upload a CSV, XLSX, or JSON file with your shipping labels data</p>
+                        <p className="text-xl sm:text-25px font-semibold text-main-text pr-40">Typed Letters Bulk Import</p>
+                        <p className="font-medium text-13px sm:text-sm text-secondary-text">Upload a CSV, XLSX, or JSON file with your mail data</p>
                     </div>
-                    
+
                     {/* import file */}
                     <div className='flex justify-start gap-8 flex-col w-full relative'>
                         <label htmlFor="file" className='label-text'>Upload a File<span>*</span></label>
@@ -78,10 +74,10 @@ const BulkImport = () => {
                     </div>
 
                     {/* uploaded file name and action btn */}
-                    <div className="border border-upload-green-border bg-upload-green p-20 rounded-lg flex justify-between items-center flex-wrap gap-8">
+                    <div className="border border-upload-skyblue-border bg-upload-skyblue p-20 rounded-lg flex justify-between items-center flex-wrap gap-8">
                         <div className="flex gap-11 items-center justify-start">
-                            <div className="p-8 rounded-md bg-card-light-green flex-none">
-                                <GrDocumentCsv className="text-dark-green text-lg flex-none"/>
+                            <div className="p-8 rounded-md bg-card-sky-blue flex-none">
+                                <GrDocumentCsv className="text-primary text-lg flex-none"/>
                             </div>
                             <div className="font-medium">
                                 <p className="text-sm text-main-text">bulk-import-today.csv</p>
@@ -118,19 +114,30 @@ const BulkImport = () => {
                     </div>
 
                     {/* warning message */}
-                    <div className="warning-message">
-                        <div className="flex justify-between items-center w-full flex-wrap gap-8">
-                            <div className="flex gap-10 items-center justify-start">
-                                <PiWarningCircle className='text-secondary-text text-17px stroke-3 flex-none' />
-                                <div>
-                                    <p>Need a template?</p>
-                                    <p className="font-medium text-xs text-secondary-text">Download our CSV template to get started. </p>
+                    <div className="space-y-7">
+                        <div className="warning-message">
+                            <div className="flex justify-between items-center w-full flex-wrap gap-8">
+                                <div className="flex gap-10 items-center justify-start">
+                                    <PiWarningCircle className='text-secondary-text text-17px stroke-3 flex-none' />
+                                    <div>
+                                        <p>Need a template?</p>
+                                        <p className="font-medium text-xs text-secondary-text">Download our CSV template to get started. </p>
+                                    </div>
                                 </div>
+                                <button className='flex items-center justify-between gap-5 small-button-border ml-22'>
+                                    <img src="asset/icons/download.svg" alt="icon" className="h-19" />
+                                    <span> Download Template</span>
+                                </button>
                             </div>
-                            <button className='flex items-center justify-between gap-5 small-button-border ml-22'>
-                                <img src="asset/icons/download.svg" alt="icon" className="h-19" />
-                                <span> Download Template</span>
-                            </button>
+                        </div>
+
+                        <div className="warning-message">    
+                            <PiWarningCircle className='text-secondary-text text-17px stroke-3 flex-none' />
+                            <div>
+                                <p>Make sure the template names in your file exactly match those already created in the system</p>
+                                <p className="font-medium text-xs text-secondary-text">If left blank, you'll be able to choose or create a template in the next step.</p>
+                                <NavLink to={"#"} className="font-medium text-xs text-primary">Manage Templates</NavLink>
+                            </div>
                         </div>
                     </div>
 
@@ -148,4 +155,4 @@ const BulkImport = () => {
     )
 }
 
-export default BulkImport;
+export default TypedLettersBulkImport;

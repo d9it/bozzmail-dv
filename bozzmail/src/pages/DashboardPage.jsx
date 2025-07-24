@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { RxCross2 } from "react-icons/rx";
 import { TbFileExport } from "react-icons/tb";
 import { IoChevronDown } from "react-icons/io5";
+import { NavLink } from 'react-router';
 
 
 const DashboardPage = () => {
@@ -135,33 +136,33 @@ const DashboardPage = () => {
         {/* cards */}
         <div className='lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 sm:gap-20 pt-10 sm:pt-20'>
 
-          <div className='border border-Outlines card-layout py-21'>
+          <NavLink to={"/create-labels"} className='border border-Outlines card-layout py-21'>
             <div className='flex justify-center items-center gap-7 flex-col text-center h-full'>
               <img src="asset/icons/label.svg" alt="image" className='h-27' />
               <p className='text-13px sm:text-15px font-medium text-cta-secondary'>Create Label</p>
             </div>
-          </div>
+          </NavLink>
 
-          <div className='border border-Outlines card-layout py-21'>
+          <NavLink to={"/create-mail"} className='border border-Outlines card-layout py-21'>
             <div className='flex justify-center items-center gap-7 flex-col text-center h-full'>
               <img src="asset/icons/mail.svg" alt="image" className='h-27' />
               <p className='text-13px sm:text-15px font-medium text-cta-secondary'>Create Mail or Postcard</p>
             </div>
-          </div>
+          </NavLink>
 
-          <div className='border border-Outlines card-layout py-21'>
+          <NavLink to={"#"} className='border border-Outlines card-layout py-21'>
             <div className='flex justify-center items-center gap-7 flex-col text-center h-full'>
               <img src="asset/icons/calendar.svg" alt="image" className='h-27' />
               <p className='text-13px sm:text-15px font-medium text-cta-secondary'>Schedule Pickup</p>
             </div>
-          </div>
+          </NavLink>
 
-          <div className='border border-Outlines card-layout py-21'>
+          <NavLink to={"#"} className='border border-Outlines card-layout py-21'>
             <div className='flex justify-center items-center gap-7 flex-col text-center h-full'>
               <img src="asset/icons/tracking.svg" alt="image" className='h-27' />
               <p className='text-13px sm:text-15px font-medium text-cta-secondary'>Track Shipment</p>
             </div>
-          </div>
+          </NavLink>
         </div>
       </div>
 

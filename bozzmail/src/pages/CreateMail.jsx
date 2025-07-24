@@ -8,10 +8,10 @@ import { NavLink } from 'react-router';
 import ContentTypeTab from './create-mail-tabs/ContentTypeTab';
 import MailAddressTab from './create-mail-tabs/MailAddressTab';
 import ContentCreationTab from './create-mail-tabs/ContentCreationTab';
-import ReviewTab from './shipping-label-tabs/ReviewTab';
-import PaymentTab from './shipping-label-tabs/PaymentTab';
-import CompleteTab from './shipping-label-tabs/CompleteTab';
-import CustomTab from './shipping-label-tabs/CustomTab';
+import MailServiceOptionsTab from './create-mail-tabs/MailServiceOptionsTab';
+import MailReviewTab from './create-mail-tabs/MailReviewTab';
+import MailPaymentTab from './create-mail-tabs/MailPaymentTab';
+import MailCompleteTab from './create-mail-tabs/MailCompleteTab';
 
 const CreateMail = () => {
 
@@ -23,7 +23,7 @@ const CreateMail = () => {
       <div className='py-20 sm:py-30 px-15 sm:px-30 bg-white rounded-15px sm:rounded-20px'>
 
         <div className='flex justify-between items-center flex-wrap gap-10 w-full'>
-          <NavLink to={"/shipping-labels"} className='flex items-center justify-start gap-10'>
+          <NavLink to={"/print-mail"} className='flex items-center justify-start gap-10'>
             <IoChevronBack className='text-xl text-main-text' />
             <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Create Mail</h2>
           </NavLink>
@@ -40,7 +40,7 @@ const CreateMail = () => {
                 <span className='sm:block hidden'> Previous</span>
               </NavLink>
 
-              <NavLink to={"/create-labels"} className='flex items-center justify-between gap-8 button-icon'>
+              <NavLink to={"#"} className='flex items-center justify-between gap-8 button-icon'>
                 <span className='sm:block hidden'> Next</span>
                 <IoChevronForward className='text-15px text-white' />
               </NavLink>
@@ -115,10 +115,10 @@ const CreateMail = () => {
       {activeTab === "content-type" && <ContentTypeTab />}
       {activeTab === "addresses" && <MailAddressTab />}
       {activeTab === "content-creation" && <ContentCreationTab />}
-      {activeTab === "mail-service-option" && <CustomTab />}
-      {activeTab === "review" && <ReviewTab />}
-      {activeTab === "payment" && <PaymentTab />}
-      {activeTab === "complete" && <CompleteTab />}
+      {activeTab === "mail-service-option" && <MailServiceOptionsTab />}
+      {activeTab === "review" && <MailReviewTab />}
+      {activeTab === "payment" && <MailPaymentTab />}
+      {activeTab === "complete" && <MailCompleteTab />}
 
 
     </>

@@ -77,17 +77,17 @@ const PaidPlanManagement = () => {
                     <div className="space-y-8">
                         <p className='font-semibold text-base text-main-text'>Shipments</p>
                         <div className="flex flex-wrap gap-10">
-                            <p className="subscription-badge">
+                            <NavLink to={"/create-labels"} className="subscription-badge">
                                 <img src="asset/icons/label.svg" alt="icon" className='h-17' /><span>Create Label</span>
-                            </p>
+                            </NavLink>
 
-                            <p className="subscription-badge">
+                            <NavLink to={"/create-mail"} className="subscription-badge">
                                 <img src="asset/icons/mail.svg" alt="icon" className='h-17' /><span>Create Mail</span>
-                            </p>
+                            </NavLink>
 
-                            <p className="subscription-badge">
+                            <NavLink to={"#"} className="subscription-badge">
                                 <img src="asset/icons/calendar.svg" alt="icon" className='h-17' /><span>Create Schedule Pickup</span>
-                            </p>
+                            </NavLink>
 
                         </div>
                     </div>
@@ -95,17 +95,17 @@ const PaidPlanManagement = () => {
                     <div className="space-y-8">
                         <p className='font-semibold text-base text-main-text'>Management</p>
                         <div className="flex flex-wrap gap-10">
-                            <p className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
+                            <NavLink to={"#"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
                                 <img src="asset/icons/billing.svg" alt="icon" className='h-17' /><span>Transactions</span>
-                            </p>
+                            </NavLink>
 
-                            <p className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
+                            <NavLink to={"#"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
                                 <img src="asset/icons/contact.svg" alt="icon" className='h-17' /><span>Contacts (4 of 10)</span>
-                            </p>
+                            </NavLink>
 
-                            <p className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
+                            <NavLink to={"#"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
                                 <img src="asset/icons/help.svg" alt="icon" className='h-17' /><span>Help</span>
-                            </p>
+                            </NavLink>
 
                         </div>
                     </div>

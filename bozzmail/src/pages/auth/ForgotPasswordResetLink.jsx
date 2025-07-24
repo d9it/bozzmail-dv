@@ -66,7 +66,7 @@ const ForgotPasswordResetLink = () => {
                   className={`form-input${errors.email && touched.email ? ' border-red-500' : ''}`}
                   disabled={loading || success}
                 />
-                <ErrorMessage name="email" component="span" className="text-red-500 text-sm" />
+                <ErrorMessage name="email" component="span" className="error-message" />
               </div>
               <button
                 className={(loading || success || isSubmitting) ? "disable-primary-btn block w-full" : "primary-btn block w-full"}

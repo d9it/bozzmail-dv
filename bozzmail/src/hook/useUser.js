@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { userAPI } from '../api/userAPI';
 import { useToast } from "../context/toast/ToastContext";
 import { useAuth } from './useAuth';
+import { useEffect } from 'react';
 
 export const useUser = () => {
   const { showToast } = useToast();
@@ -16,6 +17,7 @@ export const useUser = () => {
 
     try {
       const response = await userAPI.getUserDetails();
+      // console.log('user details: ',response)
       return response;
     } catch (err) {
       const errorMessage = err.message || 'Failed to fetch user details.';
@@ -61,7 +63,7 @@ export const useUser = () => {
 
     try {
       const response = await userAPI.changePassword(passwordData);
-      showToast({ message: 'Password changed successfully!' });
+      showToast({ message: 'Password Updated Successfully' });
       return response;
     } catch (err) {
       const errorMessage = err.message || 'Failed to change password. Please try again.';
@@ -130,6 +132,35 @@ export const useUser = () => {
     }
   };
 
+  // Delete account
+  const deleteAccount = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await userAPI.deleteAccount();
+
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+
+      showToast({ message: 'Your account was successfully removed' });
+      return response;
+    } catch (err) {
+      const errorMessage = err.message || 'Failed to delete account. Please try again.';
+      setError(errorMessage);
+      showToast({ message: errorMessage, type: 'error' });
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+    // Initialize data on mount
+    // useEffect(() => {
+    //   getUserDetails
+    // }, []);
+
+
   return {
     loading,
     error,
@@ -138,5 +169,6 @@ export const useUser = () => {
     changePassword,
     uploadProfilePicture,
     deleteProfilePicture,
+    deleteAccount,
   };
 }; 

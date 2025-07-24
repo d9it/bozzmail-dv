@@ -5,12 +5,69 @@ import { RxCross2 } from "react-icons/rx";
 import { IoChevronDown } from "react-icons/io5";
 import { TbFileExport } from "react-icons/tb";
 import BulkImport from '../components/BulkImport';
+import { useShipping } from '../hook/useShipping';
 
 
 const ShippingLabelsPage = () => {
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [checked, setChecked] = useState(false);
+  const { 
+    shipments, 
+    loading, 
+    error, 
+    stats, 
+    loadShipments 
+  } = useShipping();
+
+  // Helper functions
+  const getStatusBadgeClass = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'delivered':
+      case 'completed':
+        return 'success-badge';
+      case 'shipped':
+      case 'in transit':
+        return 'info-badge';
+      case 'printed':
+        return 'schedule-badge';
+      case 'paid':
+        return 'paid-badge';
+      case 'draft':
+        return 'draft-badge';
+      default:
+        return 'info-badge';
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'delivered':
+      case 'completed':
+        return 'asset/table-image/success-check.svg';
+      case 'shipped':
+      case 'in transit':
+        return 'asset/table-image/badge-delivery.svg';
+      case 'printed':
+        return 'asset/table-image/print.svg';
+      case 'paid':
+        return 'asset/table-image/paid.svg';
+      case 'draft':
+        return 'asset/table-image/draft.svg';
+      default:
+        return 'asset/table-image/badge-delivery.svg';
+    }
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
 
   useEffect(() => {
     if (isFilterOpen) {
@@ -19,6 +76,10 @@ const ShippingLabelsPage = () => {
       document.body.classList.remove('overflow-hidden');
     }
   }, [isFilterOpen]);
+
+  useEffect(() => {
+    loadShipments();
+  }, [loadShipments]);
 
   const dropdown3 = useDropdown();
   const dropdown4 = useDropdown();
@@ -46,7 +107,7 @@ const ShippingLabelsPage = () => {
             <div className='flex justify-between items-center'>
               <div>
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Total Labels</p>
-                <p className='font-semibold text-xl text-main-text'>7</p>
+                <p className='font-semibold text-xl text-main-text'>{loading ? '...' : stats.totalLabels}</p>
               </div>
               <img src="asset/icons/bx_label.svg" alt="icon" className='z-20' />
             </div>
@@ -57,7 +118,7 @@ const ShippingLabelsPage = () => {
             <div className='flex justify-between items-center'>
               <div>
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Total Spent</p>
-                <p className='font-semibold text-xl text-main-text'>$226.65</p>
+                <p className='font-semibold text-xl text-main-text'>${loading ? '...' : stats.totalSpent}</p>
               </div>
               <img src="asset/icons/spent.svg" alt="icon" className='z-20' />
             </div>
@@ -68,7 +129,7 @@ const ShippingLabelsPage = () => {
             <div className='flex justify-between items-center'>
               <div>
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Avg. Cost</p>
-                <p className='font-semibold text-xl text-main-text'>$32.38</p>
+                <p className='font-semibold text-xl text-main-text'>${loading ? '...' : stats.avgCost}</p>
               </div>
               <img src="asset/icons/cost.svg" alt="icon" className='z-20' />
             </div>
@@ -79,7 +140,7 @@ const ShippingLabelsPage = () => {
             <div className='flex justify-between items-center'>
               <div>
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>International</p>
-                <p className='font-semibold text-xl text-main-text'>2</p>
+                <p className='font-semibold text-xl text-main-text'>{loading ? '...' : stats.international}</p>
               </div>
               <img src="asset/icons/international.svg" alt="icon" className='z-20' />
             </div>
@@ -88,13 +149,31 @@ const ShippingLabelsPage = () => {
         </div>
       </div>
 
+      {/* Error Display */}
+      {error && (
+        <div className='py-20 sm:py-30 px-15 sm:px-30 bg-red-50 border border-red-200 rounded-15px sm:rounded-20px mb-20'>
+          <div className='flex items-center gap-10'>
+            <div className='w-5 h-5 bg-red-500 rounded-full flex items-center justify-center'>
+              <span className='text-white text-xs'>!</span>
+            </div>
+            <p className='text-red-700 font-medium'>{error}</p>
+            <button 
+              onClick={() => loadShipments()} 
+              className='ml-auto text-red-600 hover:text-red-800 font-medium'
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Recent Labels */}
       <div className='py-20 sm:py-30 px-15 sm:px-30 bg-white rounded-15px sm:rounded-20px sm:space-y-20 space-y-10 w-full'>
         {/* dropdown */}
         <div className='flex justify-between items-center gap-8'>
-          <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Recent Labels<span>(6)</span></h2>
+          <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Recent Labels<span>({shipments.length})</span></h2>
           <div className="flex justify-end gap-8">
-            <BulkImport />
+            <BulkImport/>
             <NavLink to={"/create-labels"} className='flex items-center justify-between gap-8 button-icon'>
               <img src="asset/icons/white-plus.svg" alt="icon" />
               <span className='sm:block hidden'> Create Label</span>
@@ -270,456 +349,104 @@ const ShippingLabelsPage = () => {
                 </thead>
 
                 <tbody>
-                  <tr className={`${checked ? 'bg-table-header-active' : ''}`}>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' onChange={(e) => setChecked(e.target.checked)} />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </td>
-                    <td>LBL-001</td>
-                    <td><p>John Smith</p></td>
-                    <td>
-                      <p>123 Main St</p>
-                      <p className='description'>New York, NY 10001</p>
-                    </td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/type-1.svg" alt="icon" className='h-29' />
-                        <div>
-                          <p>USPS</p>
-                          <p className='description'>Priority Mail</p>
+                  {loading ? (
+                    <tr>
+                      <td colSpan="9" className="text-center py-20">
+                        <div className="flex justify-center items-center">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                          <span className="ml-10 text-secondary-text">Loading shipments...</span>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge success-badge'>
-                          <img src="asset/table-image/success-check.svg" alt="icon" className='h-14' />
-                          <p>Delivered</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>$8.45</td>
-                    <td>04.06.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* eye */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              View Label
+                      </td>
+                    </tr>
+                  ) : shipments.length === 0 ? (
+                    <tr>
+                      <td colSpan="9" className="text-center py-20">
+                        <p className="text-secondary-text">No shipments found</p>
+                      </td>
+                    </tr>
+                  ) : (
+                    shipments.map((shipment, index) => (
+                      <tr key={shipment._id || index} className={`${checked ? 'bg-table-header-active' : ''}`}>
+                        <td>
+                          <label className="flex items-center cursor-pointer relative w-20 h-20">
+                            <input type="checkbox" className='peer peer-checked:border-Outlines' onChange={(e) => setChecked(e.target.checked)} />
+                            <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
+                              <img src="/asset/icons/check.svg" alt="" className='h-19' />
                             </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
+                          </label>
+                        </td>
+                        <td>{shipment.shipmentId || shipment._id}</td>
+                        <td><p>{shipment.recipientName || 'N/A'}</p></td>
+                        <td>
+                          <p>{shipment.destinationAddress?.street1 || 'N/A'}</p>
+                          <p className='description'>{shipment.destinationAddress?.city}, {shipment.destinationAddress?.state} {shipment.destinationAddress?.zip}</p>
+                        </td>
+                        <td>
+                          <div className='flex gap-6 items-center justify-start'>
+                            <img src="asset/table-image/type-1.svg" alt="icon" className='h-29' />
+                            <div>
+                              <p>{shipment.carrier || 'N/A'}</p>
+                              <p className='description'>{shipment.service || 'N/A'}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className='inline-block'>
+                            <div className={`badge ${getStatusBadgeClass(shipment.status)}`}>
+                              <img src={getStatusIcon(shipment.status)} alt="icon" className='h-14' />
+                              <p>{shipment.status || 'N/A'}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td>${shipment.cost || '0.00'}</td>
+                        <td>{formatDate(shipment.createdAt)}</td>
+                        <td>
+                          <div className='flex gap-5 justify-start items-center'>
+                            {/* eye */}
+                            <div className="relative group">
+                              <div className="action-btn">
+                                <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
+                              </div>
+                              <span className="action-tooltip">
+                                <span className='tooltip-label'>
+                                  View Label
+                                </span>
+                                <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
+                              </span>
+                            </div>
 
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
+                            {/* download */}
+                            <div className="relative group">
+                              <div className="action-btn">
+                                <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
+                              </div>
+                              <span className="action-tooltip">
+                                <span className='tooltip-label'>
+                                  Download Label
+                                </span>
+                                <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
+                              </span>
+                            </div>
 
-                        {/* tracking */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
+                            {/* tracking */}
+                            <div className="relative group">
+                              <div className="action-btn">
+                                <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
+                              </div>
+                              <span className="action-tooltip">
+                                <span className='tooltip-label'>
+                                  Track
+                                </span>
+                                <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
+                              </span>
+                            </div>
                           </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Track
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
+                        </td>
+                      </tr>
+                    ))
+                  )}
 
-                  <tr>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </td>
-                    <td>LBL-002</td>
-                    <td><p>Mike Wilson</p></td>
-                    <td>
-                      <p>789 Pine St</p>
-                      <p className='description'>Chicago, IL 60601</p>
-                    </td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/dhl.svg" alt="icon" className='h-29' />
-                        <div>
-                          <p>DHL</p>
-                          <p className='description'>Express</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge info-badge'>
-                          <img src="asset/table-image/badge-delivery.svg" alt="icon" className='h-16' />
-                          <p>Shipped</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>$12.30</td>
-                    <td>02.06.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* eye */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              View Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
 
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* tracking */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Track
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </td>
-                    <td>LBL-003</td>
-                    <td><p>Sarah Johnson</p></td>
-                    <td>
-                      <p>456 Oak Ave,</p>
-                      <p className='description'>Los Angeles, CA 90210</p>
-                    </td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/dhl.svg" alt="icon" className='h-29' />
-                        <div>
-                          <p>DHL</p>
-                          <p className='description'>Express</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge schedule-badge'>
-                          <img src="asset/table-image/print.svg" alt="icon" className='h-14' />
-                          <p>Printed</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>$26.75</td>
-                    <td>22.06.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* eye */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              View Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* tracking */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/tracking.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Track
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* calendar */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/calendar.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              calendar
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </td>
-                    <td>LBL-004</td>
-                    <td><p>Mike Wilson</p></td>
-                    <td>
-                      <p>321 Elm Dr</p>
-                      <p className='description'>Miami, FL 33101</p>
-                    </td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/dhl.svg" alt="icon" className='h-29' />
-                        <div>
-                          <p>DHL</p>
-                          <p className='description'>Express</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge paid-badge'>
-                          <img src="asset/table-image/paid.svg" alt="icon" className='h-14' />
-                          <p>Paid</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>$3.95</td>
-                    <td>26.06.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* eye */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              View Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* calendar */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/calendar.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              calendar
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </td>
-                    <td>DRAFT-LBL-005</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge draft-badge'>
-                          <img src="asset/table-image/draft.svg" alt="icon" className='h-14' />
-                          <p>Draft</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td></td>
-                    <td>01.06.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* play */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/play.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              play
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* delete */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/delete.svg" alt="icon" className="h-20" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Delete
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label className="flex items-center cursor-pointer relative w-20 h-20">
-                        <input type="checkbox" className='peer peer-checked:border-Outlines' />
-                        <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
-                          <img src="/asset/icons/check.svg" alt="" className='h-19' />
-                        </span>
-                      </label>
-                    </td>
-                    <td>
-                      <div className='flex flex-wrap gap-6 items-center'>
-                        LBL-006
-                        <p className="label-badge">
-                          <img src="asset/icons/international.svg" alt="icon" className='h-13' /><span>Intl</span>
-                        </p>
-                      </div>
-                    </td>
-                    <td><p>David Brown</p></td>
-                    <td>
-                      <p>123 Regent St</p>
-                      <p className='description'>London, England W1B 4HA</p>
-                    </td>
-                    <td>
-                      <div className='flex gap-6 items-center justify-start'>
-                        <img src="asset/table-image/ups.svg" alt="icon" className='h-29' />
-                        <div>
-                          <p>UPS</p>
-                          <p className='description'>Ground</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='inline-block'>
-                        <div className='badge success-badge'>
-                          <img src="asset/table-image/success-check.svg" alt="icon" className='h-14' />
-                          <p>Delivered</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>$33.40</td>
-                    <td>28.05.2025</td>
-                    <td>
-                      <div className='flex gap-5 justify-start items-center'>
-                        {/* eye */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              View Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-
-                        {/* download */}
-                        <div className="relative group">
-                          <div className="action-btn">
-                            <img src="/asset/icons/download.svg" alt="icon" className="h-19" />
-                          </div>
-                          <span className="action-tooltip">
-                            <span className='tooltip-label'>
-                              Download Label
-                            </span>
-                            <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
 
                 </tbody>
               </table>

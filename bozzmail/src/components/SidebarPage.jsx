@@ -21,11 +21,6 @@ const SidebarPage = () => {
             {/* sidebar */}
             <div className='w-250 fixed top-76 left-24 overflow-y-auto custom-scrollbar hidden lg:block' style={{ height: 'calc(100vh - 80px)' }}>
                 <div className='bg-white p-20 rounded-20px flex justify-start gap-14 flex-col'>
-                    {/* <NavLink to={"/dashboard"} className='w-168 py-8 px-11 bg-icon rounded-7px gap-10 flex justify-start items-center'>
-                        <img src="/asset/icons/dashboard.svg" alt="icon" />
-                        <p className='sidebar-title'>Dashboard</p>
-                    </NavLink> */}
-
                     <NavLink to="/dashboard">
                         {({ isActive }) => (
                             <div className={`w-168 py-8 px-11 rounded-7px gap-10 flex justify-start items-center ${isActive ? 'navlink-item-active' : ''}`}>
@@ -154,30 +149,30 @@ const SidebarPage = () => {
             <div className="fixed bottom-0 left-0 w-full flex flex-col items-center z-30000 lg:hidden">
                 <div className={`bottom-menu ${isMobileMenu ? 'rounded-3xl py-29' : 'rounded-400px py-10'}`}>
                     <div className='flex justify-between items-center gap-20'>
-                        <NavLink to={"/dashboard"} className='menu-navlink text-center'>
-                            <div className='menu-icon'>
+                        <div className='menu-navlink text-center'>
+                            <NavLink to={"/dashboard"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                 <img src="/asset/icons/white-home.svg" alt="icon" />
-                            </div>
+                            </NavLink>
                             <p>Home</p>
-                        </NavLink>
-                        <NavLink to={"/shipping-labels"} className='menu-navlink text-center'>
-                            <div className='menu-icon'>
+                        </div>
+                        <div className='menu-navlink text-center'>
+                            <NavLink to={"/shipping-labels"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                 <img src="/asset/icons/white-label.svg" alt="icon" />
-                            </div>
+                            </NavLink>
                             <p>Labels</p>
-                        </NavLink>
-                        <NavLink to={"#"} className='menu-navlink create-btn text-center'>
-                            <div className='menu-icon'>
+                        </div>
+                        <div className='menu-navlink create-btn text-center'>
+                            <NavLink to={"#"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                 <img src="/asset/icons/white-plus.svg" alt="icon" />
-                            </div>
+                            </NavLink>
                             <p>create</p>
-                        </NavLink>
-                        <NavLink to={"/print-mail"} className='menu-navlink text-center'>
-                            <div className='menu-icon'>
+                        </div>
+                        <div className='menu-navlink text-center'>
+                            <NavLink to={"/print-mail"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                 <img src="/asset/icons/white-mail.svg" alt="icon" />
-                            </div>
+                            </NavLink>
                             <p>Mail</p>
-                        </NavLink>
+                        </div>
                         <NavLink to={"#"} className='menu-navlink text-center' onChange={handleChangeToggle} onClick={() => setIsMobileMenu(!isMobileMenu)}>
                             <div className='menu-icon'>
                                 <img src="/asset/icons/white-down-arrow.svg" alt="icon" className={`transition-transform duration-300 ${isMobileMenu ? 'rotate-180' : 'rotate-0'}`} />
@@ -190,24 +185,24 @@ const SidebarPage = () => {
                         <div className='flex flex-col gap-22'>
                             <div className='more-menu'>
                                 <div className='flex justify-between items-center gap-18'>
-                                    <NavLink to={"#"} className='menu-navlink text-center'>
-                                        <div className='menu-icon'>
+                                    <div className='menu-navlink text-center'>
+                                        <NavLink to={"#"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                             <img src="/asset/icons/white-pickup.svg" alt="icon" />
-                                        </div>
+                                        </NavLink>
                                         <p>Pickups</p>
-                                    </NavLink>
-                                    <NavLink to={"#"} className='menu-navlink text-center'>
-                                        <div className='menu-icon'>
+                                    </div>
+                                    <div className='menu-navlink text-center'>
+                                        <NavLink to={"#"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                             <img src="/asset/icons/white-temp.svg" alt="icon" />
-                                        </div>
+                                        </NavLink>
                                         <p>Temp.</p>
-                                    </NavLink>
-                                    <NavLink to={"#"} className='menu-navlink text-center'>
-                                        <div className='menu-icon'>
+                                    </div>
+                                    <div className='menu-navlink text-center'>
+                                        <NavLink to={"#"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                             <img src="/asset/icons/white-tracking.svg" alt="icon" />
-                                        </div>
+                                        </NavLink>
                                         <p>Tracking</p>
-                                    </NavLink>
+                                    </div>
                                 </div>
                             </div>
 

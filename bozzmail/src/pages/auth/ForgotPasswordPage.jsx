@@ -89,7 +89,7 @@ const ForgotPasswordPage = () => {
                     <img src={showPassword ? "/asset/icons/view-off.svg" : "/asset/icons/eye.svg"} alt="icon" />
                   </button>
                 </div>
-                <ErrorMessage name="password" component="span" className="text-red-500 text-sm" />
+                <ErrorMessage name="password" component="span" className="error-message" />
               </div>
               <div className='flex justify-start gap-8 flex-col w-full'>
                 <label htmlFor="cpassword" className="label-text">Confirm New Password</label>
@@ -111,7 +111,7 @@ const ForgotPasswordPage = () => {
                     <img src={showCPassword ? "/asset/icons/view-off.svg" : "/asset/icons/eye.svg"} alt="icon" />
                   </button>
                 </div>
-                <ErrorMessage name="cpassword" component="span" className="text-red-500 text-sm" />
+                <ErrorMessage name="cpassword" component="span" className="error-message" />
               </div>
               {apiError && <div className="text-red-500 text-center py-4">{apiError}</div>}
               <button

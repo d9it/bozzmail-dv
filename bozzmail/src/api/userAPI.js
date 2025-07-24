@@ -55,4 +55,15 @@ export const userAPI = {
       throw error.response?.data || error.message;
     }
   },
+
+  // Delete user account
+  deleteAccount: async () => {
+    try {
+      const response = await apiCall('/user/delete', {}, 'POST');
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  }
+
 }; 

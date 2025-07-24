@@ -4,6 +4,7 @@ import { RiUserLine } from "react-icons/ri";
 import { NavLink } from 'react-router';
 import useDropdown from '../../hook/useDropdown';
 import { PiWarningCircle } from "react-icons/pi";
+import { useShipping } from '../../hook/useShipping';
 
 const AddressTab = () => {
   const dropdown1 = useDropdown();
@@ -12,6 +13,10 @@ const AddressTab = () => {
   const dropdown4 = useDropdown();
   const dropdown5 = useDropdown();
 
+  const { addresses, loading, error, loadAddresses } = useShipping();
+  const [selectedSender, setSelectedSender] = useState(null);
+  const [selectedRecipient, setSelectedRecipient] = useState(null);
+
 
   const dropdown6 = useDropdown();
   const dropdown7 = useDropdown();
@@ -19,6 +24,19 @@ const AddressTab = () => {
   const dropdown9 = useDropdown();
   const dropdown10 = useDropdown();
 
+  useEffect(() => {
+    loadAddresses();
+  }, [loadAddresses]);
+
+  const handleSenderSelect = (address) => {
+    setSelectedSender(address);
+    dropdown1.toggle();
+  };
+
+  const handleRecipientSelect = (address) => {
+    setSelectedRecipient(address);
+    dropdown2.toggle();
+  };
 
   return (
     <>
@@ -55,11 +73,15 @@ const AddressTab = () => {
                           Make sure to apply this rule consistently for all dropdowns wherever they appear.
                         */}
 
-                        <p className='text-place-holder text-sm font-medium'>John Smith</p>
-                        <p className='text-secondary-text text-xs font-medium'>Tech Solutions Inc.</p>
+                        <p className={`text-sm font-medium ${selectedSender ? 'text-main-text' : 'text-place-holder'}`}>
+                          {selectedSender ? selectedSender.name : 'Select sender'}
+                        </p>
+                        <p className='text-secondary-text text-xs font-medium'>
+                          {selectedSender ? selectedSender.company || '-' : 'Company (optional)'}
+                        </p>
                       </div>
                     </div>
-                    <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown1.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                    <IoChevronDown className={`text-base transition-transform duration-300 ${selectedSender ? 'text-main-text' : 'text-arrow'} ${dropdown1.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
                 </div>
 
@@ -71,69 +93,40 @@ const AddressTab = () => {
                       <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
                     </div>
                     <ul className='table-dropdown-item dropdown-scrollbar w-full'>
-                      <li className='table-dropdown-title'>
-                        <div className='flex justify-start items-center w-full'>
-                          <div className='flex justify-start items-center gap-9 w-1/2'>
-                            <img src="/asset/icons/building.svg" alt="icon" />
-                            John Smith
+                      {loading ? (
+                        <li className='table-dropdown-title'>
+                          <div className='flex justify-center items-center w-full py-10'>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                            <span className="ml-10 text-secondary-text">Loading addresses...</span>
                           </div>
-                          <p className='text-secondary-text w-1/2'>Tech Solutions Inc.</p>
-                        </div>
-                      </li>
-                      <li className='table-dropdown-title'>
-                        <div className='flex justify-start items-center w-full'>
-                          <div className='flex justify-start items-center gap-9 w-1/2'>
-                            <RiUserLine className='text-secondary-text text-sm' />
-                            Sarah Johnson
+                        </li>
+                      ) : addresses.length === 0 ? (
+                        <li className='table-dropdown-title'>
+                          <div className='flex justify-center items-center w-full py-10'>
+                            <span className="text-secondary-text">No addresses found</span>
                           </div>
-                          <p className='text-secondary-text w-1/2'>-</p>
-                        </div>
-                      </li>
-                      <li className='table-dropdown-title'>
-                        <div className='flex justify-start items-center w-full'>
-                          <div className='flex justify-start items-center gap-9 w-1/2'>
-                            <img src="/asset/icons/building.svg" alt="icon" />
-                            Emily Carter
-                          </div>
-                          <p className='text-secondary-text w-1/2'>Bright Path Ltd.</p>
-                        </div>
-                      </li>
-                      <li className='table-dropdown-title'>
-                        <div className='flex justify-start items-center w-full'>
-                          <div className='flex justify-start items-center gap-9 w-1/2'>
-                            <RiUserLine className='text-secondary-text text-sm' />
-                            Michael Lee
-                          </div>
-                          <p className='text-secondary-text w-1/2'>-</p>
-                        </div>
-                      </li>
-                      <li className='table-dropdown-title'>
-                        <div className='flex justify-start items-center w-full'>
-                          <div className='flex justify-start items-center gap-9 w-1/2'>
-                            <img src="/asset/icons/building.svg" alt="icon" />
-                            David Nguyen
-                          </div>
-                          <p className='text-secondary-text w-1/2'>CoreVision Systems</p>
-                        </div>
-                      </li>
-                      <li className='table-dropdown-title'>
-                        <div className='flex justify-start items-center w-full'>
-                          <div className='flex justify-start items-center gap-9 w-1/2'>
-                            <RiUserLine className='text-secondary-text text-sm' />
-                            Anna Rodriguez
-                          </div>
-                          <p className='text-secondary-text w-1/2'>-</p>
-                        </div>
-                      </li>
-                      <li className='table-dropdown-title'>
-                        <div className='flex justify-start items-center w-full'>
-                          <div className='flex justify-start items-center gap-9 w-1/2'>
-                            <RiUserLine className='text-secondary-text text-sm' />
-                            Liam Thompson
-                          </div>
-                          <p className='text-secondary-text w-1/2'>-</p>
-                        </div>
-                      </li>
+                        </li>
+                      ) : (
+                        addresses.map((address, index) => (
+                          <li 
+                            key={address._id || index} 
+                            className='table-dropdown-title cursor-pointer hover:bg-gray-50'
+                            onClick={() => handleSenderSelect(address)}
+                          >
+                            <div className='flex justify-start items-center w-full'>
+                              <div className='flex justify-start items-center gap-9 w-1/2'>
+                                {address.company ? (
+                                  <img src="/asset/icons/building.svg" alt="icon" />
+                                ) : (
+                                  <RiUserLine className='text-secondary-text text-sm' />
+                                )}
+                                {address.name}
+                              </div>
+                              <p className='text-secondary-text w-1/2'>{address.company || '-'}</p>
+                            </div>
+                          </li>
+                        ))
+                      )}
                     </ul>
                   </div>
                 )}

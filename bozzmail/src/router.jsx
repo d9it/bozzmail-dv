@@ -30,9 +30,9 @@ const AppRoute = () => {
       <Route path="/success-message" element={<SuccessMessagePage />} />
 
       <Route element={
-        // <PrivateRoute>
+        <PrivateRoute>
           <MainLayout />
-        // </PrivateRoute>
+        </PrivateRoute>
       }>
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/subscription" element={<SubscriptionPage />} />

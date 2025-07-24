@@ -5,7 +5,7 @@ import useDropdown from '../hook/useDropdown';
 import { MdLockOutline } from "react-icons/md";
 import { CgEye } from "react-icons/cg";
 import { BsEyeSlash } from "react-icons/bs";
-import { useUser } from '../hook/useUser';
+import { useUser } from "../hook/useUser";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { regex } from "../utils/regex";
@@ -15,14 +15,14 @@ const ChangePassword = () => {
 
     const dropdown1 = useDropdown();
     const dropdown2 = useDropdown();
-    const { changePassword, loading } = useUser();
+
+    const {changePassword,loading} = useUser();
 
     const [showPassword, setShowPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const [modalOpen, setModalOpen] = useState(false);
-    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
     const handleModalOpen = () => {
         setModalOpen(true);
@@ -32,43 +32,42 @@ const ChangePassword = () => {
     const handleModalClose = () => {
         setModalOpen(false)
         document.body.classList.remove('overflow-y-hidden');
-        setShowSuccessAlert(false);
     }
 
-    const initialValues = {
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
+    // const handleChangePassword = async () => {
+    //     await changePassword();
+    // }
+
+    const handleChangePassword = async (values, { setSubmitting, setErrors, resetForm }) => {
+  try {
+    const payload = {
+      currentPassword: values.password,
+      newPassword: values.npassword,
     };
+
+    await changePassword(payload); 
+    resetForm();
+  } catch (err) {
+    const errorMessage = err?.message || "Something went wrong. Please try again.";
+    setErrors({ api: errorMessage });
+  } finally {
+    setSubmitting(false);
+  }
+};
+
 
     const validationSchema = Yup.object({
-        currentPassword: Yup.string().required('Current password is required'),
-        newPassword: Yup.string()
-            .required('New password is required')
-            .matches(regex.password, 'Password must contain at least 8 characters, uppercase, lowercase, number, and special character'),
-        confirmPassword: Yup.string()
-            .required('Please confirm your new password')
-            .oneOf([Yup.ref('newPassword'), null], 'Passwords do not match')
+        password: Yup.string()
+                    .required("Current password is required"),
+                    // .matches(regex.password, 'Password must contain at least 8 characters, uppercase, lowercase, number, and special character'),
+        npassword: Yup.string()
+                .matches(regex.password, 'New Password must contain at least 8 characters, uppercase, lowercase, number, and special character')
+                .required("New password is required"),
+        cpassword: Yup.string()
+                .oneOf([Yup.ref("npassword"), null], "Passwords must match")
+                .required("Confirm password is required"),
     });
 
-    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        try {
-            await changePassword({
-                currentPassword: values.currentPassword,
-                newPassword: values.newPassword
-            });
-            setShowSuccessAlert(true);
-            resetForm();
-            setTimeout(() => {
-                setShowSuccessAlert(false);
-                handleModalClose();
-            }, 2000);
-        } catch (err) {
-            console.error('Password change error:', err);
-        } finally {
-            setSubmitting(false);
-        }
-    };
     return (
         <>
             {/* button for open model */}
@@ -79,47 +78,29 @@ const ChangePassword = () => {
 
             {/* model start */}
             <Modal isOpen={modalOpen} onClose={handleModalClose}>
-
-                {/* alert */}
-                {showSuccessAlert && (
-                    <div className="fixed max-xl:top-16 max-xl:left-1/2 max-xl:transform max-xl:-translate-x-1/2 xl:bottom-30 xl:right-30 max-xl:px-16 max-xl:w-full max-xl:flex max-xl:justify-center z-2000000">
-                        <div className="bg-white rounded-15px overflow-hidden relative w-fit shadow-box">
-                            <div className="flex justify-start items-start gap-14 pt-20 pb-16 pr-50 xl:pr-60 pl-20">
-                                <img src="/asset/icons/success.svg" alt="icon" className="h-20 flex-none" />
-                                <div className="w-full sm:max-w-md max-h-100 sm:max-h-90 overflow-auto dropdown-scrollbar">
-                                    <p className="text-main-text font-semibold pb-2">Password Updated Successfully</p>
-                                </div>
-                            </div>
-                            <div className="h-3 bg-primary"></div>
-
-                            {/* cross alert */}
-                            <img src="/asset/icons/cross.svg" alt="icon" className="h-16 flex-none absolute top-12 right-24 cursor-pointer" onClick={() => setShowSuccessAlert(false)} />
-                        </div>
-                    </div>
-                )}
-
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
-                >
-                    {({ isSubmitting, errors, touched }) => (
-                        <Form className="flex flex-col gap-12 sm:gap-20">
+        <Formik
+            initialValues={{
+                password: "",
+                npassword: "",
+                cpassword: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleChangePassword}
+        >
+                <Form className="flex flex-col gap-12 sm:gap-20">
                     <div className="space-y-4">
                         <p className="text-xl sm:text-25px font-semibold text-main-text pr-40">Change Password</p>
                         <p className="font-medium text-13px sm:text-sm text-secondary-text">Enter your current password and choose a new one</p>
                     </div>
 
                     <div className='flex justify-start gap-8 flex-col w-full'>
-                        <label htmlFor="currentPassword" className="label-text">Current Password</label>
+                        <label htmlFor="password" className="label-text">Password</label>
                         <div className="relative">
-                            <Field
-                                type={showPassword ? "text" : "password"}
-                                name="currentPassword"
-                                id="currentPassword"
+                            <Field type={showPassword ? "text" : "password"}
+                                name="password"
+                                id="password"
                                 placeholder="•••••••••••••••••••••••••"
-                                className={`form-input${errors.currentPassword && touched.currentPassword ? ' border-red-500' : ''}`}
-                            />
+                                className="form-input" />
                             <button type="button"
                                 className="rounded-md bg-white border border-Outlines h-32 w-32 absolute right-8 top-8 flex items-center justify-center cursor-pointer"
                                 onClick={() => setShowPassword(!showPassword)}>
@@ -128,20 +109,18 @@ const ChangePassword = () => {
                                     <BsEyeSlash className="text-base text-cta-secondary flex-none rotate-y-180" />
                                 }
                             </button>
+                            <ErrorMessage name="password" component="div" className="error-message" />
                         </div>
-                        <ErrorMessage name="currentPassword" component="span" className="text-red-500 text-sm" />
                     </div>
 
                     <div className='flex justify-start gap-8 flex-col w-full'>
-                        <label htmlFor="newPassword" className="label-text">New Password</label>
+                        <label htmlFor="npassword" className="label-text">New Password</label>
                         <div className="relative">
-                            <Field
-                                type={showNewPassword ? "text" : "password"}
-                                name="newPassword"
-                                id="newPassword"
+                            <Field type={showNewPassword ? "text" : "password"}
+                                name="npassword"
+                                id="npassword"
                                 placeholder="•••••••••••••••••••••••••"
-                                className={`form-input${errors.newPassword && touched.newPassword ? ' border-red-500' : ''}`}
-                            />
+                                className="form-input" />
                             <button type="button"
                                 className="rounded-md bg-white border border-Outlines h-32 w-32 absolute right-8 top-8 flex items-center justify-center cursor-pointer"
                                 onClick={() => setShowNewPassword(!showNewPassword)}>
@@ -150,20 +129,18 @@ const ChangePassword = () => {
                                     <BsEyeSlash className="text-base text-cta-secondary flex-none rotate-y-180" />
                                 }
                             </button>
+                            <ErrorMessage name="npassword" component="div" className="error-message" />
                         </div>
-                        <ErrorMessage name="newPassword" component="span" className="text-red-500 text-sm" />
                     </div>
 
                     <div className='flex justify-start gap-8 flex-col w-full'>
-                        <label htmlFor="confirmPassword" className="label-text">Confirm New Password</label>
+                        <label htmlFor="cpassword" className="label-text">Confirm New Password</label>
                         <div className="relative">
-                            <Field
-                                type={showConfirmPassword ? "text" : "password"}
-                                name="confirmPassword"
-                                id="confirmPassword"
+                            <Field type={showConfirmPassword ? "text" : "password"}
+                                name="cpassword"
+                                id="cpassword"
                                 placeholder="•••••••••••••••••••••••••"
-                                className={`form-input${errors.confirmPassword && touched.confirmPassword ? ' border-red-500' : ''}`}
-                            />
+                                className="form-input" />
                             <button type="button"
                                 className="rounded-md bg-white border border-Outlines h-32 w-32 absolute right-8 top-8 flex items-center justify-center cursor-pointer"
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
@@ -172,31 +149,23 @@ const ChangePassword = () => {
                                     <BsEyeSlash className="text-base text-cta-secondary flex-none rotate-y-180" />
                                 }
                             </button>
+                            <ErrorMessage name="cpassword" component="div" className="error-message" />
                         </div>
-                        <ErrorMessage name="confirmPassword" component="span" className="text-red-500 text-sm" />
                     </div>
 
                     <div className="flex justify-end items-center gap-10">
                         <button type="button" onClick={handleModalClose} className="outline-btn cursor-pointer">Cancel</button>
-                        <button 
-                            type="submit" 
-                            disabled={loading || isSubmitting}
-                            className={`flex items-center justify-between gap-8 ${loading || isSubmitting ? 'disable-primary-btn' : 'button-icon'}`}
-                        >
-                            {loading || isSubmitting ? (
-                                <div className="flex justify-center items-center w-full text-center">
-                                    <Spinner />
-                                </div>
-                            ) : (
-                                <>
-                                    <span>Save</span>
-                                    <img src="asset/icons/white-save.svg" alt="icon" className="h-16" />
-                                </>
-                            )}
-                        </button>
+                        {loading ? 
+                        (<div className="flex justify-center items-center w-full text-center">
+                            <Spinner />
+                        </div>):(<button type="submit" className='flex items-center justify-between gap-8 button-icon'>
+                                <span>Save</span>
+                                <img src="asset/icons/white-save.svg" alt="icon" className="h-16" />
+                            </button>)
+                        }
                     </div>
-                        </Form>
-                    )}
+
+                    </Form>
                 </Formik>
             </Modal>
         </>

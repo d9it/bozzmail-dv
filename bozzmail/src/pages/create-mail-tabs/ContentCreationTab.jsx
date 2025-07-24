@@ -121,7 +121,6 @@ const ContentCreationTab = () => {
                   <div className="form-dropdown-menu">
                     <ul className='table-dropdown-item dropdown-scrollbar'>
                       <li className='table-dropdown-title'>Letter (8.5" × 11")</li>
-                      <li className='table-dropdown-title'>Letter (9.5" × 11")</li>
                     </ul>
                   </div>
                 )}
@@ -133,7 +132,7 @@ const ContentCreationTab = () => {
               <div ref={dropdown3.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
                   <button onClick={dropdown3.toggle} id='envelope' type='button' className="tab-select group">
-                    <p className='text-place-holder text-13px font-medium'>Standart</p>
+                    <p className='text-place-holder text-13px font-medium'>Standard</p>
                     <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
                 </div>
@@ -142,8 +141,7 @@ const ContentCreationTab = () => {
                 {dropdown3.isOpen && (
                   <div className="form-dropdown-menu">
                     <ul className='table-dropdown-item dropdown-scrollbar'>
-                      <li className='table-dropdown-title'>Standart</li>
-                      <li className='table-dropdown-title'>Normal</li>
+                      <li className='table-dropdown-title'>Standard</li>
                     </ul>
                   </div>
                 )}
@@ -155,7 +153,7 @@ const ContentCreationTab = () => {
               <div ref={dropdown4.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
                   <button onClick={dropdown4.toggle} id='renvelope' type='button' className="tab-select group">
-                    <p className='text-place-holder text-13px font-medium'>Standart</p>
+                    <p className='text-place-holder text-13px font-medium'>Standard</p>
                     <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
                 </div>
@@ -164,8 +162,7 @@ const ContentCreationTab = () => {
                 {dropdown4.isOpen && (
                   <div className="form-dropdown-menu-up !top-auto !bottom-full">
                     <ul className='table-dropdown-item dropdown-scrollbar'>
-                      <li className='table-dropdown-title'>Standart</li>
-                      <li className='table-dropdown-title'>Normal</li>
+                      <li className='table-dropdown-title'>Standard</li>
                     </ul>
                   </div>
                 )}
