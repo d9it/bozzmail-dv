@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useCallback } from 'react';
 import {
     createShipment,
     getShipmentRates,
@@ -35,7 +35,7 @@ export const useShipping = () => {
     });
 
     // Load user shipments
-    const loadShipments = async (page = 1, limit = 10) => {
+    const loadShipments = useCallback(async (page = 1, limit = 10) => {
         setLoading(true);
         setError(null);
         try {
@@ -63,10 +63,10 @@ export const useShipping = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     // Load user addresses
-    const loadAddresses = async () => {
+    const loadAddresses = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -79,7 +79,8 @@ export const useShipping = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
+
 
     // Load user customs
     const loadCustoms = async () => {

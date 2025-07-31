@@ -9,7 +9,7 @@ import { PiExportBold } from "react-icons/pi";
 import { TbFileImport } from "react-icons/tb";
 import { GrDocumentCsv } from "react-icons/gr";
 
-const TypedLettersBulkImport = () => {
+const TypedLettersBulkImport = ({ onOpenChange }) => {
 
     const [isMonthCheck, setIsMonthCheck] = useState(false);
 
@@ -21,24 +21,26 @@ const TypedLettersBulkImport = () => {
 
     const handleModalOpen = () => {
         setModalOpen(true);
+        onOpenChange?.(true); // tell parent modal is open
         document.body.classList.add('overflow-y-hidden');
     }
 
     const handleModalClose = () => {
-        setModalOpen(false)
+        setModalOpen(false);
+        onOpenChange?.(false); // tell parent modal is closed
         document.body.classList.remove('overflow-y-hidden');
     }
 
     return (
         <>
             {/* button for open model */}
-            <li className='table-dropdown-title' onClick={handleModalOpen}>Typed Letters</li>
+            <button className='table-dropdown-title text-left border border-transparent cursor-pointer' onClick={handleModalOpen}>Typed Letters</button>
 
             {/* model start */}
             <Modal isOpen={modalOpen} onClose={handleModalClose}>
 
                 {/* alert */}
-                <div className="fixed max-xl:top-16 max-xl:left-1/2 max-xl:transform max-xl:-translate-x-1/2 xl:bottom-30 xl:right-30 max-xl:px-16 max-xl:w-full max-xl:flex max-xl:justify-center z-2000000">
+                <div className="fixed max-xl:top-16 max-xl:left-1/2 max-xl:transform max-xl:-translate-x-1/2 xl:bottom-30 xl:right-30 max-xl:px-16 max-xl:w-full max-xl:flex max-xl:justify-center z-500">
                     <div className="bg-white rounded-15px overflow-hidden relative w-fit shadow-box">
                         <div className="flex justify-start items-start gap-14 pt-20 pb-16 pr-50 xl:pr-60 pl-20">
                             <img src="/asset/icons/success.svg" alt="icon" className="h-20 flex-none" />
@@ -77,7 +79,11 @@ const TypedLettersBulkImport = () => {
                     <div className="border border-upload-skyblue-border bg-upload-skyblue p-20 rounded-lg flex justify-between items-center flex-wrap gap-8">
                         <div className="flex gap-11 items-center justify-start">
                             <div className="p-8 rounded-md bg-card-sky-blue flex-none">
-                                <GrDocumentCsv className="text-primary text-lg flex-none"/>
+                                <img src="/asset/icons/blue-csv.svg" alt="icon" className="h-18 flex-none" />
+
+                                {/* for xlsx and json */}
+                                {/* <img src="/asset/icons/blue-xlsx.svg" alt="icon" className="h-18 flex-none" />
+                                <img src="/asset/icons/blue-json.svg" alt="icon" className="h-18 flex-none" /> */}
                             </div>
                             <div className="font-medium">
                                 <p className="text-sm text-main-text">bulk-import-today.csv</p>
@@ -92,7 +98,7 @@ const TypedLettersBulkImport = () => {
                                 </div>
                                 <span className="action-tooltip">
                                     <span className='tooltip-label'>
-                                        View Label
+                                        View
                                     </span>
                                     <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
                                 </span>
@@ -143,10 +149,16 @@ const TypedLettersBulkImport = () => {
 
                     <div className="flex justify-end items-center gap-10 flex-wrap">
                         <button onClick={handleModalClose} className="outline-btn cursor-pointer">Cancel</button>
-                        <NavLink to={"/import-labels"} className='flex items-center justify-between gap-8 button-icon'>
+                        <NavLink to={"/import-mail"} className='flex items-center justify-between gap-8 button-icon'>
                             <CgEye className="text-base text-white flex-none" />
                             <span> Continue to Preview</span>
                         </NavLink>
+
+                        {/* disable button */}
+                        {/* <NavLink to={"/import-mail"} className='flex items-center justify-between gap-8 disable-button-icon'>
+                            <CgEye className="text-base text-white flex-none" />
+                            <span> Continue to Preview</span>
+                        </NavLink> */}
                     </div>
 
                 </div>

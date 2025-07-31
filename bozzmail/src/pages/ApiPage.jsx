@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router';
 import useDropdown from '../hook/useDropdown';
+import { HiUpload } from "react-icons/hi";
+
 
 const ApiPage = () => {
 
@@ -23,7 +25,7 @@ const ApiPage = () => {
           </div>
         </div>
 
-        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text pt-5 hidden sm:block'>Manage your API keys for integrating with BozzMail's shipping and mailing services.</p>
+        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text hidden sm:block'>Manage your API keys for integrating with BozzMail's shipping and mailing services.</p>
 
       </div>
 
@@ -31,15 +33,17 @@ const ApiPage = () => {
         <div className='flex justify-between items-center flex-wrap gap-10'>
           <div className='flex justify-start items-center gap-10 sm:gap-20 flex-wrap'>
             <p className='text-xl font-semibold text-main-text'>API Keys</p>
-            <div className='py-15 px-7 rounded-7px border border-[#E7F9E7] bg-lime flex gap-7 justify-start items-center flex-wrap'>
+
+            {/* card */}
+            <div className='py-5 px-7 rounded-7px border border-lime-border bg-lime flex gap-7 justify-start items-center flex-wrap'>
               <img src="/asset/icons/Starter.svg" alt="icon" className='h-29' />
               <div>
                 <p className='text-11px font-medium text-cta-secondary'>Starter Plan</p>
                 <p className='text-xs font-semibold text-main-text'>Access to the API restricted</p>
               </div>
 
-              <button className='py-3 px-6 border border-outlines focus:border-outlines-active active:border-outlines-active rounded-5px text-11px font-medium text-cta-secondary flex items-center gap-3 bg-white sm:ml-30 cursor-pointer'> 
-                <img src="/asset/icons/upgrade.svg" alt="icon" className='h-12' />
+              <button className='py-3 px-6 border border-Outlines focus:border-outlines-active active:border-outlines-active rounded-5px text-11px font-medium text-cta-secondary flex items-center gap-3 bg-white sm:ml-30 cursor-pointer'> 
+                <HiUpload className='text-xs text-cta-secondary'/>
                 Upgrade
               </button>
             </div>

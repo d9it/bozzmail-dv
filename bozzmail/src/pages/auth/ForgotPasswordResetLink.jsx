@@ -18,7 +18,7 @@ const ForgotPasswordResetLink = () => {
 
   const validationSchema = Yup.object({
     email: Yup.string()
-      .required('Email is required')
+      .required('Email is required').trim()
       .matches(regex.email, 'Please enter a valid email address'),
   });
 
@@ -75,7 +75,7 @@ const ForgotPasswordResetLink = () => {
               >
                 {success ? (
                   <div className="flex justify-center items-center w-full text-center">
-                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-24" />
+                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-16" />
                   </div>
                 ) : (loading || isSubmitting) ? (
                   <div className="flex justify-center items-center w-full text-center">

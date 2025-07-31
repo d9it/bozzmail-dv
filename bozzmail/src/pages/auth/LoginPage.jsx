@@ -18,12 +18,11 @@ const LoginPage = () => {
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string()
+    email: Yup.string().trim()
       .required('Email is required')
       .matches(regex.email, 'Please enter a valid email address'),
-    password: Yup.string()
-      .required('Password is required')
-      .matches(regex.password, 'Password must contain at least 8 characters, uppercase, lowercase, number, and special character'),
+    password: Yup.string().trim()
+      .required('Password is required'),
   });
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -107,7 +106,7 @@ const LoginPage = () => {
               >
                 {loginSuccess ? (
                   <div className="flex justify-center items-center w-full text-center">
-                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-24" />
+                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-16" />
                   </div>
                 ) : (loading || isSubmitting) ? (
                   <div className="flex justify-center items-center w-full text-center">

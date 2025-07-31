@@ -6,7 +6,7 @@ import { IoChevronDown } from "react-icons/io5";
 import { TbFileExport } from "react-icons/tb";
 import BulkImport from '../components/BulkImport';
 import { useShipping } from '../hook/useShipping';
-
+import { MdOutlineSearchOff } from "react-icons/md";
 
 const ShippingLabelsPage = () => {
 
@@ -19,6 +19,8 @@ const ShippingLabelsPage = () => {
     stats, 
     loadShipments 
   } = useShipping();
+
+  // console.log('shipments data: ',shipments)
 
   // Helper functions
   const getStatusBadgeClass = (status) => {
@@ -88,6 +90,7 @@ const ShippingLabelsPage = () => {
 
   return (
     <>
+
       {/*  cards */}
       <div className='py-20 sm:py-30 pr-15 sm:pr-30 bg-white rounded-15px sm:rounded-20px'>
 
@@ -99,7 +102,7 @@ const ShippingLabelsPage = () => {
           </div>
         </div>
 
-        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text pt-5 hidden sm:block'>Create and manage your shipping labels for packages and mail</p>
+        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text hidden sm:block'>Create and manage your shipping labels for packages and mail</p>
 
         {/* cards */}
         <div className='pl-15 sm:pl-30 lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 sm:gap-20 pt-10 sm:pt-20'>
@@ -109,9 +112,9 @@ const ShippingLabelsPage = () => {
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Total Labels</p>
                 <p className='font-semibold text-xl text-main-text'>{loading ? '...' : stats.totalLabels}</p>
               </div>
-              <img src="asset/icons/bx_label.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/bx_label.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
 
           <div className='border border-Outlines card-layout py-21 w-full'>
@@ -120,9 +123,9 @@ const ShippingLabelsPage = () => {
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Total Spent</p>
                 <p className='font-semibold text-xl text-main-text'>${loading ? '...' : stats.totalSpent}</p>
               </div>
-              <img src="asset/icons/spent.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/spent.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
 
           <div className='border border-Outlines card-layout py-21 w-full'>
@@ -131,9 +134,9 @@ const ShippingLabelsPage = () => {
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Avg. Cost</p>
                 <p className='font-semibold text-xl text-main-text'>${loading ? '...' : stats.avgCost}</p>
               </div>
-              <img src="asset/icons/cost.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/cost.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
 
           <div className='border border-Outlines card-layout py-21 w-full'>
@@ -142,9 +145,9 @@ const ShippingLabelsPage = () => {
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>International</p>
                 <p className='font-semibold text-xl text-main-text'>{loading ? '...' : stats.international}</p>
               </div>
-              <img src="asset/icons/international.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/international.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
         </div>
       </div>
@@ -173,7 +176,7 @@ const ShippingLabelsPage = () => {
         <div className='flex justify-between items-center gap-8'>
           <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Recent Labels<span>({shipments.length})</span></h2>
           <div className="flex justify-end gap-8">
-            <BulkImport/>
+            <BulkImport label="Import Labels" labelClassName="sm:block hidden"/>
             <NavLink to={"/create-labels"} className='flex items-center justify-between gap-8 button-icon'>
               <img src="asset/icons/white-plus.svg" alt="icon" />
               <span className='sm:block hidden'> Create Label</span>
@@ -213,7 +216,7 @@ const ShippingLabelsPage = () => {
                 <div ref={dropdown3.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="carrier" className='label-text block sm:hidden'>Carrier</label>
-                    <button onClick={dropdown3.toggle} id='carrier' type='button' className="select-button group">
+                    <button onClick={dropdown3.toggle} ref={dropdown3.triggerRef} id='carrier' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Carriers</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -240,7 +243,7 @@ const ShippingLabelsPage = () => {
                 <div ref={dropdown4.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="status" className='label-text block sm:hidden'>Status</label>
-                    <button onClick={dropdown4.toggle} id='status' type='button' className="select-button group">
+                    <button onClick={dropdown4.toggle} ref={dropdown4.triggerRef} id='status' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Statuses</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -264,7 +267,7 @@ const ShippingLabelsPage = () => {
                 <div ref={dropdown5.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="time" className='label-text block sm:hidden'>Time</label>
-                    <button onClick={dropdown5.toggle} id='time' type='button' className="select-button group">
+                    <button onClick={dropdown5.toggle} ref={dropdown5.triggerRef} id='time' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Time</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown5.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -303,7 +306,7 @@ const ShippingLabelsPage = () => {
                 {/* export dropdown */}
                 <div ref={dropdown9.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown9.toggle} id='time' type='button' className="export-btn group">
+                    <button onClick={dropdown9.toggle} ref={dropdown9.triggerRef} id='time' type='button' className="export-btn group">
                       <TbFileExport className='text-lg' />
                       <p className='text-13px font-medium'>Export</p>
                       <IoChevronDown className={`text-lg transition-transform duration-300 ${dropdown9.isOpen ? 'rotate-180' : 'rotate-0'}`} />
@@ -358,14 +361,17 @@ const ShippingLabelsPage = () => {
                         </div>
                       </td>
                     </tr>
-                  ) : shipments.length === 0 ? (
+                  ) : shipments?.data?.length === 0 ? (
                     <tr>
-                      <td colSpan="9" className="text-center py-20">
-                        <p className="text-secondary-text">No shipments found</p>
+                      <td colSpan="9">
+                        <div className="no-data-found">
+                          <MdOutlineSearchOff className='text-2xl sm:text-4xl'/>
+                          <p>No shipments found</p>
+                        </div>
                       </td>
                     </tr>
                   ) : (
-                    shipments.map((shipment, index) => (
+                    shipments?.data?.map((shipment, index) => (
                       <tr key={shipment._id || index} className={`${checked ? 'bg-table-header-active' : ''}`}>
                         <td>
                           <label className="flex items-center cursor-pointer relative w-20 h-20">
@@ -445,9 +451,6 @@ const ShippingLabelsPage = () => {
                       </tr>
                     ))
                   )}
-
-
-
                 </tbody>
               </table>
             </div>

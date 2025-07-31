@@ -24,15 +24,17 @@ const ImportLabelPage = () => {
           </NavLink>
 
           <div className="flex justify-end  gap-10 sm:gap-25 flex-wrap">
-            <NavLink to={"#"} className='flex items-center justify-between gap-8 button-border'>
-              <img src="asset/icons/save.svg" alt="icon" />
-              <span className='sm:block hidden'> Save Draft</span>
-            </NavLink>
+            {activeTab !== "complete" && (
+              <NavLink to={"/"} className='flex items-center justify-between gap-8 button-border'>
+                <img src="asset/icons/save.svg" alt="icon" />
+                <span className='sm:block hidden'> Save Draft</span>
+              </NavLink>
+             )}
 
             <div className='flex items-center justify-end gap-5 sm:gap-10'>
 
               {activeTab === "complete" && (
-                <NavLink to={"#"} className='flex items-center justify-between gap-8 button-border'>
+                <NavLink to={"/create-labels"} className='flex items-center justify-between gap-8 button-border'>
                   <GoPlus className='text-main-text text-base stroke-1' />
                   <span className='sm:block hidden'> Create New Label</span>
                 </NavLink>

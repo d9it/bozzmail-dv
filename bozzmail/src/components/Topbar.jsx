@@ -4,16 +4,19 @@ import { NavLink } from 'react-router';
 import { LuSunMedium } from "react-icons/lu";
 import { IoMoonOutline } from "react-icons/io5";
 import { useAuth } from '../hook/useAuth';
-// import { useSubscription } from '../hook/useSubscription'
 import { useState, useEffect } from 'react';
-import moment from 'moment';
 import EditProfile from "../components/EditProfile";
 import ChangePassword from "../components/ChangePassword";
 import NotificationSetting from "../components/NotificationSetting";
 import { GoPlus } from "react-icons/go";
 import { IoNotificationsOutline } from "react-icons/io5";
+import { useSubscription } from "../hook/useSubscription.jsx";
+import { MdLockOutline } from "react-icons/md";
+import { IoChevronBack, IoChevronDown, IoChevronForward, IoChevronUp } from "react-icons/io5";
+import TopbarTimer from './TopbarTimer.jsx';
 
-const Topbar = ({ currentSubscription }) => {
+
+const Topbar = () => {
 
     // for change dark and light mode
     const { mode, darkMode, lightMode, systemMode } = useDarkMode();
@@ -21,24 +24,42 @@ const Topbar = ({ currentSubscription }) => {
     const dropdown1 = useDropdown();
     const dropdown2 = useDropdown();
     const { logout, getCurrentUser } = useAuth();
+    const { currentSubscription } = useSubscription();
     // console.log('curr sub: ',currentSubscription)
     const user = getCurrentUser();
 
-    // State for current time
-    const [currentTime, setCurrentTime] = useState(Date.now());
+    const [editModal, setEditModal] = useState(false);
+    const [changePasswordModal, setChangePasswordModal] = useState(false);
+    const [notificationModal, setNotificationModal] = useState(false);
 
-    // Update time every minute
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentTime(Date.now());
-        }, 1000 * 60); 
+    const openEditModal = () => {
+        setEditModal(true);
+        document.body.classList.add('overflow-y-hidden');
+        dropdown2.close();
+    };
 
-        return () => clearInterval(interval);
-    }, []);
+    const openChangePasswordModal = () => {
+        setChangePasswordModal(true);
+        document.body.classList.add('overflow-y-hidden');
+        dropdown2.close();
+    };
+
+    const openNotificationModal = () => {
+        setNotificationModal(true);
+        document.body.classList.add('overflow-y-hidden');
+        dropdown2.close();
+    };
+
+    const closeModal = () => {
+        setEditModal(false);
+        setChangePasswordModal(false);
+        setNotificationModal(false);
+        document.body.classList.remove('overflow-y-hidden');
+    };
 
     return (
 
-        <div className="flex items-center max-lg:justify-between w-full sticky top-0 bg-light-gray dark:bg-gray-200 pb-20 pt-16 z-1000">
+        <div className="flex items-center max-lg:justify-between w-full sticky top-0 bg-light-gray dark:bg-gray-200 pb-20 pt-16 z-50">
 
             {/* Logo */}
             <div className="lg:w-274 flex-none">
@@ -67,11 +88,7 @@ const Topbar = ({ currentSubscription }) => {
                             <button className="header-icon bg-white text-secondary-text"><span className='text-11px font-medium'>PT</span></button>
                         </div>
                     </div>
-                    <div className='text-13px font-medium text-secondary-text flex items-center justify-center'>
-                        <p>{moment(currentTime).format('MMMM DD, YYYY')}</p>
-                        <p className='px-4'>·</p>
-                        <p>{moment(currentTime).format('h:mm A')}</p>
-                    </div>
+                    <TopbarTimer />
                 </div>
 
 
@@ -79,18 +96,18 @@ const Topbar = ({ currentSubscription }) => {
                 <div className='flex gap-11'>
 
                     {/* wallet */}
-                    <div className="bg-white py-8 pl-11 pr-5 rounded-7px hidden lg:flex items-center gap-9 group cursor-pointer border border-transparent hover:border-Outlines focus:border-outlines-active active:border-outlines-active">
+                    <button className="bg-white py-8 pl-11 pr-5 rounded-7px hidden lg:flex items-center gap-9 cursor-pointer border border-transparent hover:border-Outlines focus:border-outlines-active active:border-outlines-active group">
                         <img src="/asset/icons/wallet.svg" alt="icon" />
                         <p className='text-cta-secondary text-sm font-medium'>$127.50</p>
-                        <div className='bg-icon py-4 px-6 rounded-sm text-cta-secondary'>
-                            <GoPlus className='text-cta-secondary text-sm stroke-1' />
-                        </div>
-                    </div>
+                        <NavLink to={"/"} className='bg-icon group-hover:bg-icon-active group focus:bg-cta-secondary py-4 px-6 rounded-sm text-cta-secondary focus:border-none focus:text-white'>
+                            <GoPlus className='text-sm stroke-1' />
+                        </NavLink>
+                    </button>
 
 
                     {/* notification */}
                     <div ref={dropdown1.ref} className="relative">
-                        <button onClick={dropdown1.toggle} type="button" className="p-11 rounded-7px bg-white flex justify-center items-center cursor-pointer relative border hover:border-Outlines border-transparent">
+                        <button onClick={dropdown1.toggle} ref={dropdown1.triggerRef} type="button" className="p-11 rounded-7px bg-white flex justify-center items-center cursor-pointer relative border hover:border-Outlines border-transparent">
 
                             <img src="/asset/icons/bell.svg" alt="icon" />
                             <div className='absolute -top-10 -right-4 py-4 px-8 rounded-sm text-white bg-cta-complimentary'>
@@ -169,7 +186,7 @@ const Topbar = ({ currentSubscription }) => {
                                     <hr className='border-hr w-full' />
 
                                     <div className='w-full flex justify-end'>
-                                        <button className='p-8 flex justify-end items-center gap-6 cursor-pointer'>
+                                        <button className='p-8 flex justify-end items-center gap-6 cursor-pointer focus:border-none'>
                                             <img src="/asset/icons/clear-all.svg" alt="icon" />
                                             <span className='text-13px font-medium text-main-text'>Clear All</span>
                                         </button>
@@ -182,10 +199,11 @@ const Topbar = ({ currentSubscription }) => {
 
                     {/* user profile */}
                     <div ref={dropdown2.ref} className="relative">
-                        <button onClick={dropdown2.toggle} type='button' className="bg-white py-8 px-11 rounded-7px flex items-center gap-9 group cursor-pointer border hover:border-Outlines border-transparent">
+                        <button ref={dropdown2.triggerRef} onClick={dropdown2.toggle} type='button' className="bg-white py-8 px-11 rounded-7px flex items-center justify-center gap-9 group cursor-pointer border hover:border-Outlines border-transparent">
                             <img src="/asset/icons/user.svg" alt="icon" />
-                            <p className='text-cta-secondary text-sm font-medium'>{user?.fullName || 'User'}</p>
-                            <img src="/asset/icons/down.svg" alt="icon" />
+                            <p className='text-cta-secondary text-sm font-medium capitalize'>{user?.fullName || 'User'}</p>
+                            <IoChevronDown className={`text-sm transition-transform duration-300 text-cta-secondary ${dropdown2.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+
                         </button>
 
                         {/* Dropdown */}
@@ -195,21 +213,21 @@ const Topbar = ({ currentSubscription }) => {
 
                                     <div className='flex justify-between w-full'>
                                         <div>
-                                            <p className='font-semibold text-base'>{user?.fullName || 'User'}</p>
+                                            <p className='font-semibold text-base capitalize'>{user?.fullName || 'User'}</p>
                                             <p className='dropdown-description'>{user?.email || ''}</p>
                                         </div>
-                                        <div className='py-3 px-10 rounded-5px border border-Outlines flex gap-4 justify-center items-center h-fit'>
+                                        <NavLink to={'/subscription'} onClick={dropdown2.toggle} className='py-3 px-10 rounded-5px border border-Outlines flex gap-4 justify-center items-center h-fit'>
                                             <img src={currentSubscription?.plan === "starter"
-                                                    ? "/asset/icons/Starter.svg"
-                                                    : currentSubscription?.plan === "growth"
+                                                ? "/asset/icons/Starter.svg"
+                                                : currentSubscription?.plan === "growth"
                                                     ? "/asset/icons/Growth.svg"
                                                     : currentSubscription?.plan === "professional"
-                                                    ? "/asset/icons/Professional.svg"
-                                                    : ""
-                                                } 
+                                                        ? "/asset/icons/Professional.svg"
+                                                        : "/asset/icons/Starter.svg"
+                                            }
                                                 alt="icon" className='flex-none h-13' />
-                                            <p className='text-11px font-medium text-cta-secondary capitalize'>{currentSubscription?.plan}</p>
-                                        </div>
+                                            <p className='text-11px font-medium text-cta-secondary capitalize'>{currentSubscription?.plan || 'Starter'}</p>
+                                        </NavLink>
                                     </div>
 
                                     <hr className='border-hr w-full' />
@@ -217,13 +235,26 @@ const Topbar = ({ currentSubscription }) => {
                                     {/* notification content */}
                                     <div className='w-full'>
 
-                                        <EditProfile/>
+                                        {/* Edit Profile */}
+                                        <button className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer border border-transparent'
+                                            onClick={openEditModal} >
+                                            <img src="/asset/icons/edit.svg" alt="icon" />
+                                            <p className='dropdown-title'>Edit Profile</p>
+                                        </button>
 
-                                        <ChangePassword/>
+                                        {/* Change Password */}
+                                        <button className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer border border-transparent' onClick={openChangePasswordModal}>
+                                            <MdLockOutline className="text-xs text-main-text" />
+                                            <p className='dropdown-title'>Change Password</p>
+                                        </button>
 
-                                        <NotificationSetting />
+                                        {/* Notification Setting */}
+                                        <button className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer border border-transparent' onClick={openNotificationModal}>
+                                            <img src="/asset/icons/bell.svg" alt="icon" className='cursor-pointer' />
+                                            <p className='dropdown-title'>Notifications</p>
+                                        </button>
 
-                                        <div className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer border border-transparent'>
+                                        <div onClick={dropdown2.toggle} className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer border border-transparent'>
                                             <img src="/asset/icons/paternship.svg" alt="icon" className='cursor-pointer' />
                                             <p className='dropdown-title'>Partner Program</p>
                                         </div>
@@ -233,7 +264,7 @@ const Topbar = ({ currentSubscription }) => {
 
                                     <button
                                         type='button'
-                                        onClick={logout}
+                                        onClick={() => { logout(); dropdown2.toggle() }}
                                         className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer'
                                     >
                                         <img src="/asset/icons/signout.svg" alt="icon" className='cursor-pointer' />
@@ -245,6 +276,9 @@ const Topbar = ({ currentSubscription }) => {
                     </div>
                 </div>
             </div>
+            {editModal && <EditProfile modalOpen={editModal} modalClose={closeModal} />}
+            {changePasswordModal && <ChangePassword modalOpen={changePasswordModal} modalClose={closeModal} />}
+            {notificationModal && <NotificationSetting modalOpen={notificationModal} modalClose={closeModal} />}
         </div>
 
     )

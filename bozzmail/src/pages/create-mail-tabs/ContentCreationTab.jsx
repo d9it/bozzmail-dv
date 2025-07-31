@@ -5,6 +5,11 @@ import { PiWarningCircle } from "react-icons/pi";
 import useDropdown from '../../hook/useDropdown';
 import { TbTemplate } from "react-icons/tb";
 import { GoPlus } from "react-icons/go";
+import { PiExportBold } from "react-icons/pi";
+import { GrDocumentCsv } from "react-icons/gr";
+import CreateTemplate from "../../components/CreateTemplate";
+import { GrDocumentPdf } from "react-icons/gr";
+import { BsFiletypeJpg } from "react-icons/bs";
 
 const ContentCreationTab = () => {
 
@@ -15,6 +20,8 @@ const ContentCreationTab = () => {
   const dropdown3 = useDropdown();
   const dropdown4 = useDropdown();
 
+   // for track is model open or not
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
@@ -27,11 +34,131 @@ const ContentCreationTab = () => {
           {/* form */}
           <form action="" className='space-y-20'>
 
-            <div className='flex justify-start gap-8 flex-col w-full'>
+            {/* note for developer: check figma file for hide and show content accordingly */}
+            {/* for pdf */}
+            {/* import file */}
+            <div className='flex justify-start gap-8 flex-col w-full relative'>
+              <label htmlFor="file" className='label-text'>Upload a File<span>*</span></label>
+
+              <label htmlFor="file" className="w-full border border-Outlines border-dashed rounded-lg py-48 sm:px-120 px-40 cursor-pointer flex flex-col gap-12 items-center justify-center text-center">
+                <input type="file" name="" id="file" className="hidden" />
+                <div className="flex gap-15 items-center justify-center flex-col">
+                  <PiExportBold className='text-secondary-text text-2xl stroke-0 flex-none' />
+                  <div className="small-button-border focus:!border-outlines-active flex gap-5 items-center">
+                    <img src="/asset/icons/black-pdf.svg" alt="icon" className="h-13 flex-none" />
+                    <p>Choose a PDF File</p>
+                  </div>
+                </div>
+                <p className="font-medium text-secondary-text text-13px">PDF files only, up to 20 pages, max 10MB</p>
+              </label>
+            </div>
+            {/* uploaded file name and action btn */}
+            <div className="border border-upload-green-border bg-upload-green p-20 rounded-lg flex justify-between items-center flex-wrap gap-8">
+              <div className="flex gap-11 items-center justify-start">
+                <div className="p-8 rounded-md bg-card-light-green flex-none">
+                  <img src="/asset/icons/green-pdf.svg" alt="icon" className="h-18 flex-none" />
+                </div>
+                <div className="font-medium">
+                  <p className="text-sm text-main-text">Demonstracao Liquidacao_309810698.pdf</p>
+                  <p className="text-secondary-text text-xs">5 pages</p>
+                </div>
+              </div>
+              <div className='flex gap-10 justify-end items-center'>
+                {/* eye */}
+                <div className="relative group">
+                  <div className="action-btn">
+                    <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
+                  </div>
+                  <span className="action-tooltip">
+                    <span className='tooltip-label'>
+                      View Pdf
+                    </span>
+                    <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
+                  </span>
+                </div>
+
+                {/* delete */}
+                <div className="relative group">
+                  <div className="action-btn">
+                    <img src="/asset/icons/red-delete.svg" alt="icon" className="h-19" />
+                  </div>
+                  <span className="action-tooltip">
+                    <span className='tooltip-label'>
+                      delete
+                    </span>
+                    <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* for postcard */}
+            {/* import file */}
+            <div className='flex justify-start gap-8 flex-col w-full relative'>
+              <label htmlFor="file" className='label-text'>Upload a File<span>*</span></label>
+
+              <label htmlFor="file" className="w-full border border-Outlines border-dashed rounded-lg py-48 sm:px-120 px-40 cursor-pointer flex flex-col gap-12 items-center justify-center text-center">
+                <input type="file" name="" id="file" className="hidden" />
+                <div className="flex gap-15 items-center justify-center flex-col">
+                  <PiExportBold className='text-secondary-text text-2xl stroke-0 flex-none' />
+                  <div className="small-button-border focus:!border-outlines-active flex gap-5 items-center">
+                    <img src="/asset/icons/black-jpg.svg" alt="icon" className="h-13 flex-none" />
+                    <p>Choose a File</p>
+                  </div>
+                </div>
+                <p className="font-medium text-secondary-text text-13px">JPG, PNG, or GIF • Recommended: 1050×675px max 10MB</p>
+              </label>
+            </div>
+            {/* uploaded file name and action btn */}
+            <div className="border border-upload-purple-border bg-upload-purple p-20 rounded-lg flex justify-between items-center flex-wrap gap-8">
+              <div className="flex gap-11 items-center justify-start">
+                <div className="p-8 rounded-md bg-card-light-purple flex-none">
+                  <img src="/asset/icons/purple-jpg.svg" alt="icon" className="h-18 flex-none" />
+
+                  {/* for png and gif */}
+                  {/* <img src="/asset/icons/purple-png.svg" alt="icon" className="h-18 flex-none" />
+                  <img src="/asset/icons/purple-gif.svg" alt="icon" className="h-18 flex-none" /> */}
+                  
+                </div>
+                <div className="font-medium">
+                  <p className="text-sm text-main-text">Postcard 12225.jpg</p>
+                  <p className="text-secondary-text text-xs">5 pages</p>
+                </div>
+              </div>
+              <div className='flex gap-10 justify-end items-center'>
+                {/* eye */}
+                <div className="relative group">
+                  <div className="action-btn">
+                    <img src="/asset/icons/eye.svg" alt="icon" className="h-15" />
+                  </div>
+                  <span className="action-tooltip">
+                    <span className='tooltip-label'>
+                      View Image
+                    </span>
+                    <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
+                  </span>
+                </div>
+
+                {/* delete */}
+                <div className="relative group">
+                  <div className="action-btn">
+                    <img src="/asset/icons/red-delete.svg" alt="icon" className="h-19" />
+                  </div>
+                  <span className="action-tooltip">
+                    <span className='tooltip-label'>
+                      delete
+                    </span>
+                    <img src="/asset/icons/triangle-hover.svg" alt="arrow" className="-mt-2 rotate-180" />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className='flex justify-start gap-8 flex-col w-full input-inside-model'>
               <label htmlFor="ltemplate" className='label-text'>Letter Template <span>*</span></label>
               <div ref={dropdown1.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown1.toggle} id='ltemplate' type='button' className="tab-select group">
+                  <button onClick={dropdown1.toggle} ref={dropdown1.triggerRef} id='ltemplate' type='button' className="tab-select group">
                     <div className="flex gap-8">
                       <TbTemplate className="text-main-text text-lg" />
                       <p className='text-place-holder text-13px font-medium'>Hello Letter</p>
@@ -42,7 +169,7 @@ const ContentCreationTab = () => {
 
                 {/* Dropdown */}
                 {dropdown1.isOpen && (
-                  <div className="form-dropdown-menu">
+                  <div className={`form-dropdown-menu ${isModalOpen ? 'high-index' : ''}`}>
                     <div className='w-full relative'>
                       <input type="search" name='search' placeholder='Search' className='table-small-search' />
                       <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -54,10 +181,7 @@ const ContentCreationTab = () => {
                       <li className='table-dropdown-title'>Follow-Up Letter (Spring Campaign)</li>
                     </ul>
                     <hr className='text-Outlines' />
-                    <div className="flex gap-6 bg-icon rounded-md p-8 cursor-pointer items-center">
-                      <GoPlus className='text-main-text text-base stroke-1' />
-                      <p className='text-main-text text-13px font-semibold capitalize'>Create New Template</p>
-                    </div>
+                    <CreateTemplate onOpenChange={setIsModalOpen}/>
                   </div>
                 )}
               </div>
@@ -110,7 +234,7 @@ const ContentCreationTab = () => {
               <label htmlFor="psize" className='label-text'>Paper Size <span>*</span></label>
               <div ref={dropdown2.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown2.toggle} id='psize' type='button' className="tab-select group">
+                  <button onClick={dropdown2.toggle} ref={dropdown2.triggerRef} id='psize' type='button' className="tab-select group">
                     <p className='text-place-holder text-13px font-medium'>Letter (8.5" × 11")</p>
                     <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown2.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
@@ -131,7 +255,7 @@ const ContentCreationTab = () => {
               <label htmlFor="envelope" className='label-text'>Envelope <span>*</span></label>
               <div ref={dropdown3.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown3.toggle} id='envelope' type='button' className="tab-select group">
+                  <button onClick={dropdown3.toggle} ref={dropdown3.triggerRef} id='envelope' type='button' className="tab-select group">
                     <p className='text-place-holder text-13px font-medium'>Standard</p>
                     <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
@@ -152,7 +276,7 @@ const ContentCreationTab = () => {
               <label htmlFor="renvelope" className='label-text'>Return Envelope <span>*</span></label>
               <div ref={dropdown4.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown4.toggle} id='renvelope' type='button' className="tab-select group">
+                  <button onClick={dropdown4.toggle} ref={dropdown4.triggerRef} id='renvelope' type='button' className="tab-select group">
                     <p className='text-place-holder text-13px font-medium'>Standard</p>
                     <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
@@ -160,7 +284,7 @@ const ContentCreationTab = () => {
 
                 {/* Dropdown */}
                 {dropdown4.isOpen && (
-                  <div className="form-dropdown-menu-up !top-auto !bottom-full">
+                  <div className="form-dropdown-only-upward-side">
                     <ul className='table-dropdown-item dropdown-scrollbar'>
                       <li className='table-dropdown-title'>Standard</li>
                     </ul>

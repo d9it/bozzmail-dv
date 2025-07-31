@@ -6,7 +6,7 @@ const header = {
 }
 
 const registerUserForPayment = async (email, name, mobile) => {
-  const url = `${DYNO_PAY_BASE_URL}/createUser`
+  const url = `${DYNO_PAY_BASE_URL}/user/createUser`
   try {
     const payload = {
       email: email,
@@ -52,7 +52,7 @@ const generateAddFundsLink = async (amount, redirect_uri, walletToken, meta_data
 }
 
 const fetchDynoWalletBalance = async (walletToken) => {
-  const url = `${DYNO_PAY_BASE_URL}/getBalance`
+  const url = `${DYNO_PAY_BASE_URL}/user/getBalance`
   const token = `Bearer ${walletToken}`
   try {
     return await get(url, token, header)

@@ -1,27 +1,41 @@
 import { useState, useEffect } from "react"
 import { NavLink } from "react-router";
-// import { useSubscription } from "../hook/useSubscription";
+import { useSubscription } from "../hook/useSubscription.jsx";
 import { useToast } from "../context/toast/ToastContext";
 import CancelPlanModal from "../components/CancelPlanModal";
 import CancelAnnualPlan from "../components/CancelAnnualPlan";
 import moment from "moment";
-import { useOutletContext } from "react-router";
+import Loader from "../components/Loader";
 
 const SubscriptionPage = () => {
 
     const [isMonthCheck, setIsMonthCheck] = useState(false);
 
-    const {
+      const {  
         currentSubscription,
-        subscriptionPlans,
-        renewalDate,
-        billingCycle,
         loading,
         error,
+        renewalDate,
+        billingCycle,
+        subscriptionPlans,
         upgradePlan,
-        cancelPlan
-      } = useOutletContext();
-    // console.log('====================subscription plans:=======================', currentSubscription)
+        cancelPlan,
+        // fetchCurrentSubscription,
+        fetchSubscriptionPlans,
+        fetchBillingCycle,
+        fetchRenewalDate,
+        fetchWalletBalance,
+        // fetchUserProfile
+    } = useSubscription();
+
+      useEffect(()=>{
+        // fetchCurrentSubscription();
+        fetchSubscriptionPlans();
+        fetchBillingCycle();
+        fetchRenewalDate();
+        fetchWalletBalance();
+        // fetchUserProfile();
+      },[]);
 
     // Debug logging
     useEffect(() => {
@@ -80,6 +94,9 @@ const SubscriptionPage = () => {
 
     return (
         <>
+            {/* Loader */}  
+            {/* <Loader /> */}
+
             {/*badge */}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-15 sm:gap-20">
                 <div className='py-20 sm:py-30 pr-15 sm:pr-30 bg-white rounded-15px sm:rounded-20px'>
@@ -268,15 +285,15 @@ const SubscriptionPage = () => {
                     <div className="space-y-8">
                         <p className='font-semibold text-base text-main-text'>Management</p>
                         <div className="flex flex-wrap gap-10">
-                            <NavLink to={"#"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
+                            <NavLink to={"/billing"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
                                 <img src="asset/icons/billing.svg" alt="icon" className='h-17' /><span>Transactions</span>
                             </NavLink>
 
-                            <NavLink to={"#"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
+                            <NavLink to={"/contacts"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
                                 <img src="asset/icons/contact.svg" alt="icon" className='h-17' /><span>Contacts (4 of {currentSubscription?.maxContacts || 10})</span>
                             </NavLink>
 
-                            <NavLink to={"#"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
+                            <NavLink to={"/help-center"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
                                 <img src="asset/icons/help.svg" alt="icon" className='h-17' /><span>Help</span>
                             </NavLink>
 

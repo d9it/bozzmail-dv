@@ -22,7 +22,7 @@ export const trackShipmentByNumber = (service, trackNumber) => {
 };
 
 export const getUserShipments = (page = 1, limit = 10) => {
-    return apiCall('/shipments/getUserShippment', { page, limit }, 'GET');
+    return apiCall('/shipments/getUserShipment', { page, limit }, 'GET');
 };
 
 export const getShipmentById = (shipmentId) => {
