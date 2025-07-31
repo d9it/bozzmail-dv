@@ -88,7 +88,7 @@ const CustomTab = () => {
                 <label htmlFor="currency" className='label-text'>Currency <span>*</span></label>
                 <div ref={dropdown1.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown1.toggle} id='currency' type='button' className="tab-select group">
+                    <button onClick={dropdown1.toggle} ref={dropdown1.triggerRef} id='currency' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium'>USD – US Dollars</p>
                       <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown1.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -115,7 +115,7 @@ const CustomTab = () => {
                 <label htmlFor="incoterms" className='label-text'>Incoterms <span>*</span></label>
                 <div ref={dropdown2.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown2.toggle} id='incoterms' type='button' className="tab-select group">
+                    <button onClick={dropdown2.toggle} ref={dropdown2.triggerRef} id='incoterms' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium'>DDU – Delivered Duty Paid</p>
                       <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown2.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -241,11 +241,11 @@ const CustomTab = () => {
               </div>
 
               <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2 gap-20'>
-                <div className='flex justify-start gap-8 flex-col w-full'>
+                <div className='flex justify-start gap-8 flex-col w-full form-last-dropdown'>
                   <label htmlFor="country" className='label-text'>Country of Origin <span>*</span></label>
                   <div ref={dropdown3.ref} className="relative">
                     <div className='flex gap-8 justify-start items-start flex-col'>
-                      <button onClick={dropdown3.toggle} id='country' type='button' className="tab-select group">
+                      <button onClick={dropdown3.toggle} ref={dropdown3.triggerRef} id='country' type='button' className="tab-select group">
                         <p className='text-place-holder text-13px font-medium'>United States</p>
                         <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                       </button>
@@ -253,7 +253,7 @@ const CustomTab = () => {
 
                     {/* Dropdown */}
                     {dropdown3.isOpen && (
-                      <div className="form-dropdown-menu-up sm:!top-auto sm:!bottom-full">
+                      <div className="form-dropdown-menu-up">
                         <div className='w-full relative'>
                           <input type="search" name='search' placeholder='Search' className='table-small-search' />
                           <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -268,11 +268,11 @@ const CustomTab = () => {
                   </div>
                 </div>
 
-                <div className='flex justify-start gap-8 flex-col w-full'>
+                <div className='flex justify-start gap-8 flex-col w-full form-last-dropdown'>
                   <label htmlFor="hs-code" className='label-text'>HS Code (Harmonized System) <span>*</span></label>
                   <div ref={dropdown4.ref} className="relative">
                     <div className='flex gap-8 justify-start items-start flex-col'>
-                      <button onClick={dropdown4.toggle} id='hs-code' type='button' className="tab-select group">
+                      <button onClick={dropdown4.toggle} ref={dropdown4.triggerRef} id='hs-code' type='button' className="tab-select group">
                         <p className='text-place-holder text-13px font-medium'>6403.99.60</p>
                         <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                       </button>
@@ -280,7 +280,7 @@ const CustomTab = () => {
 
                     {/* Dropdown */}
                     {dropdown4.isOpen && (
-                      <div className="form-dropdown-menu-up sm:!top-auto sm:!bottom-full ">
+                      <div className="form-dropdown-menu-up">
                         <div className='w-full relative'>
                           <input type="search" name='search' placeholder='Search' className='table-small-search' />
                           <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />

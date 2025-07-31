@@ -76,7 +76,7 @@ const ReviewTab = () => {
                 <div ref={dropdown3.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="carrier" className='label-text block sm:hidden'>Carrier</label>
-                    <button onClick={dropdown3.toggle} id='carrier' type='button' className="select-button group">
+                    <button onClick={dropdown3.toggle} ref={dropdown3.triggerRef} id='carrier' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Carriers</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
 
@@ -129,7 +129,7 @@ const ReviewTab = () => {
                 {/* export dropdown */}
                 <div ref={dropdown9.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown9.toggle} id='time' type='button' className="export-btn group">
+                    <button onClick={dropdown9.toggle} ref={dropdown9.triggerRef} id='time' type='button' className="export-btn group">
                       <TbFileExport className='text-lg' />
                       <p className='text-13px font-medium'>Export</p>
                       <IoChevronDown className={`text-lg transition-transform duration-300 ${dropdown9.isOpen ? 'rotate-180' : 'rotate-0'}`} />

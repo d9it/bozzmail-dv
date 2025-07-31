@@ -33,7 +33,7 @@ const MailAddressTab = () => {
               <label htmlFor="contact" className='label-text'>Select from saved contacts <span>*</span></label>
               <div ref={dropdown1.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown1.toggle} id='contact' type='button' className="tab-select group !py-4">
+                  <button onClick={dropdown1.toggle} ref={dropdown1.triggerRef} id='contact' type='button' className="tab-select group !py-4">
                     <div className='flex items-center justify-start gap-13'>
                       <img src="/asset/icons/building.svg" alt="icon" />
                       <div className='text-left'>
@@ -166,7 +166,7 @@ const MailAddressTab = () => {
                 <label htmlFor="pno" className='label-text'>Phone Number <span>*</span></label>
                 <div ref={dropdown5.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown5.toggle} id='pno' type='button' className="tab-select group !py-10">
+                    <button onClick={dropdown5.toggle} ref={dropdown5.triggerRef} id='pno' type='button' className="tab-select group !py-10">
                       <div className='flex items-center justify-start gap-13'>
                         <div className='flex gap-5 items-center'>
                           <img src="/asset/icons/flag.svg" alt="icon" />
@@ -226,7 +226,7 @@ const MailAddressTab = () => {
               <label htmlFor="country" className='label-text'>Country <span>*</span></label>
               <div ref={dropdown2.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown2.toggle} id='country' type='button' className="tab-select group">
+                  <button onClick={dropdown2.toggle} ref={dropdown2.triggerRef} id='country' type='button' className="tab-select group">
                     <p className='text-place-holder text-13px font-medium'>United States</p>
                     <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown2.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
@@ -268,7 +268,7 @@ const MailAddressTab = () => {
                 <label htmlFor="city" className='label-text'>City <span>*</span></label>
                 <div ref={dropdown3.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown3.toggle} id='city' type='button' className="tab-select group">
+                    <button onClick={dropdown3.toggle} ref={dropdown3.triggerRef} id='city' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium text-left'>Lompoc</p>
                       <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -298,7 +298,7 @@ const MailAddressTab = () => {
 
                 <div ref={dropdown4.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown4.toggle} id='state' type='button' className="tab-select group">
+                    <button onClick={dropdown4.toggle} ref={dropdown4.triggerRef} id='state' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium'>California</p>
                       <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -345,7 +345,7 @@ const MailAddressTab = () => {
               <label htmlFor="rcontact" className='label-text'>Select from saved contacts <span>*</span></label>
               <div ref={dropdown6.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown6.toggle} id='rcontact' type='button' className="tab-select group">
+                  <button onClick={dropdown6.toggle} ref={dropdown6.triggerRef} id='rcontact' type='button' className="tab-select group">
                     <div className='flex items-center justify-start gap-13'>
                       <RiUserLine className='text-secondary-text text-sm' />
                       <div className='text-left'>
@@ -460,7 +460,7 @@ const MailAddressTab = () => {
                 <label htmlFor="rpno" className='label-text'>Phone Number <span>*</span></label>
                 <div ref={dropdown7.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown7.toggle} id='rpno' type='button' className="tab-select group !py-10">
+                    <button onClick={dropdown7.toggle} ref={dropdown7.triggerRef} id='rpno' type='button' className="tab-select group !py-10">
                       <div className='flex items-center justify-start gap-13'>
                         <div className='flex gap-5 items-center'>
                           <img src="/asset/icons/flag.svg" alt="icon" />
@@ -520,7 +520,7 @@ const MailAddressTab = () => {
               <label htmlFor="rcountry" className='label-text'>Country <span>*</span></label>
               <div ref={dropdown8.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown8.toggle} id='rcountry' type='button' className="tab-select group">
+                  <button onClick={dropdown8.toggle} ref={dropdown8.triggerRef} id='rcountry' type='button' className="tab-select group">
                     <p className='text-place-holder text-13px font-medium'>United States</p>
                     <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown8.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>
@@ -558,11 +558,11 @@ const MailAddressTab = () => {
             </div>
 
             <div className='flex flex-col sm:flex-row items-center justify-center gap-20 h-full'>
-              <div className='flex justify-start gap-8 flex-col w-full sm:w-1/2'>
+              <div className='flex justify-start gap-8 flex-col w-full sm:w-1/2 form-last-dropdown'>
                 <label htmlFor="rcity" className='label-text'>City <span>*</span></label>
                 <div ref={dropdown9.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown9.toggle} id='rcity' type='button' className="tab-select group">
+                    <button onClick={dropdown9.toggle} ref={dropdown9.triggerRef} id='rcity' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium text-left'>Lompoc</p>
                       <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown9.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -570,7 +570,7 @@ const MailAddressTab = () => {
 
                   {/* Dropdown */}
                   {dropdown9.isOpen && (
-                    <div className="form-dropdown-menu-up sm:!top-auto sm:!bottom-full">
+                    <div className="form-dropdown-menu-up">
                       <div className='w-full relative'>
                         <input type="search" name='search' placeholder='Search' className='table-small-search' />
                         <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />
@@ -587,11 +587,11 @@ const MailAddressTab = () => {
                 </div>
               </div>
 
-              <div className='flex justify-start gap-8 flex-col w-full sm:w-1/2'>
+              <div className='flex justify-start gap-8 flex-col w-full sm:w-1/2 form-last-dropdown'>
                 <label htmlFor="rstate" className='label-text'>State <span>*</span></label>
                 <div ref={dropdown10.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown10.toggle} id='rstate' type='button' className="tab-select group">
+                    <button onClick={dropdown10.toggle} ref={dropdown10.triggerRef} id='rstate' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium'>California</p>
                       <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown10.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -599,7 +599,7 @@ const MailAddressTab = () => {
 
                   {/* Dropdown */}
                   {dropdown10.isOpen && (
-                    <div className="form-dropdown-menu-up sm:!top-auto sm:!bottom-full">
+                    <div className="form-dropdown-menu-up">
                       <div className='w-full relative'>
                         <input type="search" name='search' placeholder='Search' className='table-small-search' />
                         <img src="asset/icons/search-input.svg" alt="icon" className='absolute top-11 left-10 h-14' />

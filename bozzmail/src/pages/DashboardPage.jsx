@@ -4,7 +4,10 @@ import { RxCross2 } from "react-icons/rx";
 import { TbFileExport } from "react-icons/tb";
 import { IoChevronDown } from "react-icons/io5";
 import { NavLink } from 'react-router';
-
+import { BiLabel } from "react-icons/bi";
+import { MdOutlineMail } from "react-icons/md";
+import { CiCalendar } from "react-icons/ci";
+import { BiTargetLock } from "react-icons/bi";
 
 const DashboardPage = () => {
 
@@ -57,7 +60,7 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text pt-5 hidden sm:block'>Here's what's happening with your shipments and mail</p>
+        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text hidden sm:block'>Here's what's happening with your shipments and mail</p>
 
         {/* cards */}
         <div className='pl-15 sm:pl-30 lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 sm:gap-20 pt-10 sm:pt-20'>
@@ -72,9 +75,9 @@ const DashboardPage = () => {
                   <span className='card-success-small-text'>+12% from last month</span>
                 </p>
               </div>
-              <img src="asset/icons/card-label.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/card-label.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/skyblue-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/skyblue-rectangle.svg" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
 
           <div className='bg-card-light-green card-layout'>
@@ -87,9 +90,9 @@ const DashboardPage = () => {
                   <span className='card-success-small-text'>+12% from last month</span>
                 </p>
               </div>
-              <img src="asset/icons/card-transit.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/card-transit.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/green-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/green-rectangle.svg" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
 
           <div className='bg-card-light-purple card-layout'>
@@ -102,9 +105,9 @@ const DashboardPage = () => {
                   <span className='card-danger-small-text'>+8% from last month</span>
                 </p>
               </div>
-              <img src="asset/icons/card-monthly-spend.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/card-monthly-spend.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/purple-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/purple-rectangle.svg" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
 
           <div className='bg-card-cream card-layout'>
@@ -117,9 +120,9 @@ const DashboardPage = () => {
                   <span className='card-success-small-text'>+3 this week</span>
                 </p>
               </div>
-              <img src="asset/icons/card-contact.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/card-contact.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/cream-rectangle.svg" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/cream-rectangle.svg" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
 
         </div>
@@ -136,31 +139,31 @@ const DashboardPage = () => {
         {/* cards */}
         <div className='lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 sm:gap-20 pt-10 sm:pt-20'>
 
-          <NavLink to={"/create-labels"} className='border border-Outlines card-layout py-21'>
+          <NavLink to={"/create-labels"} className='border border-Outlines card-layout quick-access-card py-21'>
             <div className='flex justify-center items-center gap-7 flex-col text-center h-full'>
-              <img src="asset/icons/label.svg" alt="image" className='h-27' />
-              <p className='text-13px sm:text-15px font-medium text-cta-secondary'>Create Label</p>
+              <BiLabel className='text-27px'/>
+              <p className='text-13px sm:text-15px font-medium'>Create Label</p>
             </div>
           </NavLink>
 
-          <NavLink to={"/create-mail"} className='border border-Outlines card-layout py-21'>
+          <NavLink to={"/create-mail"} className='border border-Outlines card-layout quick-access-card py-21'>
             <div className='flex justify-center items-center gap-7 flex-col text-center h-full'>
-              <img src="asset/icons/mail.svg" alt="image" className='h-27' />
-              <p className='text-13px sm:text-15px font-medium text-cta-secondary'>Create Mail or Postcard</p>
+              <MdOutlineMail className='text-27px'/>
+              <p className='text-13px sm:text-15px font-medium'>Create Mail or Postcard</p>
             </div>
           </NavLink>
 
-          <NavLink to={"#"} className='border border-Outlines card-layout py-21'>
+          <NavLink to={"#"} className='border border-Outlines card-layout quick-access-card py-21'>
             <div className='flex justify-center items-center gap-7 flex-col text-center h-full'>
-              <img src="asset/icons/calendar.svg" alt="image" className='h-27' />
-              <p className='text-13px sm:text-15px font-medium text-cta-secondary'>Schedule Pickup</p>
+              <CiCalendar className='text-27px stroke-1'/>
+              <p className='text-13px sm:text-15px font-medium'>Schedule Pickup</p>
             </div>
           </NavLink>
 
-          <NavLink to={"#"} className='border border-Outlines card-layout py-21'>
+          <NavLink to={"/tracking"} className='border border-Outlines card-layout quick-access-card py-21'>
             <div className='flex justify-center items-center gap-7 flex-col text-center h-full'>
-              <img src="asset/icons/tracking.svg" alt="image" className='h-27' />
-              <p className='text-13px sm:text-15px font-medium text-cta-secondary'>Track Shipment</p>
+              <BiTargetLock className='text-27px'/>
+              <p className='text-13px sm:text-15px font-medium'>Track Shipment</p>
             </div>
           </NavLink>
         </div>
@@ -207,7 +210,7 @@ const DashboardPage = () => {
                 <div ref={dropdown3.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="carrier" className='label-text block sm:hidden'>Carrier</label>
-                    <button onClick={dropdown3.toggle} id='carrier' type='button' className="select-button group">
+                    <button onClick={dropdown3.toggle} ref={dropdown3.triggerRef} id='carrier' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Carriers</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
 
@@ -238,7 +241,7 @@ const DashboardPage = () => {
                 <div ref={dropdown4.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="status" className='label-text block sm:hidden'>Status</label>
-                    <button onClick={dropdown4.toggle} id='status' type='button' className="select-button group">
+                    <button onClick={dropdown4.toggle} ref={dropdown4.triggerRef} id='status' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Statuses</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -262,7 +265,7 @@ const DashboardPage = () => {
                 <div ref={dropdown5.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="time" className='label-text block sm:hidden'>Time</label>
-                    <button onClick={dropdown5.toggle} id='time' type='button' className="select-button group">
+                    <button onClick={dropdown5.toggle} ref={dropdown5.triggerRef} id='time' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Time</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown5.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -306,7 +309,7 @@ const DashboardPage = () => {
                 {/* export dropdown */}
                 <div ref={dropdown9.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown9.toggle} id='time' type='button' className="export-btn group">
+                    <button onClick={dropdown9.toggle} ref={dropdown9.triggerRef} id='time' type='button' className="export-btn group">
                       <TbFileExport className='text-lg' />
                       <p className='text-13px font-medium'>Export</p>
                       <IoChevronDown className={`text-lg transition-transform duration-300 ${dropdown9.isOpen ? 'rotate-180' : 'rotate-0'}`} />
@@ -750,7 +753,7 @@ const DashboardPage = () => {
                 <div ref={dropdown6.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="carrier" className='label-text block sm:hidden'>Carrier</label>
-                    <button onClick={dropdown6.toggle} id='carrier' type='button' className="select-button group">
+                    <button onClick={dropdown6.toggle} ref={dropdown6.triggerRef} id='carrier' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Carriers</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown6.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -777,7 +780,7 @@ const DashboardPage = () => {
                 <div ref={dropdown7.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="status" className='label-text block sm:hidden'>Status</label>
-                    <button onClick={dropdown7.toggle} id='status' type='button' className="select-button group">
+                    <button onClick={dropdown7.toggle} ref={dropdown7.triggerRef} id='status' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Statuses</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown7.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -801,7 +804,7 @@ const DashboardPage = () => {
                 <div ref={dropdown8.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="time" className='label-text block sm:hidden'>Time</label>
-                    <button onClick={dropdown8.toggle} id='time' type='button' className="select-button group">
+                    <button onClick={dropdown8.toggle} ref={dropdown8.triggerRef} id='time' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Time</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown8.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>

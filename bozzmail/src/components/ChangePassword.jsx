@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Modal from "./Modal"
 import { IoChevronBack, IoChevronDown, IoChevronForward } from "react-icons/io5";
 import useDropdown from '../hook/useDropdown';
@@ -11,55 +11,46 @@ import * as Yup from "yup";
 import { regex } from "../utils/regex";
 import Spinner from "../utils/spinner/Spinner";
 
-const ChangePassword = () => {
+const ChangePassword = ({modalOpen,modalClose}) => {
 
-    const dropdown1 = useDropdown();
-    const dropdown2 = useDropdown();
-
+    const [saveChange, setSaveChange] = useState(false);
     const {changePassword,loading} = useUser();
-
     const [showPassword, setShowPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const [modalOpen, setModalOpen] = useState(false);
+const handleChangePassword = async (values, { setSubmitting, setErrors, resetForm }) => {
+    try {
+        const payload = {
+        currentPassword: values.password,
+        newPassword: values.npassword,
+        };
 
-    const handleModalOpen = () => {
-        setModalOpen(true);
-        document.body.classList.add('overflow-y-hidden');
+        await changePassword(payload);
+        setSaveChange(true);
+        resetForm();
+    } catch (err) {
+        const errorMessage = err?.message || "Something went wrong. Please try again.";
+        setErrors({ api: errorMessage });
+    } finally {
+        setSubmitting(false);
     }
-
-    const handleModalClose = () => {
-        setModalOpen(false)
-        document.body.classList.remove('overflow-y-hidden');
-    }
-
-    // const handleChangePassword = async () => {
-    //     await changePassword();
-    // }
-
-    const handleChangePassword = async (values, { setSubmitting, setErrors, resetForm }) => {
-  try {
-    const payload = {
-      currentPassword: values.password,
-      newPassword: values.npassword,
-    };
-
-    await changePassword(payload); 
-    resetForm();
-  } catch (err) {
-    const errorMessage = err?.message || "Something went wrong. Please try again.";
-    setErrors({ api: errorMessage });
-  } finally {
-    setSubmitting(false);
-  }
 };
+
+useEffect(() => {
+  if (saveChange) {
+    const timer = setTimeout(() => {
+      setSaveChange(false);
+        modalOpen(false)
+    }, 200);
+    return () => clearTimeout(timer);
+  }
+}, [saveChange]);
 
 
     const validationSchema = Yup.object({
         password: Yup.string()
                     .required("Current password is required"),
-                    // .matches(regex.password, 'Password must contain at least 8 characters, uppercase, lowercase, number, and special character'),
         npassword: Yup.string()
                 .matches(regex.password, 'New Password must contain at least 8 characters, uppercase, lowercase, number, and special character')
                 .required("New password is required"),
@@ -70,14 +61,8 @@ const ChangePassword = () => {
 
     return (
         <>
-            {/* button for open model */}
-            <button className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer border border-transparent' onClick={handleModalOpen}>
-                <MdLockOutline className="text-xs text-main-text" />
-                <p className='dropdown-title'>Change Password</p>
-            </button>
-
-            {/* model start */}
-            <Modal isOpen={modalOpen} onClose={handleModalClose}>
+        {/* model start */}
+        <Modal isOpen={modalOpen} onClose={modalClose}>
         <Formik
             initialValues={{
                 password: "",
@@ -109,7 +94,7 @@ const ChangePassword = () => {
                                     <BsEyeSlash className="text-base text-cta-secondary flex-none rotate-y-180" />
                                 }
                             </button>
-                            <ErrorMessage name="password" component="div" className="error-message" />
+                            <ErrorMessage name="password" component="div" className="error-message-icon" />
                         </div>
                     </div>
 
@@ -129,7 +114,7 @@ const ChangePassword = () => {
                                     <BsEyeSlash className="text-base text-cta-secondary flex-none rotate-y-180" />
                                 }
                             </button>
-                            <ErrorMessage name="npassword" component="div" className="error-message" />
+                            <ErrorMessage name="npassword" component="div" className="error-message-icon" />
                         </div>
                     </div>
 
@@ -149,20 +134,31 @@ const ChangePassword = () => {
                                     <BsEyeSlash className="text-base text-cta-secondary flex-none rotate-y-180" />
                                 }
                             </button>
-                            <ErrorMessage name="cpassword" component="div" className="error-message" />
+                            <ErrorMessage name="cpassword" component="div" className="error-message-icon" />
                         </div>
                     </div>
 
                     <div className="flex justify-end items-center gap-10">
-                        <button type="button" onClick={handleModalClose} className="outline-btn cursor-pointer">Cancel</button>
-                        {loading ? 
-                        (<div className="flex justify-center items-center w-full text-center">
-                            <Spinner />
-                        </div>):(<button type="submit" className='flex items-center justify-between gap-8 button-icon'>
+                        <button type="button" onClick={modalClose} className="outline-btn cursor-pointer">Cancel</button>
+                        <button type="submit" className={`flex items-center justify-between gap-8 ${loading || saveChange ? 'disable-button-icon' : 'button-icon'}`}>
+                            {
+                        saveChange ? (
+                                <div className={`flex justify-center items-center w-full text-center`}>
+                                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-16" />
+                                </div>
+                            ):
+                            (loading) ? (
+                                <div className="flex justify-center items-center w-full text-center">
+                                    <Spinner />
+                                </div>
+                            ):(
+                                <>
                                 <span>Save</span>
                                 <img src="asset/icons/white-save.svg" alt="icon" className="h-16" />
-                            </button>)
+                                </>
+                            )
                         }
+                        </button>           
                     </div>
 
                     </Form>

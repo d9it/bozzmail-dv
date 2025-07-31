@@ -22,10 +22,10 @@ const ForgotPasswordPage = () => {
   };
 
   const validationSchema = Yup.object({
-    password: Yup.string()
+    password: Yup.string().trim()
       .required('New password is required')
       .matches(regex.password, 'Password must contain at least 8 characters, uppercase, lowercase, number, and special character'),
-    cpassword: Yup.string()
+    cpassword: Yup.string().trim()
       .required('Please confirm your new password')
       .oneOf([Yup.ref('password'), null], 'Passwords do not match'),
   });
@@ -121,7 +121,7 @@ const ForgotPasswordPage = () => {
               >
                 {success ? (
                   <div className="flex justify-center items-center w-full text-center">
-                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-24" />
+                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-16" />
                   </div>
                 ) : (loading || isSubmitting) ? (
                   <div className="flex justify-center items-center w-full text-center">

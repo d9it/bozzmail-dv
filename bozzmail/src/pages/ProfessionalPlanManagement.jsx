@@ -101,15 +101,15 @@ const ProfessionalPlanManagement = () => {
                     <div className="space-y-8">
                         <p className='font-semibold text-base text-main-text'>Management</p>
                         <div className="flex flex-wrap gap-10">
-                            <NavLink to={"#"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
+                            <NavLink to={"/billing"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
                                 <img src="asset/icons/billing.svg" alt="icon" className='h-17' /><span>Transactions</span>
                             </NavLink>
 
-                            <NavLink to={"#"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
+                            <NavLink to={"/contacts"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
                                 <img src="asset/icons/contact.svg" alt="icon" className='h-17' /><span>Contacts (4 of 10)</span>
                             </NavLink>
 
-                            <NavLink to={"#"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
+                            <NavLink to={"/help-center"} className="rounded-7px p-11 flex gap-8 border border-Outlines text-sm font-medium">
                                 <img src="asset/icons/help.svg" alt="icon" className='h-17' /><span>Help</span>
                             </NavLink>
 

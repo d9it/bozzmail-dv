@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { userAPI } from '../api/userAPI';
 import { useToast } from "../context/toast/ToastContext";
 import { useAuth } from './useAuth';
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 
 export const useUser = () => {
+  const navigate = useNavigate();
   const { showToast } = useToast();
   const { getCurrentUser } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -64,6 +65,10 @@ export const useUser = () => {
     try {
       const response = await userAPI.changePassword(passwordData);
       showToast({ message: 'Password Updated Successfully' });
+      // console.log('response data: ',response);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      navigate('/');
       return response;
     } catch (err) {
       const errorMessage = err.message || 'Failed to change password. Please try again.';
@@ -155,6 +160,22 @@ export const useUser = () => {
     }
   };
 
+  // const paymentRegister = async (paymentData) => {
+  //   setLoading(true);
+  //   setError(null);
+  //   try {
+  //     const response = await userAPI.paymentRegister(paymentData);
+  //     return response;
+  //   } catch (err) {
+  //     const errorMessage = err.message || 'Failed to reset password. Please try again.';
+  //     setError(errorMessage);
+  //     showToast({ message: errorMessage, type: 'error' });
+  //     throw err;
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
     // Initialize data on mount
     // useEffect(() => {
     //   getUserDetails
@@ -170,5 +191,6 @@ export const useUser = () => {
     uploadProfilePicture,
     deleteProfilePicture,
     deleteAccount,
+    // paymentRegister
   };
 }; 

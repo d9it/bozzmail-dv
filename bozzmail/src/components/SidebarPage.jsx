@@ -3,10 +3,10 @@ import { useState } from "react"
 import FooterPage from '../components/FooterPage'
 import useDarkMode from '../pages/useDarkMode'
 import { GoPlus } from "react-icons/go";
-
+import { useLocation } from 'react-router';
 
 const SidebarPage = () => {
-
+    const location = useLocation();
     const [isMobileMenu, setIsMobileMenu] = useState(false);
 
     const handleChangeToggle = (event) => {
@@ -16,77 +16,89 @@ const SidebarPage = () => {
     // for change dark and light mode
     const { mode, darkMode, lightMode, systemMode } = useDarkMode();
 
+    // Check if current path is related to shipping, print labels
+    const isShippingActive = [
+        '/shipping-labels',
+        '/create-labels',
+        '/import-labels'
+    ].includes(location.pathname);
+
+    const isShippingActiveM = [
+        '/shipping-labels',
+        '/import-labels'
+    ].includes(location.pathname);
+
+    const isPrintMailActive = [
+        '/print-mail',
+        '/create-mail',
+        '/import-mail'
+    ].includes(location.pathname);
+
+    const isPrintMailActiveM = [
+        '/print-mail',
+        '/create-mail',
+        '/import-mail'
+    ].includes(location.pathname);
+
     return (
         <div>
             {/* sidebar */}
             <div className='w-250 fixed top-76 left-24 overflow-y-auto custom-scrollbar hidden lg:block' style={{ height: 'calc(100vh - 80px)' }}>
                 <div className='bg-white p-20 rounded-20px flex justify-start gap-14 flex-col'>
-                    <NavLink to="/dashboard">
-                        {({ isActive }) => (
-                            <div className={`w-168 py-8 px-11 rounded-7px gap-10 flex justify-start items-center ${isActive ? 'navlink-item-active' : ''}`}>
-                                <img src="/asset/icons/dashboard.svg" alt="icon" />
-                                <p className='sidebar-title'>Dashboard</p>
-                            </div>
-                        )}
+                    <NavLink to={"/dashboard"} className={({ isActive }) => `navlink-item ${isActive ? 'navlink-item-active' : ''}`}>
+                        <img src="/asset/icons/dashboard.svg" alt="icon" />
+                        <p className='sidebar-title'>Dashboard</p>
                     </NavLink>
 
                     {/* shipment */}
                     <div className='flex gap-10 flex-col'>
                         <p className='text-10px font-medium text-sidebar-menu uppercase'>Shipments</p>
                         <div className='flex flex-col gap-2'>
-                            <NavLink to={"/shipping-labels"} className='navlink'>
-                            {({ isActive }) => (
-                                <>
-                                    <div className={`navlink-item ${isActive ? 'navlink-item-active' : ''}`}>
+                            <div className='navlink'>
+                                <NavLink to={"/shipping-labels"} className={() => `navlink-item ${ isShippingActive ? 'navlink-item-active' : ''}`}>
                                     <img src="/asset/icons/label.svg" alt="icon" />
                                     <p className='sidebar-title'>Shipping Labels</p>
-                                    </div>
+                                </NavLink>
+                                <NavLink to={"/create-labels"} className={({ isActive }) => `navlink-item-add ${isActive ? 'navlink-item-active' : ''}`}>
                                     <GoPlus className='text-cta-secondary text-base stroke-1' />
-                                </>
-                            )}
-                            </NavLink>
+                                </NavLink>
+                            </div>
 
-                            <NavLink to={"/print-mail"} className='navlink'>
-                            {({ isActive }) => (
-                                <>
-                                    <div className={`navlink-item ${isActive ? 'navlink-item-active' : ''}`}>
-                                        <img src="/asset/icons/mail.svg" alt="icon" />
-                                        <p className='sidebar-title'>Print and Mail</p>
-                                    </div>
+                            <div to={"/print-mail"} className='navlink'>
+                                <NavLink to={"/print-mail"} className={() => `navlink-item ${isPrintMailActive ? 'navlink-item-active' : ''}`}>
+                                    <img src="/asset/icons/mail.svg" alt="icon" />
+                                    <p className='sidebar-title'>Print and Mail</p>
+                                </NavLink>
+                                <NavLink to={"/create-mail"} className={({ isActive }) => `navlink-item-add ${isActive ? 'navlink-item-active' : ''}`}>
                                     <GoPlus className='text-cta-secondary text-base stroke-1' />
-                                </>
-                            )}
-                            </NavLink>
+                                </NavLink>
+                            </div>
 
-                            <NavLink to={"/mail-template"} className='navlink'>
-                            {({ isActive }) => (
-                                <>
-                                    <div className={`navlink-item ${isActive ? 'navlink-item-active' : ''}`}>
-                                        <img src="/asset/icons/tabler_template.svg" alt="icon" />
-                                        <p className='sidebar-title'>Mail Templates</p>
-                                    </div>
+                            <div className='navlink'>
+                                <NavLink to={"/mail-template"} className={({ isActive }) => `navlink-item ${isActive ? 'navlink-item-active' : ''}`}>
+                                    <img src="/asset/icons/tabler_template.svg" alt="icon" />
+                                    <p className='sidebar-title'>Mail Templates</p>
+                                </NavLink>
+                                <NavLink to={"/create-mail-template"} className={({ isActive }) => `navlink-item-add ${isActive ? 'navlink-item-active' : ''}`}>
                                     <GoPlus className='text-cta-secondary text-base stroke-1' />
-                                </>
-                            )}
-                            </NavLink>
+                                </NavLink>
+                            </div>
 
-                            <NavLink to={"/pickup-request"} className='navlink'>
-                            {({ isActive }) => (
-                                <>
-                                    <div className={`navlink-item ${isActive ? 'navlink-item-active' : ''}`}>
-                                        <img src="/asset/icons/calendar.svg" alt="icon" />
-                                        <p className='sidebar-title'>Pickup Requests</p>
-                                    </div>
+                            <div className='navlink'>
+                                <NavLink to={"/pickup-request"} className={({ isActive }) => `navlink-item ${isActive ? 'navlink-item-active' : ''}`}>
+                                    <img src="/asset/icons/calendar.svg" alt="icon" />
+                                    <p className='sidebar-title'>Pickup Requests</p>
+                                </NavLink>
+                                <NavLink to={"/create-pickup-request"} className={({ isActive }) => `navlink-item-add ${isActive ? 'navlink-item-active' : ''}`}>
                                     <GoPlus className='text-cta-secondary text-base stroke-1' />
-                                </>
-                            )}
-                            </NavLink>
+                                </NavLink>
+                            </div>
 
                             <NavLink to={"/tracking"} className={({ isActive }) => `navlink-item ${isActive ? "navlink-item-active" : ""}`}>
-                               <>
-                                 <img src="/asset/icons/tracking.svg" alt="icon" />
-                                <p className='sidebar-title'>Tracking</p>
-                               </>
+                                <>
+                                    <img src="/asset/icons/tracking.svg" alt="icon" />
+                                    <p className='sidebar-title'>Tracking</p>
+                                </>
                             </NavLink>
                         </div>
                     </div>
@@ -96,30 +108,30 @@ const SidebarPage = () => {
                         <p className='text-10px font-medium text-sidebar-menu uppercase'>Management</p>
                         <div className='flex flex-col gap-2'>
                             <NavLink to={"/billing"} className={({ isActive }) => `navlink-item ${isActive ? "navlink-item-active" : ""}`}>
-                               <>
-                                 <img src="/asset/icons/billing.svg" alt="icon" />
-                                <p className='sidebar-title'>Billing</p>
-                               </>
+                                <>
+                                    <img src="/asset/icons/billing.svg" alt="icon" />
+                                    <p className='sidebar-title'>Billing</p>
+                                </>
                             </NavLink>
 
                             <NavLink to={"/contacts"} className={({ isActive }) => `navlink-item ${isActive ? "navlink-item-active" : ""}`}>
-                              <>
-                                  <img src="/asset/icons/contact.svg" alt="icon" />
-                                <p className='sidebar-title'>Contacts</p>
-                              </>
+                                <>
+                                    <img src="/asset/icons/contact.svg" alt="icon" />
+                                    <p className='sidebar-title'>Contacts</p>
+                                </>
                             </NavLink>
 
                             <NavLink to={"/subscription"} className={({ isActive }) => `navlink-item ${isActive ? "navlink-item-active" : ""}`}>
-                               <>
-                                 <img src="/asset/icons/subscription.svg" alt="icon" />
-                                <p className='sidebar-title'>Subscription</p>
-                               </>
+                                <>
+                                    <img src="/asset/icons/subscription.svg" alt="icon" />
+                                    <p className='sidebar-title'>Subscription</p>
+                                </>
                             </NavLink>
 
                             <NavLink to={"/api"} className={({ isActive }) => `navlink-item ${isActive ? "navlink-item-active" : ""}`}>
                                 <>
                                     <img src="/asset/icons/api.svg" alt="icon" />
-                                <p className='sidebar-title'>API</p>
+                                    <p className='sidebar-title'>API</p>
                                 </>
                             </NavLink>
                         </div>
@@ -130,10 +142,10 @@ const SidebarPage = () => {
                         <p className='text-10px font-medium text-sidebar-menu uppercase'>Support</p>
                         <div className='flex flex-col gap-2'>
                             <NavLink to={"/help-center"} className={({ isActive }) => `navlink-item ${isActive ? "navlink-item-active" : ""}`}>
-                               <>
-                                 <img src="/asset/icons/help.svg" alt="icon" />
-                                <p className='sidebar-title'>Help Center</p>
-                               </>
+                                <>
+                                    <img src="/asset/icons/help.svg" alt="icon" />
+                                    <p className='sidebar-title'>Help Center</p>
+                                </>
                             </NavLink>
                         </div>
                     </div>
@@ -145,8 +157,7 @@ const SidebarPage = () => {
             </div>
 
             {/* Bottom menu */}
-
-            <div className="fixed bottom-0 left-0 w-full flex flex-col items-center z-30000 lg:hidden">
+            <div className="fixed bottom-0 left-0 w-full flex flex-col items-center z-40 lg:hidden">
                 <div className={`bottom-menu ${isMobileMenu ? 'rounded-3xl py-29' : 'rounded-400px py-10'}`}>
                     <div className='flex justify-between items-center gap-20'>
                         <div className='menu-navlink text-center'>
@@ -156,25 +167,25 @@ const SidebarPage = () => {
                             <p>Home</p>
                         </div>
                         <div className='menu-navlink text-center'>
-                            <NavLink to={"/shipping-labels"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
+                            <NavLink to={"/shipping-labels"} className={() => `menu-icon ${isShippingActiveM ? "menu-icon-active" : ""}`}>
                                 <img src="/asset/icons/white-label.svg" alt="icon" />
                             </NavLink>
                             <p>Labels</p>
                         </div>
                         <div className='menu-navlink create-btn text-center'>
-                            <NavLink to={"#"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
+                            <NavLink to={"/create-labels"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                 <img src="/asset/icons/white-plus.svg" alt="icon" />
                             </NavLink>
                             <p>create</p>
                         </div>
                         <div className='menu-navlink text-center'>
-                            <NavLink to={"/print-mail"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
+                            <NavLink to={"/print-mail"} className={() => `menu-icon ${isPrintMailActiveM ? "menu-icon-active" : ""}`}>
                                 <img src="/asset/icons/white-mail.svg" alt="icon" />
                             </NavLink>
                             <p>Mail</p>
                         </div>
                         <NavLink to={"#"} className='menu-navlink text-center' onChange={handleChangeToggle} onClick={() => setIsMobileMenu(!isMobileMenu)}>
-                            <div className='menu-icon'>
+                            <div className={`menu-icon ${isMobileMenu ? 'menu-icon-active' : ''}`}>
                                 <img src="/asset/icons/white-down-arrow.svg" alt="icon" className={`transition-transform duration-300 ${isMobileMenu ? 'rotate-180' : 'rotate-0'}`} />
                             </div>
                             <p>{isMobileMenu ? 'CLOSE' : 'MORE'}</p>
@@ -186,19 +197,19 @@ const SidebarPage = () => {
                             <div className='more-menu'>
                                 <div className='flex justify-between items-center gap-18'>
                                     <div className='menu-navlink text-center'>
-                                        <NavLink to={"#"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
+                                        <NavLink to={"/pickup-request"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                             <img src="/asset/icons/white-pickup.svg" alt="icon" />
                                         </NavLink>
                                         <p>Pickups</p>
                                     </div>
                                     <div className='menu-navlink text-center'>
-                                        <NavLink to={"#"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
+                                        <NavLink to={"/mail-template"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                             <img src="/asset/icons/white-temp.svg" alt="icon" />
                                         </NavLink>
                                         <p>Temp.</p>
                                     </div>
                                     <div className='menu-navlink text-center'>
-                                        <NavLink to={"#"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
+                                        <NavLink to={"/tracking"} className={({ isActive }) => `menu-icon ${isActive ? "menu-icon-active" : ""}`}>
                                             <img src="/asset/icons/white-tracking.svg" alt="icon" />
                                         </NavLink>
                                         <p>Tracking</p>
@@ -209,12 +220,12 @@ const SidebarPage = () => {
                             <hr className='border-white/20' />
 
                             <div className="grid grid-cols-2 gap-2">
-                                <NavLink to={"#"} className='bottom-navlink'>
+                                <NavLink to={"/billing"} className='bottom-navlink'>
                                     <img src="/asset/icons/white-billing.svg" alt="icon" />
                                     <p>Billing</p>
                                 </NavLink>
 
-                                <NavLink to={"#"} className='bottom-navlink'>
+                                <NavLink to={"/contacts"} className='bottom-navlink'>
                                     <img src="/asset/icons/white-contact.svg" alt="icon" />
                                     <p>Contacts</p>
                                 </NavLink>
@@ -228,7 +239,7 @@ const SidebarPage = () => {
                                     <img src="/asset/icons/white-api.svg" alt="icon" />
                                     <p>API</p>
                                 </NavLink>
-                                <NavLink to={"#"} className='bottom-navlink'>
+                                <NavLink to={"/help-center"} className='bottom-navlink'>
                                     <img src="/asset/icons/white-help.svg" alt="icon" />
                                     <p>Help Center</p>
                                 </NavLink>

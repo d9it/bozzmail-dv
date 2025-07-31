@@ -55,7 +55,11 @@ const changeUserPassword = async (req, res) => {
 
 const updateUserDetails = async (req, res) => {
   const userId = req.userId
-  const { fullName, phoneNumber, address } = req.body
+  const { fullName,
+     phoneNumber,
+    //  address,
+     email
+     } = req.body
   try {
     const user = await fetchUserById(userId)
     // console.log('user details: ',user);
@@ -75,7 +79,8 @@ const updateUserDetails = async (req, res) => {
     }
     user.fullName = fullName ? fullName : user.fullName
     user.phoneNumber = phoneNumber && phoneNumber.length ? phoneNumber : user.phoneNumber
-    user.address = address ? address : user.address
+    // user.address = address ? address : user.address
+    user.email = email ? email : user.email;
     await user.save()
     await sendNotification({
       user: user,

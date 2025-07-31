@@ -7,8 +7,14 @@ import { TbFileExport } from "react-icons/tb";
 import { MdMailOutline } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa6";
 import TypedLettersBulkImport from '../components/Mail/TypedLettersBulkImport';
+import PdfBulkImport from '../components/Mail/PdfBulkImport';
+import PostCardsBulkImport from '../components/Mail/PostCardsBulkImport';
+import { TbFileImport } from "react-icons/tb";
 
 const PrintMailPage = () => {
+
+  // for track is model open or not
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -40,7 +46,7 @@ const PrintMailPage = () => {
           </div>
         </div>
 
-        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text pt-5 hidden sm:block'>Send letters, postcards, and documents without leaving your desk.</p>
+        <p className='pr-15 sm:pl-30 text-17px font-medium text-secondary-text hidden sm:block'>Send letters, postcards, and documents without leaving your desk.</p>
 
         {/* cards */}
         <div className='pl-15 sm:pl-30 lg:grid xl:grid-cols-4 lg:grid-cols-2 flex items-center justify-start overflow-x-auto gap-10 sm:gap-20 pt-10 sm:pt-20'>
@@ -50,9 +56,9 @@ const PrintMailPage = () => {
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Total orders</p>
                 <p className='font-semibold text-xl text-main-text'>8</p>
               </div>
-              <img src="asset/icons/bx_label.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/bx_label.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
 
           <div className='border border-Outlines card-layout py-21 w-full'>
@@ -61,9 +67,9 @@ const PrintMailPage = () => {
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Total Spent</p>
                 <p className='font-semibold text-xl text-main-text'>$17.35</p>
               </div>
-              <img src="asset/icons/spent.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/spent.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
 
           <div className='border border-Outlines card-layout py-21 w-full'>
@@ -72,9 +78,9 @@ const PrintMailPage = () => {
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>Avg. Cost</p>
                 <p className='font-semibold text-xl text-main-text'>$2.49</p>
               </div>
-              <img src="asset/icons/cost.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/cost.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
 
           <div className='border border-Outlines card-layout py-21 w-full'>
@@ -83,9 +89,9 @@ const PrintMailPage = () => {
                 <p className='font-medium text-10px uppercase mb-5 text-main-text'>International</p>
                 <p className='font-semibold text-xl text-main-text'>2</p>
               </div>
-              <img src="asset/icons/international.svg" alt="icon" className='z-20' />
+              <img src="asset/icons/international.svg" alt="icon" className='z-2' />
             </div>
-            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-10 object-cover h-full' />
+            <img src="asset/icons/shape-bg.png" alt="image" className='absolute right-0 top-0 z-1 object-cover h-full' />
           </div>
         </div>
       </div>
@@ -97,25 +103,24 @@ const PrintMailPage = () => {
           <h2 className='font-semibold text-17px sm:text-xl text-main-text'>Import Mail<span>(6)</span></h2>
           <div className="flex justify-end gap-8">
 
-            <div ref={dropdown1.ref} className="relative">
+            <div ref={dropdown1.ref} className="relative input-inside-model">
               <div className='flex gap-8 justify-start items-start flex-col'>
-                <button className='flex items-center justify-between gap-8 button-border' onClick={dropdown1.toggle}>
-                  <img src="asset/icons/import-file.svg" alt="icon" />
+                <button className='flex items-center justify-between gap-8 button-border' ref={dropdown1.triggerRef} onClick={dropdown1.toggle}>
+                  <TbFileImport className="text-lg text-main-text" />
                   <span className='sm:block hidden'>Import Mail</span>
-                  <IoChevronDown className={`text-base transition-transform duration-300 text-main-text${dropdown1.isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                  <IoChevronDown className={`text-base transition-transform duration-300 text-main-text ${dropdown1.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                 </button>
               </div>
 
               {/* Dropdown */}
               {dropdown1.isOpen && (
-                <div className="form-dropdown-menu max-sm:!min-w-150 !z-10005">
-
-                  {/* set a condition like when pop up open !cursor-auto class add otherwise not  */}
-                  <ul className='table-dropdown-item dropdown-scrollbar !cursor-auto'>
-                    <TypedLettersBulkImport />
-                    <li className='table-dropdown-title'>PDFs</li>
-                    <li className='table-dropdown-title'>Postcards</li>
-                  </ul>
+                <div className={`form-dropdown-menu max-sm:!min-w-150 ${isModalOpen ? 'high-index' : ''}`}>
+                  
+                  <div className={`table-dropdown-item dropdown-scrollbar ${isModalOpen ? '!cursor-auto' : ''}`}>
+                    <TypedLettersBulkImport onOpenChange={setIsModalOpen}/>
+                    <PdfBulkImport onOpenChange={setIsModalOpen}/>
+                    <PostCardsBulkImport onOpenChange={setIsModalOpen}/>
+                  </div>
                 </div>
               )}
             </div>
@@ -159,7 +164,7 @@ const PrintMailPage = () => {
                 <div ref={dropdown3.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="carrier" className='label-text block sm:hidden'>Carrier</label>
-                    <button onClick={dropdown3.toggle} id='carrier' type='button' className="select-button group">
+                    <button onClick={dropdown3.toggle} ref={dropdown3.triggerRef} id='carrier' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Carriers</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown3.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -186,7 +191,7 @@ const PrintMailPage = () => {
                 <div ref={dropdown4.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="status" className='label-text block sm:hidden'>Status</label>
-                    <button onClick={dropdown4.toggle} id='status' type='button' className="select-button group">
+                    <button onClick={dropdown4.toggle} ref={dropdown4.triggerRef} id='status' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Statuses</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown4.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -210,7 +215,7 @@ const PrintMailPage = () => {
                 <div ref={dropdown5.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
                     <label htmlFor="time" className='label-text block sm:hidden'>Time</label>
-                    <button onClick={dropdown5.toggle} id='time' type='button' className="select-button group">
+                    <button onClick={dropdown5.toggle} ref={dropdown5.triggerRef} id='time' type='button' className="select-button group">
                       <p className='text-secondary-text text-13px font-medium'>All Time</p>
                       <IoChevronDown className={`text-base transition-transform duration-300 text-arrow ${dropdown5.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                     </button>
@@ -249,7 +254,7 @@ const PrintMailPage = () => {
                 {/* export dropdown */}
                 <div ref={dropdown9.ref} className="relative">
                   <div className='flex gap-8 justify-start items-start flex-col'>
-                    <button onClick={dropdown9.toggle} id='time' type='button' className="export-btn group">
+                    <button onClick={dropdown9.toggle} ref={dropdown9.triggerRef} id='time' type='button' className="export-btn group">
                       <TbFileExport className='text-lg' />
                       <p className='text-13px font-medium'>Export</p>
                       <IoChevronDown className={`text-lg transition-transform duration-300 ${dropdown9.isOpen ? 'rotate-180' : 'rotate-0'}`} />

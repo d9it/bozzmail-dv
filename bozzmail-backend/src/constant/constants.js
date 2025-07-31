@@ -28,7 +28,7 @@ const constants = {
   CORS_ORIGIN: process.env.CORS_ORIGIN,
   PASSWORD_RESET_TOKEN_EXPIRE_TIME: 1, // Token expires in 1 hour
   OTP_EXPIRE_TIME: 10, // OTP expires in 10 minutes
-  JWT_TOKEN_EXPIRE_TIME: 3600, //JWT token expires in 1hr
+  JWT_TOKEN_EXPIRE_TIME: "7d", //JWT token expires in 1hr
   FLAVOURCLOUD_SERVICE: "flavourcloud",
   EASYPOST_SERVICE: "easypost",
   GOSHIPPO_SERVICE: "goshippo",

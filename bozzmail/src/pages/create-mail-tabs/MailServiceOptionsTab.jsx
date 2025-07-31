@@ -22,7 +22,7 @@ const MailServiceOptionsTab = () => {
               <label htmlFor="mailing-class" className='label-text'>Mailing Class <span>*</span></label>
               <div ref={dropdown1.ref} className="relative">
                 <div className='flex gap-8 justify-start items-start flex-col'>
-                  <button onClick={dropdown1.toggle} id='mailing-class' type='button' className="tab-select group">
+                  <button onClick={dropdown1.toggle} ref={dropdown1.triggerRef} id='mailing-class' type='button' className="tab-select group">
                       <p className='text-place-holder text-13px font-medium text-left'>First Class (7-10 business days)</p>
                     <IoChevronDown className={`text-base text-arrow transition-transform duration-300 ${dropdown1.isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </button>

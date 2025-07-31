@@ -25,9 +25,7 @@ export const useAuth = () => {
       }
 
       showToast({ message: 'Login successful!', subText: 'Redirecting...' });
-      setTimeout(() => {
         navigate('/dashboard');
-      }, 5000);
       return response;
     } catch (err) {
       const errorMessage = err.message || 'Login failed. Please try again.';
@@ -46,7 +44,7 @@ export const useAuth = () => {
 
     try {
       const response = await authAPI.register(userData);
-      // console.log('register response: ', response);
+      console.log('register response: ', response);
 
 
       // Store token in localStorage if auto-login is enabled
@@ -56,9 +54,7 @@ export const useAuth = () => {
       }
 
       showToast({ message: 'Account created successfully!', subText: 'Redirecting...' });
-      setTimeout(() => {
         navigate('/dashboard');
-      }, 5000);
       return response;
     } catch (err) {
       const errorMessage = err.message || 'Registration failed. Please try again.';
@@ -81,9 +77,7 @@ export const useAuth = () => {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       showToast({ message: 'Logged out successfully!', subText: 'Redirecting...' });
-      setTimeout(() => {
         navigate('/');
-      }, 2000);
     }
   };
 
