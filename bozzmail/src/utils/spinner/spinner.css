@@ -1,6 +1,6 @@
 .spinner {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     border: 3.8px solid #ffffff;
     animation: spinner-bulqg1 0.8s infinite linear alternate,

@@ -2,10 +2,17 @@ import { IoChevronBack, IoChevronDown, IoChevronForward, IoChevronUp } from "rea
 import { NavLink } from 'react-router';
 import { useEffect, useState } from 'react';
 import { PiWarningCircle } from "react-icons/pi";
+import { Field, ErrorMessage } from 'formik';
 
-const PackageTab = () => {
+const PackageTab = ({ values, setFieldValue, errors, touched, onNext, onPrevious }) => {
 
-  const [checked, setChecked] = useState(false);
+  const handleNumberChange = (fieldName, value, direction) => {
+    const currentValue = parseFloat(values[fieldName]) || 0;
+    const newValue = direction === 'up' ? currentValue + 1 : currentValue - 1;
+    if (newValue >= 0) {
+      setFieldValue(fieldName, newValue.toString());
+    }
+  };
 
   return (
     <>
@@ -16,19 +23,35 @@ const PackageTab = () => {
           <p className='tab-main-heading'>Package Information</p>
 
           {/* form */}
-          <form action="" className='space-y-20'>
+          <div className='space-y-20'>
 
             {/* general */}
             <p className='tab-heading'>General</p>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-20'>
               <div className='flex justify-start gap-8 flex-col w-full relative'>
                 <label htmlFor="weight" className='label-text'>Weight (lbs)<span>*</span></label>
-                <input type="text" name="" id="weight" required placeholder='2.5' className='form-input' />
+                <Field
+                  type="number"
+                  name="weight"
+                  id="weight"
+                  required
+                  placeholder='2.5'
+                  className={`form-input ${errors.weight && touched.weight ? 'border-red-500' : ''}`}
+                />
+                <ErrorMessage name="weight" component="div" className="error-message" />
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full'>
-                <label htmlFor="dvalue" className='label-text'>Declared Value ($) <span>*</span></label>
-                <input type="text" name="" id="dvalue" required placeholder='100.00' className='form-input' />
+                <label htmlFor="declaredValue" className='label-text'>Declared Value ($) <span>*</span></label>
+                <Field
+                  type="number"
+                  name="declaredValue"
+                  id="declaredValue"
+                  required
+                  placeholder='100.00'
+                  className={`form-input ${errors.declaredValue && touched.declaredValue ? 'border-red-500' : ''}`}
+                />
+                <ErrorMessage name="declaredValue" component="div" className="error-message" />
               </div>
             </div>
             <hr className='text-Outlines' />
@@ -40,46 +63,70 @@ const PackageTab = () => {
               <div className='flex justify-start gap-8 flex-col w-full'>
                 <label htmlFor="length" className='label-text'>Length (in.)<span>*</span></label>
                 <div className='relative'>
-                  <input type="number" name="" id="length" required placeholder='12' className='form-input' />
+                  <Field
+                    type="number"
+                    name="length"
+                    id="length"
+                    required
+                    placeholder='12'
+                    className={`form-input ${errors.length && touched.length ? 'border-red-500' : ''}`}
+                  />
                   <div className='absolute top-6 right-8 flex flex-col gap-2'>
-                    <div className='number-arrow-btn'>
+                    <div className='number-arrow-btn' onClick={() => handleNumberChange('length', values.length, 'up')}>
                       <IoChevronUp />
                     </div>
-                    <div className='number-arrow-btn'>
+                    <div className='number-arrow-btn' onClick={() => handleNumberChange('length', values.length, 'down')}>
                       <IoChevronDown />
                     </div>
                   </div>
                 </div>
+                <ErrorMessage name="length" component="div" className="error-message" />
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full'>
                 <label htmlFor="width" className='label-text'>Width (in.)<span>*</span></label>
                 <div className='relative'>
-                  <input type="number" name="" id="width" required placeholder='8' className='form-input' />
+                  <Field
+                    type="number"
+                    name="width"
+                    id="width"
+                    required
+                    placeholder='8'
+                    className={`form-input ${errors.width && touched.width ? 'border-red-500' : ''}`}
+                  />
                   <div className='absolute top-6 right-8 flex flex-col gap-2'>
-                    <div className='number-arrow-btn'>
+                    <div className='number-arrow-btn' onClick={() => handleNumberChange('width', values.width, 'up')}>
                       <IoChevronUp />
                     </div>
-                    <div className='number-arrow-btn'>
+                    <div className='number-arrow-btn' onClick={() => handleNumberChange('width', values.width, 'down')}>
                       <IoChevronDown />
                     </div>
                   </div>
                 </div>
+                <ErrorMessage name="width" component="div" className="error-message" />
               </div>
 
               <div className='flex justify-start gap-8 flex-col w-full'>
                 <label htmlFor="height" className='label-text'>Height (in.)<span>*</span></label>
                 <div className='relative'>
-                  <input type="number" name="" id="height" required placeholder='4' className='form-input' />
+                  <Field
+                    type="number"
+                    name="height"
+                    id="height"
+                    required
+                    placeholder='4'
+                    className={`form-input ${errors.height && touched.height ? 'border-red-500' : ''}`}
+                  />
                   <div className='absolute top-6 right-8 flex flex-col gap-2'>
-                    <div className='number-arrow-btn'>
+                    <div className='number-arrow-btn' onClick={() => handleNumberChange('height', values.height, 'up')}>
                       <IoChevronUp />
                     </div>
-                    <div className='number-arrow-btn'>
+                    <div className='number-arrow-btn' onClick={() => handleNumberChange('height', values.height, 'down')}>
                       <IoChevronDown />
                     </div>
                   </div>
                 </div>
+                <ErrorMessage name="height" component="div" className="error-message" />
               </div>
             </div>
             <hr className='text-Outlines' />
@@ -87,16 +134,21 @@ const PackageTab = () => {
             {/* Return label */}
             <p className='tab-heading'>Return label</p>
             <div className='flex justify-start gap-8 flex-col w-full'>
-              <label htmlFor="rlabel" className='label-text'>Add a Return Label</label>
+              <label htmlFor="returnLabel" className='label-text'>Add a Return Label</label>
               <div className='flex items-center justify-start gap-7'>
                 <label className="flex items-center cursor-pointer relative w-20 h-20">
-                  <input type="checkbox" className='peer peer-checked:border-Outlines' id='rlabel' />
+                  <Field
+                    type="checkbox"
+                    name="returnLabel"
+                    id="returnLabel"
+                    className='peer peer-checked:border-Outlines'
+                  />
                   <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
                     <img src="/asset/icons/check.svg" alt="" className='h-19' />
                   </span>
                 </label>
 
-                <label htmlFor='rlabel' className='checkbox-text'>Yes (+$5.60)</label>
+                <label htmlFor='returnLabel' className='checkbox-text'>Yes (+$5.60)</label>
               </div>
             </div>
 
@@ -112,7 +164,12 @@ const PackageTab = () => {
               <label htmlFor="insurance" className='label-text'>Add Shipment Insurance</label>
               <div className='flex items-center justify-start gap-7'>
                 <label className="flex items-center cursor-pointer relative w-20 h-20">
-                  <input type="checkbox" className='peer peer-checked:border-Outlines' id='insurance' onChange={(e) => setChecked(e.target.checked)} />
+                  <Field
+                    type="checkbox"
+                    name="insurance"
+                    id="insurance"
+                    className='peer peer-checked:border-Outlines'
+                  />
                   <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
                     <img src="/asset/icons/check.svg" alt="" className='h-19' />
                   </span>
@@ -121,11 +178,19 @@ const PackageTab = () => {
               </div>
             </div>
 
-            {checked && (
+            {values.insurance && (
               <>
                 <div className='flex justify-start gap-8 flex-col w-full relative sm:w-1/2'>
-                  <label htmlFor="insured" className='label-text'>Insured Value ($)<span>*</span></label>
-                  <input type="text" name="" id="insured" required placeholder='50.00' className='form-input' />
+                  <label htmlFor="insuredValue" className='label-text'>Insured Value ($)<span>*</span></label>
+                  <Field
+                    type="number"
+                    name="insuredValue"
+                    id="insuredValue"
+                    required
+                    placeholder='50.00'
+                    className={`form-input ${errors.insuredValue && touched.insuredValue ? 'border-red-500' : ''}`}
+                  />
+                  <ErrorMessage name="insuredValue" component="div" className="error-message" />
                 </div>
 
                 <div className="warning-message">
@@ -135,7 +200,7 @@ const PackageTab = () => {
               </>
             )}
 
-          </form>
+          </div>
         </div>
 
         {/* Recipient Information */}
@@ -143,61 +208,90 @@ const PackageTab = () => {
           <p className='tab-main-heading'>Recipient Information</p>
 
           {/* form */}
-          <form action="" className='space-y-20'>
+          <div className='space-y-20'>
 
             <div className='flex justify-start gap-8 flex-col w-full relative'>
               <label htmlFor="description" className='label-text'>Description<span>*</span></label>
-              <textarea name="" id="description" className='form-input resize-none' placeholder='Not specified' rows={4}></textarea>
+              <Field
+                as="textarea"
+                name="description"
+                id="description"
+                className={`form-input resize-none ${errors.description && touched.description ? 'border-red-500' : ''}`}
+                placeholder='Not specified'
+                rows={4}
+              />
+              <ErrorMessage name="description" component="div" className="error-message" />
             </div>
 
             <div className='flex justify-start gap-8 flex-col w-full'>
               <p className='label-text'>Hazardous Materials <span>*</span></p>
               <div className='flex items-center justify-start gap-7'>
                 <label className="flex items-center cursor-pointer relative w-20 h-20">
-                  <input type="checkbox" className='peer peer-checked:border-Outlines' id='material' />
+                  <Field
+                    type="checkbox"
+                    name="containsAlcohol"
+                    id="containsAlcohol"
+                    className='peer peer-checked:border-Outlines'
+                  />
                   <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
                     <img src="/asset/icons/check.svg" alt="" className='h-19' />
                   </span>
                 </label>
-                <label htmlFor='material' className='checkbox-text'>Shipment contains alcohol</label>
+                <label htmlFor='containsAlcohol' className='checkbox-text'>Shipment contains alcohol</label>
               </div>
 
               <div className='flex items-center justify-start gap-7'>
                 <label className="flex items-center cursor-pointer relative w-20 h-20">
-                  <input type="checkbox" className='peer peer-checked:border-Outlines' id='ch2' />
+                  <Field
+                    type="checkbox"
+                    name="containsDryIce"
+                    id="containsDryIce"
+                    className='peer peer-checked:border-Outlines'
+                  />
                   <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
                     <img src="/asset/icons/check.svg" alt="" className='h-19' />
                   </span>
                 </label>
-                <label htmlFor='ch2' className='checkbox-text'>Shipment contains dry ice</label>
+                <label htmlFor='containsDryIce' className='checkbox-text'>Shipment contains dry ice</label>
               </div>
 
               <div className='flex items-center justify-start gap-7'>
                 <label className="flex items-center cursor-pointer relative w-20 h-20">
-                  <input type="checkbox" className='peer peer-checked:border-Outlines' id='ch3' />
+                  <Field
+                    type="checkbox"
+                    name="containsLithiumBatteries"
+                    id="containsLithiumBatteries"
+                    className='peer peer-checked:border-Outlines'
+                  />
                   <span className='absolute opacity-0 bottom-3 -right-2 peer-checked:opacity-100 w-full'>
                     <img src="/asset/icons/check.svg" alt="" className='h-19' />
                   </span>
                 </label>
-                <label htmlFor='ch3' className='checkbox-text'>Shipment contains lithium batteries (hazardous material)</label>
+                <label htmlFor='containsLithiumBatteries' className='checkbox-text'>Shipment contains lithium batteries (hazardous material)</label>
               </div>
             </div>
 
-
-
-          </form>
+          </div>
           <hr className='text-Outlines' />
 
           {/* buttons */}
           <div className='flex justify-between items-center flex-wrap'>
-            <NavLink to={"#"} className='flex items-center justify-between gap-8 button-border'>
+            <button
+              type="button"
+              onClick={onPrevious}
+              className='flex items-center justify-between gap-8 button-border'
+            >
               <IoChevronBack className="text-sm transition-transform duration-300 text-main-text" />
               <span> Previous</span>
-            </NavLink>
-            <NavLink to={"#"} className='flex items-center justify-between gap-8 button-icon'>
+            </button>
+            <button
+              type="button"
+              onClick={onNext}
+              className='flex items-center justify-between gap-8 button-icon'
+            >
               <span> Next</span>
               <IoChevronForward className="text-sm transition-transform duration-300 text-white" />
-            </NavLink>
+            </button>
           </div>
         </div>
       </div>

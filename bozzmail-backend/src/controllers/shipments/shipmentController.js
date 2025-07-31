@@ -44,6 +44,7 @@ const { generatePaymentLink } = require("../../services/dynoPayServices")
 
 const createNewLabel = async (req, res) => {
   const { amount, ...payload } = req.body
+  // console.log('create new labels : ',amount,payload);
   const service = req.params.service
   const userId = req.userId
   try {
@@ -51,6 +52,7 @@ const createNewLabel = async (req, res) => {
     switch (service) {
       case GOSHIPPO_SERVICE:
         response = await newShipmentShippo(payload)
+        console.log('response of the goshippo service: ',response);
         break
       case FLAVOURCLOUD_SERVICE:
         if (!amount) {

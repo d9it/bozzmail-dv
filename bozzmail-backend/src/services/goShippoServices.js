@@ -20,6 +20,7 @@ const generateNewShipment = async (data) => {
       payload.extra.additional_info = data.additional_info
     }
     const response = await post(url, payload, GOSHIPPO_TOKEN)
+    console.log('response of the goshippo api',response);
     return response
   } catch (error) {
     throw error

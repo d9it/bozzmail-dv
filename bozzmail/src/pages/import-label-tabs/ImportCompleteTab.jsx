@@ -12,6 +12,7 @@ import { LuCalendar } from "react-icons/lu";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { TbFileImport } from "react-icons/tb";
 import { GrDocumentZip } from "react-icons/gr";
+import BulkImport from '../../components/BulkImport';
 
 const CompleteTab = () => {
 
@@ -34,12 +35,9 @@ const CompleteTab = () => {
           </div>
 
           <div className="flex justify-center items-center gap-10 flex-wrap">
+            <BulkImport label="Import New Labels" labelClassName="block"/>
             <NavLink to={"#"} className='flex items-center justify-between gap-8 button-border'>
-              <TbFileImport className="text-base text-main-text"/>
-              <span> Import New Labels</span>
-            </NavLink>
-            <NavLink to={"#"} className='flex items-center justify-between gap-8 button-border'>
-              <GrDocumentZip className="text-base text-main-text"/>
+              <GrDocumentZip className="text-base text-main-text" />
               <span> Download Labels</span>
             </NavLink>
           </div>
@@ -186,8 +184,8 @@ const CompleteTab = () => {
 
           {selectedService === 'pickup' && (
             <>
-            <p className='tab-heading'>Details</p>
-          <NavLink to={"/create-labels"} className='flex items-center justify-between gap-8 button-icon w-fit'>
+              <p className='tab-heading'>Details</p>
+              <NavLink to={"/"} className='flex items-center justify-between gap-8 button-icon w-fit'>
                 <LuCalendar className="text-17px text-white flex-none" />
                 <span> Schedule Pickup</span>
               </NavLink>

@@ -6,7 +6,7 @@ import { MdLockOutline } from "react-icons/md";
 import { CgEye } from "react-icons/cg";
 import { BsEyeSlash } from "react-icons/bs";
 
-const NotificationSetting = () => {
+const NotificationSetting = ({modalOpen,modalClose}) => {
 
     const dropdown1 = useDropdown();
     const dropdown2 = useDropdown();
@@ -15,30 +15,19 @@ const NotificationSetting = () => {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const [modalOpen, setModalOpen] = useState(false);
-
-    const handleModalOpen = () => {
-        setModalOpen(true);
-        document.body.classList.add('overflow-y-hidden');
-    }
-
-    const handleModalClose = () => {
-        setModalOpen(false)
-        document.body.classList.remove('overflow-y-hidden');
-    }
     return (
         <>
             {/* button for open model */}
-            <button className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer border border-transparent' onClick={handleModalOpen}>
+            {/* <button className='p-8 rounded-md bg-white hover:bg-icon flex items-center justify-start gap-6 w-full cursor-pointer border border-transparent' onClick={handleModalOpen}>
                 <img src="/asset/icons/bell.svg" alt="icon" className='cursor-pointer' />
                 <p className='dropdown-title'>Notifications</p>
-            </button>
+            </button> */}
 
             {/* model start */}
-            <Modal isOpen={modalOpen} onClose={handleModalClose}>
+            <Modal isOpen={modalOpen} onClose={modalClose}>
 
                 {/* alert */}
-                <div className="fixed max-xl:top-16 max-xl:left-1/2 max-xl:transform max-xl:-translate-x-1/2 xl:bottom-30 xl:right-30 max-xl:px-16 max-xl:w-full max-xl:flex max-xl:justify-center z-2000000">
+                <div className="fixed max-xl:top-16 max-xl:left-1/2 max-xl:transform max-xl:-translate-x-1/2 xl:bottom-30 xl:right-30 max-xl:px-16 max-xl:w-full max-xl:flex max-xl:justify-center z-500">
                     <div className="bg-white rounded-15px overflow-hidden relative w-fit shadow-box">
                         <div className="flex justify-start items-start gap-14 pt-20 pb-16 pr-50 xl:pr-60 pl-20">
                             <img src="/asset/icons/success.svg" alt="icon" className="h-20 flex-none" />
@@ -88,8 +77,8 @@ const NotificationSetting = () => {
                     </div>
 
                     <div className="flex justify-end items-center gap-10">
-                        <button onClick={handleModalClose} className="outline-btn cursor-pointer">Cancel</button>
-                        <button onClick={handleModalClose} className='flex items-center justify-between gap-8 button-icon'>
+                        <button onClick={modalClose} className="outline-btn cursor-pointer">Cancel</button>
+                        <button onClick={modalClose} className='flex items-center justify-between gap-8 button-icon'>
                             <span> Save</span>
                             <img src="asset/icons/white-save.svg" alt="icon" className="h-16" />
                         </button>

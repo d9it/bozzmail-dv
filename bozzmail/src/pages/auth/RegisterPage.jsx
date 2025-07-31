@@ -19,11 +19,11 @@ const RegisterPage = () => {
   };
 
   const validationSchema = Yup.object({
-    fullName: Yup.string().required('Full Name is required'),
-    email: Yup.string()
+    fullName: Yup.string().trim().required('Full Name is required'),
+    email: Yup.string().trim()
       .required('Email is required')
       .matches(regex.email, 'Please enter a valid email address'),
-    password: Yup.string()
+    password: Yup.string().trim()
       .required('Password is required')
       .matches(regex.password, 'Password must contain at least 8 characters, uppercase, lowercase, number, and special character'),
   });
@@ -117,7 +117,7 @@ const RegisterPage = () => {
               >
                 {registrationSuccess ? (
                   <div className="flex justify-center items-center w-full text-center">
-                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-24" />
+                    <img src="/asset/icons/check-white.svg" alt="Success" className="h-16" />
                   </div>
                 ) : (loading || isSubmitting) ? (
                   <div className="flex justify-center items-center w-full text-center">

@@ -40,6 +40,7 @@ const { addTokenToBlacklist } = require("../../utils/tokenBlacklist");
 const { logger } = require("../../utils/logger")
 const { verifyEmailUsingNeutrino } = require("../../services/neutrinoServices")
 const { verifyPhoneNumberUsingHlrLookup } = require("../../services/hlrLookupservices")
+const {registerUserForPayment} = require("../../services/dynoPayServices");
 
 const signUp = async (req, res) => {
   const { fullName ,email, password, phoneNumber, notify_mobile } = req.body
@@ -101,7 +102,34 @@ const signUp = async (req, res) => {
           "Congrats! You have successfully signed up for Bozzmail. The verification code has been to sent to you registered email. The code is valid upto 5 min.",
         emailMessage: `<p>Congrats! You have successfully signed up for Bozzmail. The verification code for your email is ${otpDetails.otp}. The code is valid upto 5 min. Click on this <a href="${verificationLink}" target="_blank">verifcation link</a> to verify your email.</p>`,
         emailSubject: "Sign Up successful. Verify your email",
-      })
+      });
+      // Wallet Activation on Signup
+      try {
+        const walletResponse = await registerUserForPayment(
+          email,
+          fullName,
+          phoneNumber // optional
+        );
+        console.log('wallet response: ',walletResponse);
+
+        if (walletResponse?.data?.data) {
+          user.walletToken = walletResponse.data.data.token;
+          user.walletId = walletResponse.data.data.customer_id;
+          await user.save(); // Save wallet details to user
+
+          // Optional: Send wallet activation email
+          await sendNotification({
+            user: userData,
+            message: "Your wallet has been activated successfully!",
+            emailMessage: "<p>Your BozzMail wallet has been activated. You can now use it for seamless payments.</p>",
+            emailSubject: "Wallet Activated",
+          });
+        }
+      } catch (walletError) {
+        // Wallet activation is not critical — log but don't fail signup
+        logger.warn(`Wallet activation failed for user ${user._id}:`, walletError);
+        // Optionally: You can still proceed with signup
+      }
       res
         .status(200)
         .json({ message: "User created Successfully", data: userData,token:token })
@@ -194,7 +222,7 @@ const signIn = async (req, res) => {
   try {
     const existingUser = await fetchUserByEmail(email, true)
     if (!existingUser || !existingUser.is_active) {
-      return res.status(400).json({ message: "Email is incorrect" })
+      return res.status(400).json({ message: "Invalid Email or Password" })
     }
     const token = createToken(existingUser._id)
     const userData = await getUserData(existingUser)
@@ -218,7 +246,7 @@ const signIn = async (req, res) => {
         if (!isPasswordMatch) {
           return res
             .status(400)
-            .json({ message: "Email or password is incorrect" })
+            .json({ message: "Invalid Email or Password" })
         }
         await sendNotification({
           user: existingUser,

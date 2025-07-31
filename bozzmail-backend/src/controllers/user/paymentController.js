@@ -11,7 +11,8 @@ const {
 const { saveNewWalletFundDetails } = require("../../helper/paymentTracks")
 
 const addUserWalletDetails = async (req, res) => {
-  const { email, name, mobile } = req.body
+  console.log('===========user register for the payment==========')
+  const { email, name, mobile } = req.body;
   const userId = req.userId
   try {
     if (!name) {
